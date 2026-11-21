@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import { applyLandingExtras } from "./landing-extras.mjs";
 
 const L = (ar, en) => ({ ar, en });
 const text = (id, label, value, o = {}) => ({
@@ -67,6 +68,10 @@ const KEY = {
   hot1: "56efce5c-1217-4692-a04c-4bfc83930a5f",
   hot2: "2efb2c61-d5a2-468c-ae63-5036d4e83b84",
   hot3: "759e26c1-c256-4a18-a7c0-c308e989f89e",
+  annMove: "a7e35c14-8f62-4d0e-9b59-6c2f1a4e8d05",
+  annStill: "b8f46d25-9073-4e1f-8c60-7d3a2b5f9e16",
+  dockStart: "e8a2c5f6-7190-4db2-9e45-6f708192a3b4",
+  dockEnd: "f9b3d607-82a1-4ec3-8f56-708192a3b4c5",
 };
 const opt = (value, label, key) => ({ label, value, key });
 const picked = (value, label, key) => [opt(value, label, key)];
@@ -95,6 +100,9 @@ const components = [
     image: "",
     props: { "min-height": "74px" },
     fields: [
+      text("announce", "الشريط الإعلاني", L("تحميص أسبوعي · شحن للطلبات فوق ١٥٠ ر.س", "Roasted every week · shipping on orders over SAR 150"), { desc: "يظهر فوق الشعار. اتركه فارغاً لإخفاء الشريط." }),
+      drop("announce_mode", "حركة الشريط", [["move", "متحرك", KEY.annMove], ["still", "ثابت", KEY.annStill]], "move", "المتحرك يمرّ الجملة باستمرار. الثابت يُبقيها في الوسط."),
+      line("pb-announce"),
       image("logo", "شعار", "اتركه فارغاً ليظهر اسم المجموعة. المقاس المقترح 280×80 بكسل."),
       image("logo_dark", "شعار للوضع الداكن", "يظهر عندما تكون الصفحة داكنة. بدونه يُستخدم الشعار الأساسي. المقاس المقترح 280×80 بكسل."),
       text("brand", "اسم المجموعة", L("مجموعة القهوة", "Coffee Group")),
@@ -112,7 +120,7 @@ const components = [
         { label: L("الطلب", "Order"), url: "#cf-order" },
       ], 0, 6),
       line("pb-links"),
-      sw("use_kit_font", "خط الصفحة", true, "عند التفعيل تستخدم الصفحة خط نوتو كوفي وآي بي إم بلكس. عند الإيقاف تأخذ خط المتجر في سلة."),
+      sw("use_kit_font", "خط الصفحة", false, "الافتراضي خط المتجر من سلة، مثل سيليا. فعّله فقط إذا أردت خط نوتو كوفي وآي بي إم بلكس."),
       sw("sticky", "تثبيت الرأس عند التمرير", true),
       sw("show_mode_toggle", "زر الفاتح والداكن", true, "أيقونة تتبدل بين القمر والشمس، وتبدّل الأقسام المضبوطة على حسب الصفحة."),
       drop("default_mode", "وضع الصفحة عند الفتح", [["light", "فاتح", KEY.modeLight], ["dark", "داكن", KEY.modeDark], ["system", "حسب جهاز الزائر", KEY.modeSystem]], "dark"),
@@ -406,6 +414,9 @@ const components = [
     image: "",
     props: { "min-height": "180px" },
     fields: [
+      text("announce", "الشريط الإعلاني", L("الحبوب تُحمّص بعد الطلب · استلام من المحمصة أو شحن", "Beans are roasted after the order · pickup at the roastery or shipping"), { desc: "يظهر فوق الفوتر. اتركه فارغاً لإخفاء الشريط." }),
+      drop("announce_mode", "حركة الشريط", [["move", "متحرك", KEY.annMove], ["still", "ثابت", KEY.annStill]], "move", "المتحرك يمرّ الجملة باستمرار. الثابت يُبقيها في الوسط."),
+      line("ft-announce"),
       image("logo", "شعار", "اتركه فارغاً ليظهر الاسم فقط. المقاس المقترح 280×80 بكسل."),
       image("logo_dark", "شعار للوضع الداكن", "يظهر في الوضع الداكن. المقاس المقترح 280×80 بكسل."),
       text("brand", "الاسم", L("مجموعة القهوة", "Coffee Group")),
@@ -458,6 +469,8 @@ const templates = [
   },
 ];
 
+applyLandingExtras({ components, catalog, templates, L, text, color, sw, drop, line, collection, image, url, scheme, KEY });
+
 const bundlePath = new URL("../twilight-bundle.json", import.meta.url);
 let previous = { templates: [] };
 if (fs.existsSync(bundlePath)) previous = JSON.parse(fs.readFileSync(bundlePath, "utf8"));
@@ -468,6 +481,11 @@ const bundle = {
   description: {
     ar: "صفحتا هبوط لمحمصة. الصفحة الكاملة تعرض المنشأ ودرجة التحميص وحاسبة التحضير والباقة، ثم طلب الكيس. الصفحة المختصرة للطلب المباشر.",
     en: "Two landing pages for a roastery. The full page shows origin, roast, brew math, and the plan, then the bag order. The short page is for a direct order.",
+  },
+  author: {
+    name: "Saji",
+    email: "sajispprt@gmail.com",
+    url: "https://saji-tech.com/",
   },
   author_email: "sajispprt@gmail.com",
   support_url: "https://github.com/Ashaheen892/tw-coffee-landing",

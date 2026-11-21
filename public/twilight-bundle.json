@@ -25,6 +25,63 @@
             },
             "fields": [
                 {
+                    "id": "announce",
+                    "type": "string",
+                    "format": "text",
+                    "label": "الشريط الإعلاني",
+                    "icon": "sicon-format-text-alt",
+                    "multilanguage": true,
+                    "required": false,
+                    "description": "يظهر فوق الشعار. اتركه فارغاً لإخفاء الشريط.",
+                    "minLength": 0,
+                    "maxLength": 180,
+                    "value": {
+                        "ar": "تحميص أسبوعي · شحن للطلبات فوق ١٥٠ ر.س",
+                        "en": "Roasted every week · shipping on orders over SAR 150"
+                    }
+                },
+                {
+                    "id": "announce_mode",
+                    "type": "items",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "label": "حركة الشريط",
+                    "icon": "sicon-list",
+                    "required": false,
+                    "description": "المتحرك يمرّ الجملة باستمرار. الثابت يُبقيها في الوسط.",
+                    "options": [
+                        {
+                            "label": "متحرك",
+                            "value": "move",
+                            "key": "a7e35c14-8f62-4d0e-9b59-6c2f1a4e8d05"
+                        },
+                        {
+                            "label": "ثابت",
+                            "value": "still",
+                            "key": "b8f46d25-9073-4e1f-8c60-7d3a2b5f9e16"
+                        }
+                    ],
+                    "selected": [
+                        {
+                            "label": "متحرك",
+                            "value": "move",
+                            "key": "a7e35c14-8f62-4d0e-9b59-6c2f1a4e8d05"
+                        }
+                    ],
+                    "value": [
+                        {
+                            "label": "متحرك",
+                            "value": "move",
+                            "key": "a7e35c14-8f62-4d0e-9b59-6c2f1a4e8d05"
+                        }
+                    ]
+                },
+                {
+                    "id": "pb-announce",
+                    "type": "static",
+                    "format": "line"
+                },
+                {
                     "id": "logo",
                     "type": "string",
                     "format": "image",
@@ -183,9 +240,9 @@
                     "label": "خط الصفحة",
                     "icon": "sicon-toggle-off",
                     "required": false,
-                    "description": "عند التفعيل تستخدم الصفحة خط نوتو كوفي وآي بي إم بلكس. عند الإيقاف تأخذ خط المتجر في سلة.",
-                    "value": true,
-                    "selected": true
+                    "description": "الافتراضي خط المتجر من سلة، مثل سيليا. فعّله فقط إذا أردت خط نوتو كوفي وآي بي إم بلكس.",
+                    "value": false,
+                    "selected": false
                 },
                 {
                     "id": "sticky",
@@ -3407,6 +3464,899 @@
             ]
         },
         {
+            "title": "إحصائيات",
+            "icon": "sicon-calculator",
+            "name": "stat-strip",
+            "key": "9b4cae02-f39d-4ab8-8fc9-c7e1a3df8190",
+            "image": "",
+            "props": {
+                "min-height": "180px"
+            },
+            "fields": [
+                {
+                    "id": "kicker",
+                    "type": "string",
+                    "format": "text",
+                    "label": "السطر الصغير",
+                    "icon": "sicon-format-text-alt",
+                    "multilanguage": true,
+                    "required": false,
+                    "description": null,
+                    "minLength": 0,
+                    "maxLength": 180,
+                    "value": {
+                        "ar": "المحمصة",
+                        "en": "The roastery"
+                    }
+                },
+                {
+                    "id": "title",
+                    "type": "string",
+                    "format": "text",
+                    "label": "العنوان",
+                    "icon": "sicon-format-text-alt",
+                    "multilanguage": true,
+                    "required": false,
+                    "description": null,
+                    "minLength": 0,
+                    "maxLength": 180,
+                    "value": {
+                        "ar": "أرقام التحميص",
+                        "en": "Roast numbers"
+                    }
+                },
+                {
+                    "id": "subtitle",
+                    "type": "string",
+                    "format": "text",
+                    "label": "السطر تحت العنوان",
+                    "icon": "sicon-format-text-alt",
+                    "multilanguage": true,
+                    "required": false,
+                    "description": null,
+                    "minLength": 0,
+                    "maxLength": 180,
+                    "value": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "id": "items",
+                    "type": "collection",
+                    "format": "collection",
+                    "required": true,
+                    "minLength": 1,
+                    "maxLength": 4,
+                    "item_label": "رقم",
+                    "fields": [
+                        {
+                            "id": "items.value",
+                            "type": "string",
+                            "format": "text",
+                            "label": "الرقم",
+                            "icon": "sicon-format-text-alt",
+                            "multilanguage": true,
+                            "required": false,
+                            "description": null,
+                            "minLength": 0,
+                            "maxLength": 180,
+                            "value": {
+                                "ar": "١٢",
+                                "en": "12"
+                            }
+                        },
+                        {
+                            "id": "items.label",
+                            "type": "string",
+                            "format": "text",
+                            "label": "الوصف",
+                            "icon": "sicon-format-text-alt",
+                            "multilanguage": true,
+                            "required": false,
+                            "description": null,
+                            "minLength": 0,
+                            "maxLength": 180,
+                            "value": {
+                                "ar": "وصف الرقم",
+                                "en": "What the number means"
+                            }
+                        }
+                    ],
+                    "value": [
+                        {
+                            "items.value": {
+                                "ar": "٢٤ ساعة",
+                                "en": "24 hours"
+                            },
+                            "items.label": {
+                                "ar": "من التحميص إلى الكيس",
+                                "en": "From roast to bag"
+                            }
+                        },
+                        {
+                            "items.value": {
+                                "ar": "٦ مناشئ",
+                                "en": "6 origins"
+                            },
+                            "items.label": {
+                                "ar": "في قائمة الأسبوع",
+                                "en": "On this week's list"
+                            }
+                        },
+                        {
+                            "items.value": {
+                                "ar": "١٥٠ ر.س",
+                                "en": "SAR 150"
+                            },
+                            "items.label": {
+                                "ar": "حد الشحن المجاني",
+                                "en": "Free shipping threshold"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "id": "bg_color",
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "label": "لون الخلفية",
+                    "icon": "sicon-format-fill",
+                    "required": false,
+                    "description": null,
+                    "value": ""
+                },
+                {
+                    "id": "color_scheme",
+                    "type": "items",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "label": "وضع الألوان",
+                    "icon": "sicon-list",
+                    "required": false,
+                    "description": "حسب رأس الصفحة يتبع زر الفاتح والداكن. الفاتح أو الداكن يثبت القسم ولا يتأثر بالزر.",
+                    "options": [
+                        {
+                            "label": "حسب رأس الصفحة",
+                            "value": "auto",
+                            "key": "aba537d7-7975-4cf9-9204-144fe169765c"
+                        },
+                        {
+                            "label": "فاتح دائماً",
+                            "value": "light",
+                            "key": "eddf3f7a-ea54-41a0-a9d4-160e3f016214"
+                        },
+                        {
+                            "label": "داكن دائماً",
+                            "value": "dark",
+                            "key": "6dc412cc-3bb0-4cc2-bf5b-ef4b9bb137f6"
+                        }
+                    ],
+                    "selected": [
+                        {
+                            "label": "حسب رأس الصفحة",
+                            "value": "auto",
+                            "key": "aba537d7-7975-4cf9-9204-144fe169765c"
+                        }
+                    ],
+                    "value": [
+                        {
+                            "label": "حسب رأس الصفحة",
+                            "value": "auto",
+                            "key": "aba537d7-7975-4cf9-9204-144fe169765c"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "الماركات التجارية",
+            "icon": "sicon-star2",
+            "name": "brand-row",
+            "key": "ac5dbf13-04ae-4bc9-9ada-d8f2b4e092a1",
+            "image": "",
+            "props": {
+                "min-height": "160px"
+            },
+            "fields": [
+                {
+                    "id": "kicker",
+                    "type": "string",
+                    "format": "text",
+                    "label": "السطر الصغير",
+                    "icon": "sicon-format-text-alt",
+                    "multilanguage": true,
+                    "required": false,
+                    "description": null,
+                    "minLength": 0,
+                    "maxLength": 180,
+                    "value": {
+                        "ar": "المنشأ",
+                        "en": "Origin"
+                    }
+                },
+                {
+                    "id": "title",
+                    "type": "string",
+                    "format": "text",
+                    "label": "العنوان",
+                    "icon": "sicon-format-text-alt",
+                    "multilanguage": true,
+                    "required": false,
+                    "description": null,
+                    "minLength": 0,
+                    "maxLength": 180,
+                    "value": {
+                        "ar": "ماركات البن",
+                        "en": "Coffee lots"
+                    }
+                },
+                {
+                    "id": "subtitle",
+                    "type": "string",
+                    "format": "text",
+                    "label": "السطر تحت العنوان",
+                    "icon": "sicon-format-text-alt",
+                    "multilanguage": true,
+                    "required": false,
+                    "description": null,
+                    "minLength": 0,
+                    "maxLength": 180,
+                    "value": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "id": "items",
+                    "type": "collection",
+                    "format": "collection",
+                    "required": true,
+                    "minLength": 1,
+                    "maxLength": 8,
+                    "item_label": "ماركة",
+                    "fields": [
+                        {
+                            "id": "items.image",
+                            "type": "string",
+                            "format": "image",
+                            "label": "الشعار",
+                            "icon": "sicon-image",
+                            "required": false,
+                            "description": "اختياري. المقاس المقترح 240×80 بكسل بخلفية شفافة.",
+                            "value": ""
+                        },
+                        {
+                            "id": "items.name",
+                            "type": "string",
+                            "format": "text",
+                            "label": "الاسم",
+                            "icon": "sicon-format-text-alt",
+                            "multilanguage": true,
+                            "required": false,
+                            "description": null,
+                            "minLength": 0,
+                            "maxLength": 180,
+                            "value": {
+                                "ar": "الماركة",
+                                "en": "Brand"
+                            }
+                        },
+                        {
+                            "id": "items.note",
+                            "type": "string",
+                            "format": "text",
+                            "label": "السطر",
+                            "icon": "sicon-format-text-alt",
+                            "multilanguage": true,
+                            "required": false,
+                            "description": null,
+                            "minLength": 0,
+                            "maxLength": 180,
+                            "value": {
+                                "ar": "الخامة",
+                                "en": "Material"
+                            }
+                        },
+                        {
+                            "id": "items.url",
+                            "type": "string",
+                            "format": "text",
+                            "label": "الرابط",
+                            "icon": "sicon-link",
+                            "multilanguage": false,
+                            "required": false,
+                            "description": "رابط داخل الصفحة مثل #cf-order، أو رابط كامل يبدأ بـ https.",
+                            "minLength": 0,
+                            "maxLength": 500,
+                            "value": ""
+                        }
+                    ],
+                    "value": [
+                        {
+                            "items.image": "",
+                            "items.name": {
+                                "ar": "إثيوبيا",
+                                "en": "Ethiopia"
+                            },
+                            "items.note": {
+                                "ar": "يقري شيف",
+                                "en": "Yirgacheffe"
+                            },
+                            "items.url": ""
+                        },
+                        {
+                            "items.image": "",
+                            "items.name": {
+                                "ar": "كولومبيا",
+                                "en": "Colombia"
+                            },
+                            "items.note": {
+                                "ar": "هويلا",
+                                "en": "Huila"
+                            },
+                            "items.url": ""
+                        },
+                        {
+                            "items.image": "",
+                            "items.name": {
+                                "ar": "البرازيل",
+                                "en": "Brazil"
+                            },
+                            "items.note": {
+                                "ar": "سيررادو",
+                                "en": "Cerrado"
+                            },
+                            "items.url": ""
+                        },
+                        {
+                            "items.image": "",
+                            "items.name": {
+                                "ar": "كينيا",
+                                "en": "Kenya"
+                            },
+                            "items.note": {
+                                "ar": "غسل مزدوج",
+                                "en": "Double washed"
+                            },
+                            "items.url": ""
+                        }
+                    ]
+                },
+                {
+                    "id": "bg_color",
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "label": "لون الخلفية",
+                    "icon": "sicon-format-fill",
+                    "required": false,
+                    "description": null,
+                    "value": ""
+                },
+                {
+                    "id": "color_scheme",
+                    "type": "items",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "label": "وضع الألوان",
+                    "icon": "sicon-list",
+                    "required": false,
+                    "description": "حسب رأس الصفحة يتبع زر الفاتح والداكن. الفاتح أو الداكن يثبت القسم ولا يتأثر بالزر.",
+                    "options": [
+                        {
+                            "label": "حسب رأس الصفحة",
+                            "value": "auto",
+                            "key": "aba537d7-7975-4cf9-9204-144fe169765c"
+                        },
+                        {
+                            "label": "فاتح دائماً",
+                            "value": "light",
+                            "key": "eddf3f7a-ea54-41a0-a9d4-160e3f016214"
+                        },
+                        {
+                            "label": "داكن دائماً",
+                            "value": "dark",
+                            "key": "6dc412cc-3bb0-4cc2-bf5b-ef4b9bb137f6"
+                        }
+                    ],
+                    "selected": [
+                        {
+                            "label": "حسب رأس الصفحة",
+                            "value": "auto",
+                            "key": "aba537d7-7975-4cf9-9204-144fe169765c"
+                        }
+                    ],
+                    "value": [
+                        {
+                            "label": "حسب رأس الصفحة",
+                            "value": "auto",
+                            "key": "aba537d7-7975-4cf9-9204-144fe169765c"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "شركاء النجاح",
+            "icon": "sicon-store",
+            "name": "partner-row",
+            "key": "bd6ec024-15bf-4cda-8beb-e9a3c5f1a3b2",
+            "image": "",
+            "props": {
+                "min-height": "180px"
+            },
+            "fields": [
+                {
+                    "id": "kicker",
+                    "type": "string",
+                    "format": "text",
+                    "label": "السطر الصغير",
+                    "icon": "sicon-format-text-alt",
+                    "multilanguage": true,
+                    "required": false,
+                    "description": null,
+                    "minLength": 0,
+                    "maxLength": 180,
+                    "value": {
+                        "ar": "التوريد",
+                        "en": "Supply"
+                    }
+                },
+                {
+                    "id": "title",
+                    "type": "string",
+                    "format": "text",
+                    "label": "العنوان",
+                    "icon": "sicon-format-text-alt",
+                    "multilanguage": true,
+                    "required": false,
+                    "description": null,
+                    "minLength": 0,
+                    "maxLength": 180,
+                    "value": {
+                        "ar": "شركاء النجاح",
+                        "en": "Partners"
+                    }
+                },
+                {
+                    "id": "subtitle",
+                    "type": "string",
+                    "format": "text",
+                    "label": "السطر تحت العنوان",
+                    "icon": "sicon-format-text-alt",
+                    "multilanguage": true,
+                    "required": false,
+                    "description": null,
+                    "minLength": 0,
+                    "maxLength": 180,
+                    "value": {
+                        "ar": "",
+                        "en": ""
+                    }
+                },
+                {
+                    "id": "items",
+                    "type": "collection",
+                    "format": "collection",
+                    "required": true,
+                    "minLength": 1,
+                    "maxLength": 8,
+                    "item_label": "شريك",
+                    "fields": [
+                        {
+                            "id": "items.mark",
+                            "type": "string",
+                            "format": "text",
+                            "label": "العلامة",
+                            "icon": "sicon-format-text-alt",
+                            "multilanguage": true,
+                            "required": false,
+                            "description": null,
+                            "minLength": 0,
+                            "maxLength": 180,
+                            "value": {
+                                "ar": "٢٤",
+                                "en": "24"
+                            }
+                        },
+                        {
+                            "id": "items.name",
+                            "type": "string",
+                            "format": "text",
+                            "label": "الاسم",
+                            "icon": "sicon-format-text-alt",
+                            "multilanguage": true,
+                            "required": false,
+                            "description": null,
+                            "minLength": 0,
+                            "maxLength": 180,
+                            "value": {
+                                "ar": "الشريك",
+                                "en": "Partner"
+                            }
+                        },
+                        {
+                            "id": "items.note",
+                            "type": "string",
+                            "format": "text",
+                            "label": "السطر",
+                            "icon": "sicon-format-text-alt",
+                            "multilanguage": true,
+                            "required": false,
+                            "description": null,
+                            "minLength": 0,
+                            "maxLength": 180,
+                            "value": {
+                                "ar": "الدور",
+                                "en": "Role"
+                            }
+                        }
+                    ],
+                    "value": [
+                        {
+                            "items.mark": {
+                                "ar": "٢٤",
+                                "en": "24"
+                            },
+                            "items.name": {
+                                "ar": "محمصة الملقا",
+                                "en": "Al Malqa roastery"
+                            },
+                            "items.note": {
+                                "ar": "التحميص الأسبوعي",
+                                "en": "The weekly roast"
+                            }
+                        },
+                        {
+                            "items.mark": {
+                                "ar": "١٢",
+                                "en": "12"
+                            },
+                            "items.name": {
+                                "ar": "مقهى الورشة",
+                                "en": "Workshop cafe"
+                            },
+                            "items.note": {
+                                "ar": "تذوق الدفعة",
+                                "en": "Batch tasting"
+                            }
+                        },
+                        {
+                            "items.mark": {
+                                "ar": "٠٨",
+                                "en": "08"
+                            },
+                            "items.name": {
+                                "ar": "موزع الشرقية",
+                                "en": "Eastern distributor"
+                            },
+                            "items.note": {
+                                "ar": "الشحن السريع",
+                                "en": "Fast shipping"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "id": "bg_color",
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "label": "لون الخلفية",
+                    "icon": "sicon-format-fill",
+                    "required": false,
+                    "description": null,
+                    "value": ""
+                },
+                {
+                    "id": "color_scheme",
+                    "type": "items",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "label": "وضع الألوان",
+                    "icon": "sicon-list",
+                    "required": false,
+                    "description": "حسب رأس الصفحة يتبع زر الفاتح والداكن. الفاتح أو الداكن يثبت القسم ولا يتأثر بالزر.",
+                    "options": [
+                        {
+                            "label": "حسب رأس الصفحة",
+                            "value": "auto",
+                            "key": "aba537d7-7975-4cf9-9204-144fe169765c"
+                        },
+                        {
+                            "label": "فاتح دائماً",
+                            "value": "light",
+                            "key": "eddf3f7a-ea54-41a0-a9d4-160e3f016214"
+                        },
+                        {
+                            "label": "داكن دائماً",
+                            "value": "dark",
+                            "key": "6dc412cc-3bb0-4cc2-bf5b-ef4b9bb137f6"
+                        }
+                    ],
+                    "selected": [
+                        {
+                            "label": "حسب رأس الصفحة",
+                            "value": "auto",
+                            "key": "aba537d7-7975-4cf9-9204-144fe169765c"
+                        }
+                    ],
+                    "value": [
+                        {
+                            "label": "حسب رأس الصفحة",
+                            "value": "auto",
+                            "key": "aba537d7-7975-4cf9-9204-144fe169765c"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "التواصل السريع",
+            "icon": "sicon-link",
+            "name": "quick-contact",
+            "key": "ce7fd135-26c0-4deb-9cfc-fab4d602b4c3",
+            "image": "",
+            "props": {
+                "min-height": "160px"
+            },
+            "fields": [
+                {
+                    "id": "kicker",
+                    "type": "string",
+                    "format": "text",
+                    "label": "السطر الصغير",
+                    "icon": "sicon-format-text-alt",
+                    "multilanguage": true,
+                    "required": false,
+                    "description": null,
+                    "minLength": 0,
+                    "maxLength": 180,
+                    "value": {
+                        "ar": "الطلب",
+                        "en": "The order"
+                    }
+                },
+                {
+                    "id": "title",
+                    "type": "string",
+                    "format": "text",
+                    "label": "العنوان",
+                    "icon": "sicon-format-text-alt",
+                    "multilanguage": true,
+                    "required": false,
+                    "description": null,
+                    "minLength": 0,
+                    "maxLength": 180,
+                    "value": {
+                        "ar": "تواصل سريع",
+                        "en": "Quick contact"
+                    }
+                },
+                {
+                    "id": "subtitle",
+                    "type": "string",
+                    "format": "text",
+                    "label": "السطر تحت العنوان",
+                    "icon": "sicon-format-text-alt",
+                    "multilanguage": true,
+                    "required": false,
+                    "description": null,
+                    "minLength": 0,
+                    "maxLength": 180,
+                    "value": {
+                        "ar": "التحميص يبدأ بعد تأكيد الطلب. اسأل عن درجة الطحن قبل الشحن.",
+                        "en": "Roasting starts after the order is confirmed. Ask about the grind before shipping."
+                    }
+                },
+                {
+                    "id": "text",
+                    "type": "string",
+                    "format": "text",
+                    "label": "جملة القسم",
+                    "icon": "sicon-format-text-alt",
+                    "multilanguage": true,
+                    "required": false,
+                    "description": null,
+                    "minLength": 0,
+                    "maxLength": 180,
+                    "value": {
+                        "ar": "التحميص يبدأ بعد تأكيد الطلب. اسأل عن درجة الطحن قبل الشحن.",
+                        "en": "Roasting starts after the order is confirmed. Ask about the grind before shipping."
+                    }
+                },
+                {
+                    "id": "phone_label",
+                    "type": "string",
+                    "format": "text",
+                    "label": "عنوان الاتصال",
+                    "icon": "sicon-format-text-alt",
+                    "multilanguage": true,
+                    "required": false,
+                    "description": null,
+                    "minLength": 0,
+                    "maxLength": 180,
+                    "value": {
+                        "ar": "اتصال",
+                        "en": "Call"
+                    }
+                },
+                {
+                    "id": "phone",
+                    "type": "string",
+                    "format": "text",
+                    "label": "رقم الاتصال",
+                    "icon": "sicon-format-text-alt",
+                    "multilanguage": false,
+                    "required": false,
+                    "description": null,
+                    "minLength": 0,
+                    "maxLength": 180,
+                    "value": "920008812"
+                },
+                {
+                    "id": "phone_text",
+                    "type": "string",
+                    "format": "text",
+                    "label": "نص الاتصال",
+                    "icon": "sicon-format-text-alt",
+                    "multilanguage": true,
+                    "required": false,
+                    "description": null,
+                    "minLength": 0,
+                    "maxLength": 180,
+                    "value": {
+                        "ar": "اتصال بالمحمصة",
+                        "en": "Call the roastery"
+                    }
+                },
+                {
+                    "id": "whatsapp_label",
+                    "type": "string",
+                    "format": "text",
+                    "label": "عنوان واتساب",
+                    "icon": "sicon-format-text-alt",
+                    "multilanguage": true,
+                    "required": false,
+                    "description": null,
+                    "minLength": 0,
+                    "maxLength": 180,
+                    "value": {
+                        "ar": "واتساب",
+                        "en": "WhatsApp"
+                    }
+                },
+                {
+                    "id": "whatsapp",
+                    "type": "string",
+                    "format": "text",
+                    "label": "رقم واتساب",
+                    "icon": "sicon-format-text-alt",
+                    "multilanguage": false,
+                    "required": false,
+                    "description": null,
+                    "minLength": 0,
+                    "maxLength": 180,
+                    "value": "201153958512"
+                },
+                {
+                    "id": "whatsapp_text",
+                    "type": "string",
+                    "format": "text",
+                    "label": "نص واتساب",
+                    "icon": "sicon-format-text-alt",
+                    "multilanguage": true,
+                    "required": false,
+                    "description": null,
+                    "minLength": 0,
+                    "maxLength": 180,
+                    "value": {
+                        "ar": "اطلب التحميصة",
+                        "en": "Order the roast"
+                    }
+                },
+                {
+                    "id": "whatsapp_message",
+                    "type": "string",
+                    "format": "text",
+                    "label": "الرسالة الجاهزة",
+                    "icon": "sicon-format-text-alt",
+                    "multilanguage": true,
+                    "required": false,
+                    "description": null,
+                    "minLength": 0,
+                    "maxLength": 180,
+                    "value": {
+                        "ar": "أبي أطلب تحميصة هذا الأسبوع",
+                        "en": "I want this week's roast"
+                    }
+                },
+                {
+                    "id": "email_label",
+                    "type": "string",
+                    "format": "text",
+                    "label": "عنوان البريد",
+                    "icon": "sicon-format-text-alt",
+                    "multilanguage": true,
+                    "required": false,
+                    "description": null,
+                    "minLength": 0,
+                    "maxLength": 180,
+                    "value": {
+                        "ar": "البريد",
+                        "en": "Email"
+                    }
+                },
+                {
+                    "id": "email",
+                    "type": "string",
+                    "format": "text",
+                    "label": "البريد",
+                    "icon": "sicon-format-text-alt",
+                    "multilanguage": false,
+                    "required": false,
+                    "description": null,
+                    "minLength": 0,
+                    "maxLength": 180,
+                    "value": "hello@saji-tech.com"
+                },
+                {
+                    "id": "bg_color",
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "label": "لون الخلفية",
+                    "icon": "sicon-format-fill",
+                    "required": false,
+                    "description": null,
+                    "value": ""
+                },
+                {
+                    "id": "color_scheme",
+                    "type": "items",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "label": "وضع الألوان",
+                    "icon": "sicon-list",
+                    "required": false,
+                    "description": "حسب رأس الصفحة يتبع زر الفاتح والداكن. الفاتح أو الداكن يثبت القسم ولا يتأثر بالزر.",
+                    "options": [
+                        {
+                            "label": "حسب رأس الصفحة",
+                            "value": "auto",
+                            "key": "aba537d7-7975-4cf9-9204-144fe169765c"
+                        },
+                        {
+                            "label": "فاتح دائماً",
+                            "value": "light",
+                            "key": "eddf3f7a-ea54-41a0-a9d4-160e3f016214"
+                        },
+                        {
+                            "label": "داكن دائماً",
+                            "value": "dark",
+                            "key": "6dc412cc-3bb0-4cc2-bf5b-ef4b9bb137f6"
+                        }
+                    ],
+                    "selected": [
+                        {
+                            "label": "حسب رأس الصفحة",
+                            "value": "auto",
+                            "key": "aba537d7-7975-4cf9-9204-144fe169765c"
+                        }
+                    ],
+                    "value": [
+                        {
+                            "label": "حسب رأس الصفحة",
+                            "value": "auto",
+                            "key": "aba537d7-7975-4cf9-9204-144fe169765c"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "title": "فوتر الصفحة",
             "icon": "sicon-link",
             "name": "page-footer",
@@ -3416,6 +4366,63 @@
                 "min-height": "180px"
             },
             "fields": [
+                {
+                    "id": "announce",
+                    "type": "string",
+                    "format": "text",
+                    "label": "الشريط الإعلاني",
+                    "icon": "sicon-format-text-alt",
+                    "multilanguage": true,
+                    "required": false,
+                    "description": "يظهر فوق الفوتر. اتركه فارغاً لإخفاء الشريط.",
+                    "minLength": 0,
+                    "maxLength": 180,
+                    "value": {
+                        "ar": "الحبوب تُحمّص بعد الطلب · استلام من المحمصة أو شحن",
+                        "en": "Beans are roasted after the order · pickup at the roastery or shipping"
+                    }
+                },
+                {
+                    "id": "announce_mode",
+                    "type": "items",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "label": "حركة الشريط",
+                    "icon": "sicon-list",
+                    "required": false,
+                    "description": "المتحرك يمرّ الجملة باستمرار. الثابت يُبقيها في الوسط.",
+                    "options": [
+                        {
+                            "label": "متحرك",
+                            "value": "move",
+                            "key": "a7e35c14-8f62-4d0e-9b59-6c2f1a4e8d05"
+                        },
+                        {
+                            "label": "ثابت",
+                            "value": "still",
+                            "key": "b8f46d25-9073-4e1f-8c60-7d3a2b5f9e16"
+                        }
+                    ],
+                    "selected": [
+                        {
+                            "label": "متحرك",
+                            "value": "move",
+                            "key": "a7e35c14-8f62-4d0e-9b59-6c2f1a4e8d05"
+                        }
+                    ],
+                    "value": [
+                        {
+                            "label": "متحرك",
+                            "value": "move",
+                            "key": "a7e35c14-8f62-4d0e-9b59-6c2f1a4e8d05"
+                        }
+                    ]
+                },
+                {
+                    "id": "ft-announce",
+                    "type": "static",
+                    "format": "line"
+                },
                 {
                     "id": "logo",
                     "type": "string",
@@ -3564,6 +4571,194 @@
                     ]
                 },
                 {
+                    "id": "dock-line",
+                    "type": "static",
+                    "format": "line"
+                },
+                {
+                    "id": "show_whatsapp",
+                    "type": "boolean",
+                    "format": "switch",
+                    "label": "زر واتساب ثابت",
+                    "icon": "sicon-toggle-off",
+                    "required": false,
+                    "description": "يبقى ظاهراً أثناء تمرير الصفحة.",
+                    "value": true,
+                    "selected": true
+                },
+                {
+                    "id": "whatsapp_number",
+                    "type": "string",
+                    "format": "text",
+                    "label": "رقم واتساب",
+                    "icon": "sicon-format-text-alt",
+                    "multilanguage": false,
+                    "required": false,
+                    "description": "بالصيغة الدولية بدون + أو مسافات.",
+                    "minLength": 0,
+                    "maxLength": 180,
+                    "value": "201153958512"
+                },
+                {
+                    "id": "whatsapp_message",
+                    "type": "string",
+                    "format": "text",
+                    "label": "رسالة واتساب الجاهزة",
+                    "icon": "sicon-format-text-alt",
+                    "multilanguage": true,
+                    "required": false,
+                    "description": null,
+                    "minLength": 0,
+                    "maxLength": 180,
+                    "value": {
+                        "ar": "أبي أطلب تحميصة هذا الأسبوع",
+                        "en": "I want this week's roast"
+                    }
+                },
+                {
+                    "id": "whatsapp_bg",
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "label": "خلفية زر واتساب",
+                    "icon": "sicon-format-fill",
+                    "required": false,
+                    "description": null,
+                    "value": "#e08b3f"
+                },
+                {
+                    "id": "whatsapp_ink",
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "label": "لون أيقونة واتساب",
+                    "icon": "sicon-format-fill",
+                    "required": false,
+                    "description": null,
+                    "value": "#1c140e"
+                },
+                {
+                    "id": "whatsapp_side",
+                    "type": "items",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "label": "جهة زر واتساب",
+                    "icon": "sicon-list",
+                    "required": false,
+                    "description": "إذا اخترت الجهة نفسها لزر الرجوع، يُرفع واتساب فوقه حتى لا يتداخلا.",
+                    "options": [
+                        {
+                            "label": "بداية السطر",
+                            "value": "start",
+                            "key": "e8a2c5f6-7190-4db2-9e45-6f708192a3b4"
+                        },
+                        {
+                            "label": "نهاية السطر",
+                            "value": "end",
+                            "key": "f9b3d607-82a1-4ec3-8f56-708192a3b4c5"
+                        }
+                    ],
+                    "selected": [
+                        {
+                            "label": "بداية السطر",
+                            "value": "start",
+                            "key": "e8a2c5f6-7190-4db2-9e45-6f708192a3b4"
+                        }
+                    ],
+                    "value": [
+                        {
+                            "label": "بداية السطر",
+                            "value": "start",
+                            "key": "e8a2c5f6-7190-4db2-9e45-6f708192a3b4"
+                        }
+                    ]
+                },
+                {
+                    "id": "show_top",
+                    "type": "boolean",
+                    "format": "switch",
+                    "label": "زر العودة للأعلى",
+                    "icon": "sicon-toggle-off",
+                    "required": false,
+                    "description": "يبقى ثابتاً أثناء التمرير، في الجهة المقابلة لواتساب.",
+                    "value": true,
+                    "selected": true
+                },
+                {
+                    "id": "top_label",
+                    "type": "string",
+                    "format": "text",
+                    "label": "نص زر العودة",
+                    "icon": "sicon-format-text-alt",
+                    "multilanguage": true,
+                    "required": false,
+                    "description": null,
+                    "minLength": 0,
+                    "maxLength": 24,
+                    "value": {
+                        "ar": "أعلى",
+                        "en": "Top"
+                    }
+                },
+                {
+                    "id": "top_bg",
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "label": "خلفية زر العودة",
+                    "icon": "sicon-format-fill",
+                    "required": false,
+                    "description": null,
+                    "value": "#1c140e"
+                },
+                {
+                    "id": "top_ink",
+                    "type": "string",
+                    "format": "color",
+                    "inputType": "color",
+                    "label": "لون زر العودة",
+                    "icon": "sicon-format-fill",
+                    "required": false,
+                    "description": null,
+                    "value": "#f6efe6"
+                },
+                {
+                    "id": "top_side",
+                    "type": "items",
+                    "format": "dropdown-list",
+                    "source": "Manual",
+                    "label": "جهة زر العودة",
+                    "icon": "sicon-list",
+                    "required": false,
+                    "description": "الافتراضي نهاية السطر، مقابل زر واتساب.",
+                    "options": [
+                        {
+                            "label": "بداية السطر",
+                            "value": "start",
+                            "key": "e8a2c5f6-7190-4db2-9e45-6f708192a3b4"
+                        },
+                        {
+                            "label": "نهاية السطر",
+                            "value": "end",
+                            "key": "f9b3d607-82a1-4ec3-8f56-708192a3b4c5"
+                        }
+                    ],
+                    "selected": [
+                        {
+                            "label": "نهاية السطر",
+                            "value": "end",
+                            "key": "f9b3d607-82a1-4ec3-8f56-708192a3b4c5"
+                        }
+                    ],
+                    "value": [
+                        {
+                            "label": "نهاية السطر",
+                            "value": "end",
+                            "key": "f9b3d607-82a1-4ec3-8f56-708192a3b4c5"
+                        }
+                    ]
+                },
+                {
                     "id": "bg_color",
                     "type": "string",
                     "format": "color",
@@ -3635,5 +4830,10 @@
             "thumbnail": "",
             "is_default": false
         }
-    ]
+    ],
+    "author": {
+        "name": "Saji",
+        "email": "sajispprt@gmail.com",
+        "url": "https://saji-tech.com/"
+    }
 }

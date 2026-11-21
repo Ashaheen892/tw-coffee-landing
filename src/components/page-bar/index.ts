@@ -1,6 +1,7 @@
 import { html, LitElement, nothing } from "lit";
 import { property, state } from "lit/decorators.js";
 import { flag, getCollectionItems, getConfig, linkHref, localizedString, t, unwrapValue, watchLocale } from "../../utils/config.js";
+import { announceBar, announceCss } from "../../utils/announce.js";
 import { applyTone, currentTone, savedTone, schemeOf } from "../../utils/landing.js";
 import { baseCss, injectFonts, injectStyles, sectionStyle, setKitFont } from "../../utils/styles.js";
 
@@ -45,6 +46,7 @@ export default class PageBar extends LitElement {
     this.classList.add("cf-host");
     injectFonts();
     injectStyles("cf-base", baseCss);
+    injectStyles("cf-announce", announceCss("cf"));
     injectStyles("cf-page-bar", css);
     const stopLocale = watchLocale(this);
     const onTone = () => { this.dark = currentTone() === "dark"; };
@@ -81,7 +83,7 @@ export default class PageBar extends LitElement {
   }
 
   private kitFont(cfg: Record<string, any>): boolean {
-    if (cfg.use_kit_font == null || cfg.use_kit_font === "") return true;
+    if (cfg.use_kit_font == null || cfg.use_kit_font === "") return false;
     return flag(cfg.use_kit_font);
   }
 
@@ -175,7 +177,8 @@ export default class PageBar extends LitElement {
       .map((item) => ({ label: localizedString(item.label), url: linkHref(item.url) || "#" }))
       .filter((item) => item.label);
     const logo = (this.dark && cfg.logo_dark) || cfg.logo;
-    return html`<header class=${`cf-root cf-bar ${schemeOf(cfg)}`} style=${sectionStyle(cfg)}>
+    return html`${announceBar(cfg, "cf", `cf-root ${schemeOf(cfg)}`, "--ann-bg:var(--amber);--ann-ink:#1c140e")}
+    <header class=${`cf-root cf-bar ${schemeOf(cfg)}`} style=${sectionStyle(cfg)}>
       <nav class="cf-nav cf-wrap ${this.open ? "is-open" : ""}">
         <a href=${linkHref(cfg.home_url) || "#cf-cover"} class="cf-logo" aria-label=${brand}>
           ${logo

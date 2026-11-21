@@ -51,7 +51,7 @@ html.cf-mode-dark body:has(.cf-host) { background: #0d0b09; }
   --max:1080px; --pad:clamp(20px, 5vw, 72px);
   --disp:inherit; --body:inherit;
   display: block; box-sizing: border-box; color: var(--ink); background: var(--cf-section-bg, var(--bg));
-  font-family: inherit; font-weight: 300; line-height: 1.8; -webkit-font-smoothing: antialiased;
+  font-family: var(--font-main, inherit); font-weight: 300; line-height: 1.8; -webkit-font-smoothing: antialiased;
   border-block-end: 2px solid var(--line);
 }
 html.cf-kit-font .cf-root { --disp:'Noto Kufi Arabic',system-ui,sans-serif; --body:'IBM Plex Sans Arabic',system-ui,sans-serif; font-family: var(--body); }

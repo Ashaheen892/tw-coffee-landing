@@ -1,0 +1,1716 @@
+{
+  "id": "348b24a9-afc3-4e83-a749-a74a1d1a00bc",
+  "components": [
+    {
+      "title": "رأس الصفحة",
+      "icon": "sicon-store",
+      "name": "page-bar",
+      "key": "4f37e5fd-c208-493e-8674-d1a8eb2baf2e",
+      "image": "",
+      "props": {
+        "min-height": "74px"
+      },
+      "fields": [
+        {
+          "id": "logo",
+          "type": "string",
+          "format": "image",
+          "label": "شعار",
+          "icon": "sicon-image",
+          "required": false,
+          "description": "اتركه فارغاً ليظهر اسم المجموعة. المقاس المقترح 280×80 بكسل.",
+          "value": ""
+        },
+        {
+          "id": "logo_dark",
+          "type": "string",
+          "format": "image",
+          "label": "شعار للوضع الداكن",
+          "icon": "sicon-image",
+          "required": false,
+          "description": "يظهر عندما تكون الصفحة داكنة. بدونه يُستخدم الشعار الأساسي. المقاس المقترح 280×80 بكسل.",
+          "value": ""
+        },
+        {
+          "id": "brand",
+          "type": "string",
+          "format": "text",
+          "label": "اسم المجموعة",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": {
+            "ar": "مجموعة القهوة",
+            "en": "Coffee Group"
+          }
+        },
+        {
+          "id": "mark",
+          "type": "string",
+          "format": "text",
+          "label": "سطر صغير تحت الاسم",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": {
+            "ar": "محمصة اختصاص",
+            "en": "Specialty roast"
+          }
+        },
+        {
+          "id": "home_url",
+          "type": "string",
+          "format": "text",
+          "label": "رابط الشعار",
+          "icon": "sicon-link",
+          "multilanguage": false,
+          "required": false,
+          "description": "رابط داخل الصفحة مثل #cf-order، أو رابط كامل يبدأ بـ https.",
+          "minLength": 0,
+          "maxLength": 500,
+          "value": "#cf-cover"
+        },
+        {
+          "id": "pb-brand",
+          "type": "static",
+          "format": "line"
+        },
+        {
+          "id": "links",
+          "type": "collection",
+          "format": "collection",
+          "required": false,
+          "minLength": 0,
+          "maxLength": 6,
+          "item_label": "رابط",
+          "fields": [
+            {
+              "id": "links.label",
+              "type": "string",
+              "format": "text",
+              "label": "النص",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "required": false,
+              "description": null,
+              "minLength": 0,
+              "maxLength": 180,
+              "value": {
+                "ar": "المناشئ",
+                "en": "Origins"
+              }
+            },
+            {
+              "id": "links.url",
+              "type": "string",
+              "format": "text",
+              "label": "الرابط",
+              "icon": "sicon-link",
+              "multilanguage": false,
+              "required": false,
+              "description": "رابط داخل الصفحة مثل #cf-order، أو رابط كامل يبدأ بـ https.",
+              "minLength": 0,
+              "maxLength": 500,
+              "value": "#cf-origin"
+            }
+          ],
+          "value": [
+            {
+              "links.label": {
+                "ar": "الغلاف",
+                "en": "Cover"
+              },
+              "links.url": "#cf-cover"
+            },
+            {
+              "links.label": {
+                "ar": "المناشئ",
+                "en": "Origins"
+              },
+              "links.url": "#cf-origin"
+            },
+            {
+              "links.label": {
+                "ar": "الطلب",
+                "en": "Order"
+              },
+              "links.url": "#cf-order"
+            }
+          ]
+        },
+        {
+          "id": "pb-links",
+          "type": "static",
+          "format": "line"
+        },
+        {
+          "id": "use_kit_font",
+          "type": "boolean",
+          "format": "switch",
+          "label": "خط الصفحة",
+          "icon": "sicon-toggle-off",
+          "required": false,
+          "description": "عند التفعيل تستخدم الصفحة خط نوتو كوفي وآي بي إم بلكس. عند الإيقاف تأخذ خط المتجر في سلة.",
+          "value": true,
+          "selected": true
+        },
+        {
+          "id": "sticky",
+          "type": "boolean",
+          "format": "switch",
+          "label": "تثبيت الرأس عند التمرير",
+          "icon": "sicon-toggle-off",
+          "required": false,
+          "description": null,
+          "value": true,
+          "selected": true
+        },
+        {
+          "id": "show_mode_toggle",
+          "type": "boolean",
+          "format": "switch",
+          "label": "زر الفاتح والداكن",
+          "icon": "sicon-toggle-off",
+          "required": false,
+          "description": "أيقونة تتبدل بين القمر والشمس، وتبدّل الأقسام المضبوطة على حسب الصفحة.",
+          "value": true,
+          "selected": true
+        },
+        {
+          "id": "default_mode",
+          "type": "items",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "label": "وضع الصفحة عند الفتح",
+          "icon": "sicon-list",
+          "required": false,
+          "description": null,
+          "options": [
+            {
+              "label": "فاتح",
+              "value": "light",
+              "key": "75b8c3a6-7078-4420-af7e-8728ca4b243a"
+            },
+            {
+              "label": "داكن",
+              "value": "dark",
+              "key": "e79765e5-ebc1-4401-ab5a-7e274858f318"
+            },
+            {
+              "label": "حسب جهاز الزائر",
+              "value": "system",
+              "key": "d27e4634-80c1-44c7-b243-6def430fbb23"
+            }
+          ],
+          "selected": [
+            {
+              "label": "داكن",
+              "value": "dark",
+              "key": "e79765e5-ebc1-4401-ab5a-7e274858f318"
+            }
+          ],
+          "value": [
+            {
+              "label": "داكن",
+              "value": "dark",
+              "key": "e79765e5-ebc1-4401-ab5a-7e274858f318"
+            }
+          ]
+        },
+        {
+          "id": "bg_color",
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "label": "لون الخلفية",
+          "icon": "sicon-format-fill",
+          "required": false,
+          "description": null,
+          "value": ""
+        },
+        {
+          "id": "color_scheme",
+          "type": "items",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "label": "وضع الألوان",
+          "icon": "sicon-list",
+          "required": false,
+          "description": "حسب رأس الصفحة يتبع زر الفاتح والداكن. الفاتح أو الداكن يثبت القسم ولا يتأثر بالزر.",
+          "options": [
+            {
+              "label": "حسب رأس الصفحة",
+              "value": "auto",
+              "key": "aba537d7-7975-4cf9-9204-144fe169765c"
+            },
+            {
+              "label": "فاتح دائماً",
+              "value": "light",
+              "key": "eddf3f7a-ea54-41a0-a9d4-160e3f016214"
+            },
+            {
+              "label": "داكن دائماً",
+              "value": "dark",
+              "key": "6dc412cc-3bb0-4cc2-bf5b-ef4b9bb137f6"
+            }
+          ],
+          "selected": [
+            {
+              "label": "حسب رأس الصفحة",
+              "value": "auto",
+              "key": "aba537d7-7975-4cf9-9204-144fe169765c"
+            }
+          ],
+          "value": [
+            {
+              "label": "حسب رأس الصفحة",
+              "value": "auto",
+              "key": "aba537d7-7975-4cf9-9204-144fe169765c"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "غلاف التحميص",
+      "icon": "sicon-image",
+      "name": "roast-cover",
+      "key": "9350ec31-b313-4978-b3a0-4531cdb9b773",
+      "image": "",
+      "props": {
+        "min-height": "640px"
+      },
+      "fields": [
+        {
+          "id": "stamp",
+          "type": "string",
+          "format": "text",
+          "label": "الختم",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": {
+            "ar": "نحمّص الاثنين والخميس · الرياض",
+            "en": "Roasted Monday and Thursday · Riyadh"
+          }
+        },
+        {
+          "id": "title_before",
+          "type": "string",
+          "format": "text",
+          "label": "سطر العنوان الأول",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": {
+            "ar": "قهوة تُحمَّص",
+            "en": "Coffee roasted"
+          }
+        },
+        {
+          "id": "title_mid",
+          "type": "string",
+          "format": "text",
+          "label": "بداية السطر الثاني",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": {
+            "ar": "قبل",
+            "en": "within"
+          }
+        },
+        {
+          "id": "title_accent",
+          "type": "string",
+          "format": "text",
+          "label": "الكلمة المميزة",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": {
+            "ar": "٢٤ ساعة",
+            "en": "24 hours"
+          }
+        },
+        {
+          "id": "title_after",
+          "type": "string",
+          "format": "text",
+          "label": "السطر الأخير",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": {
+            "ar": "من وصولها",
+            "en": "of arrival"
+          }
+        },
+        {
+          "id": "text",
+          "type": "string",
+          "format": "textarea",
+          "label": "النص",
+          "icon": "sicon-paragraph",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 800,
+          "value": {
+            "ar": "لا مخزون راكد ولا أكياس عمرها شهور. نطحنها عند الطلب أو نُرسلها حبّاً كاملاً، ونكتب تاريخ التحميص على الكيس.",
+            "en": "No stale stock and no bags that sat for months. We grind to order or send it whole, and write the roast date on the bag."
+          }
+        },
+        {
+          "id": "cv-cta",
+          "type": "static",
+          "format": "line"
+        },
+        {
+          "id": "primary_label",
+          "type": "string",
+          "format": "text",
+          "label": "نص الزر",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": {
+            "ar": "اطلب هذه الدفعة",
+            "en": "Order this batch"
+          }
+        },
+        {
+          "id": "primary_url",
+          "type": "string",
+          "format": "text",
+          "label": "رابط الزر",
+          "icon": "sicon-link",
+          "multilanguage": false,
+          "required": false,
+          "description": "في صفحة منتج يفتح الشراء السريع. في صفحة العروض يتبع رابط زر الصفحة، أو هذا الرابط إن وضعته.",
+          "minLength": 0,
+          "maxLength": 500,
+          "value": ""
+        },
+        {
+          "id": "secondary_label",
+          "type": "string",
+          "format": "text",
+          "label": "نص الزر الثاني",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": {
+            "ar": "",
+            "en": ""
+          }
+        },
+        {
+          "id": "secondary_url",
+          "type": "string",
+          "format": "text",
+          "label": "رابط الزر الثاني",
+          "icon": "sicon-link",
+          "multilanguage": false,
+          "required": false,
+          "description": "رابط داخل الصفحة مثل #cf-order، أو رابط كامل يبدأ بـ https.",
+          "minLength": 0,
+          "maxLength": 500,
+          "value": ""
+        },
+        {
+          "id": "stats",
+          "type": "collection",
+          "format": "collection",
+          "required": false,
+          "minLength": 0,
+          "maxLength": 4,
+          "item_label": "رقم",
+          "fields": [
+            {
+              "id": "stats.label",
+              "type": "string",
+              "format": "text",
+              "label": "التسمية",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "required": false,
+              "description": null,
+              "minLength": 0,
+              "maxLength": 180,
+              "value": {
+                "ar": "الدفعة الحالية",
+                "en": "Current batch"
+              }
+            },
+            {
+              "id": "stats.value",
+              "type": "string",
+              "format": "text",
+              "label": "القيمة",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "required": false,
+              "description": null,
+              "minLength": 0,
+              "maxLength": 180,
+              "value": {
+                "ar": "٤ مناشئ",
+                "en": "4 origins"
+              }
+            }
+          ],
+          "value": [
+            {
+              "stats.label": {
+                "ar": "الدفعة الحالية",
+                "en": "Current batch"
+              },
+              "stats.value": {
+                "ar": "١٤٤٧/٠٥/١١",
+                "en": "11/05"
+              }
+            },
+            {
+              "stats.label": {
+                "ar": "المحصول",
+                "en": "Crop"
+              },
+              "stats.value": {
+                "ar": "٤ مناشئ",
+                "en": "4 origins"
+              }
+            },
+            {
+              "stats.label": {
+                "ar": "الشحن",
+                "en": "Shipping"
+              },
+              "stats.value": {
+                "ar": "٤٨ ساعة",
+                "en": "48 hours"
+              }
+            },
+            {
+              "stats.label": {
+                "ar": "التقييم",
+                "en": "Rating"
+              },
+              "stats.value": {
+                "ar": "٤٫٨ / ٥",
+                "en": "4.8 / 5"
+              }
+            }
+          ]
+        },
+        {
+          "id": "bg_color",
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "label": "لون الخلفية",
+          "icon": "sicon-format-fill",
+          "required": false,
+          "description": null,
+          "value": ""
+        },
+        {
+          "id": "color_scheme",
+          "type": "items",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "label": "وضع الألوان",
+          "icon": "sicon-list",
+          "required": false,
+          "description": "حسب رأس الصفحة يتبع زر الفاتح والداكن. الفاتح أو الداكن يثبت القسم ولا يتأثر بالزر.",
+          "options": [
+            {
+              "label": "حسب رأس الصفحة",
+              "value": "auto",
+              "key": "aba537d7-7975-4cf9-9204-144fe169765c"
+            },
+            {
+              "label": "فاتح دائماً",
+              "value": "light",
+              "key": "eddf3f7a-ea54-41a0-a9d4-160e3f016214"
+            },
+            {
+              "label": "داكن دائماً",
+              "value": "dark",
+              "key": "6dc412cc-3bb0-4cc2-bf5b-ef4b9bb137f6"
+            }
+          ],
+          "selected": [
+            {
+              "label": "حسب رأس الصفحة",
+              "value": "auto",
+              "key": "aba537d7-7975-4cf9-9204-144fe169765c"
+            }
+          ],
+          "value": [
+            {
+              "label": "حسب رأس الصفحة",
+              "value": "auto",
+              "key": "aba537d7-7975-4cf9-9204-144fe169765c"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "قائمة المناشئ",
+      "icon": "sicon-list",
+      "name": "origin-list",
+      "key": "5f3073a6-e539-4df9-ae29-15bec1807eb1",
+      "image": "",
+      "props": {
+        "min-height": "560px"
+      },
+      "fields": [
+        {
+          "id": "index_label",
+          "type": "string",
+          "format": "text",
+          "label": "رقم القسم",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": false,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": "٠٢"
+        },
+        {
+          "id": "kicker",
+          "type": "string",
+          "format": "text",
+          "label": "سطر صغير",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": {
+            "ar": "المنشأ",
+            "en": "Origin"
+          }
+        },
+        {
+          "id": "title",
+          "type": "string",
+          "format": "text",
+          "label": "العنوان",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": {
+            "ar": "أربع مزارع نعرف أصحابها بالاسم",
+            "en": "Four farms we know by name"
+          }
+        },
+        {
+          "id": "text",
+          "type": "string",
+          "format": "textarea",
+          "label": "النص",
+          "icon": "sicon-paragraph",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 800,
+          "value": {
+            "ar": "اختر منشأً من القائمة لتقرأ ملفه. الدرجة هي تقييم الكوب في جلسة التحكيم الأخيرة.",
+            "en": "Pick an origin to read its card. The score is the last cupping."
+          }
+        },
+        {
+          "id": "button_label",
+          "type": "string",
+          "format": "text",
+          "label": "نص الزر",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": {
+            "ar": "اطلب هذا المنشأ",
+            "en": "Order this origin"
+          }
+        },
+        {
+          "id": "items",
+          "type": "collection",
+          "format": "collection",
+          "required": true,
+          "minLength": 1,
+          "maxLength": 6,
+          "item_label": "منشأ",
+          "fields": [
+            {
+              "id": "items.name",
+              "type": "string",
+              "format": "text",
+              "label": "الاسم",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "required": false,
+              "description": null,
+              "minLength": 0,
+              "maxLength": 180,
+              "value": {
+                "ar": "إثيوبيا — يرقاشيفي",
+                "en": "Ethiopia — Yirgacheffe"
+              }
+            },
+            {
+              "id": "items.note",
+              "type": "string",
+              "format": "text",
+              "label": "سطر العملية",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "required": false,
+              "description": null,
+              "minLength": 0,
+              "maxLength": 180,
+              "value": {
+                "ar": "غسيل · ارتفاع ٢٬٠٥٠ م",
+                "en": "Washed · 2,050 m"
+              }
+            },
+            {
+              "id": "items.score",
+              "type": "string",
+              "format": "text",
+              "label": "درجة الكوب",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "required": false,
+              "description": null,
+              "minLength": 0,
+              "maxLength": 180,
+              "value": {
+                "ar": "٨٧٫٥",
+                "en": "87.5"
+              }
+            },
+            {
+              "id": "items.price_label",
+              "type": "string",
+              "format": "text",
+              "label": "سعر العرض",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "required": false,
+              "description": null,
+              "minLength": 0,
+              "maxLength": 180,
+              "value": {
+                "ar": "٨٥ ر.س / ٢٥٠غ",
+                "en": "SAR 85 / 250g"
+              }
+            },
+            {
+              "id": "items.price",
+              "type": "string",
+              "format": "text",
+              "label": "سعر ٢٥٠ غ للحسبة",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": false,
+              "required": false,
+              "description": "رقم فقط، يُستخدم في إجمالي الطلب.",
+              "minLength": 0,
+              "maxLength": 180,
+              "value": "85"
+            },
+            {
+              "id": "items.story",
+              "type": "string",
+              "format": "textarea",
+              "label": "الملف",
+              "icon": "sicon-paragraph",
+              "multilanguage": true,
+              "required": false,
+              "description": null,
+              "minLength": 0,
+              "maxLength": 800,
+              "value": {
+                "ar": "حموضة ليمونية واضحة، وياسمين في الأنف.",
+                "en": "Clear lemon acidity, with jasmine on the nose."
+              }
+            },
+            {
+              "id": "items.chips",
+              "type": "string",
+              "format": "text",
+              "label": "النكهات",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "required": false,
+              "description": "افصل النكهات بفاصلة.",
+              "minLength": 0,
+              "maxLength": 180,
+              "value": {
+                "ar": "ياسمين، ليمون، شاي أسود",
+                "en": "Jasmine, lemon, black tea"
+              }
+            }
+          ],
+          "value": [
+            {
+              "items.name": {
+                "ar": "إثيوبيا — يرقاشيفي",
+                "en": "Ethiopia — Yirgacheffe"
+              },
+              "items.note": {
+                "ar": "غسيل · ارتفاع ٢٬٠٥٠ م",
+                "en": "Washed · 2,050 m"
+              },
+              "items.score": {
+                "ar": "٨٧٫٥",
+                "en": "87.5"
+              },
+              "items.price_label": {
+                "ar": "٨٥ ر.س / ٢٥٠غ",
+                "en": "SAR 85 / 250g"
+              },
+              "items.price": "85",
+              "items.story": {
+                "ar": "حموضة ليمونية واضحة في البداية، وياسمين في الأنف، ونهاية شاي أسود خفيفة.",
+                "en": "Lemon acidity up front, jasmine on the nose, and a light black-tea finish."
+              },
+              "items.chips": {
+                "ar": "ياسمين، ليمون، شاي أسود",
+                "en": "Jasmine, lemon, black tea"
+              }
+            },
+            {
+              "items.name": {
+                "ar": "كولومبيا — هويلا",
+                "en": "Colombia — Huila"
+              },
+              "items.note": {
+                "ar": "عسلي · ارتفاع ١٬٧٠٠ م",
+                "en": "Honey · 1,700 m"
+              },
+              "items.score": {
+                "ar": "٨٥٫٠",
+                "en": "85.0"
+              },
+              "items.price_label": {
+                "ar": "٧٢ ر.س / ٢٥٠غ",
+                "en": "SAR 72 / 250g"
+              },
+              "items.price": "72",
+              "items.story": {
+                "ar": "كراميل وتفاح أحمر وقوام دهني متوسط. منشأ يُرضي الضيوف.",
+                "en": "Caramel, red apple, and a medium body. An origin guests accept easily."
+              },
+              "items.chips": {
+                "ar": "كراميل، تفاح أحمر، بندق",
+                "en": "Caramel, red apple, hazelnut"
+              }
+            },
+            {
+              "items.name": {
+                "ar": "كينيا — نييري",
+                "en": "Kenya — Nyeri"
+              },
+              "items.note": {
+                "ar": "غسيل مزدوج · AA",
+                "en": "Double washed · AA"
+              },
+              "items.score": {
+                "ar": "٨٨٫٢",
+                "en": "88.2"
+              },
+              "items.price_label": {
+                "ar": "٩٨ ر.س / ٢٥٠غ",
+                "en": "SAR 98 / 250g"
+              },
+              "items.price": "98",
+              "items.story": {
+                "ar": "حموضة حادّة كالكشمش الأسود مع حلاوة طماطم مجفّفة.",
+                "en": "Sharp blackcurrant acidity with dried-tomato sweetness."
+              },
+              "items.chips": {
+                "ar": "كشمش أسود، طماطم مجفّفة، جريب فروت",
+                "en": "Blackcurrant, dried tomato, grapefruit"
+              }
+            },
+            {
+              "items.name": {
+                "ar": "اليمن — حراز",
+                "en": "Yemen — Haraz"
+              },
+              "items.note": {
+                "ar": "طبيعي · تجفيف على السطوح",
+                "en": "Natural · dried on rooftops"
+              },
+              "items.score": {
+                "ar": "٨٩٫٠",
+                "en": "89.0"
+              },
+              "items.price_label": {
+                "ar": "١٤٥ ر.س / ٢٥٠غ",
+                "en": "SAR 145 / 250g"
+              },
+              "items.price": "145",
+              "items.story": {
+                "ar": "توابل وزبيب وكاكاو داكن، بقوام ثقيل. كمية محدودة من موسم واحد.",
+                "en": "Spice, raisin, and dark cocoa, with a heavy body. One short season."
+              },
+              "items.chips": {
+                "ar": "زبيب، كاكاو داكن، قرفة",
+                "en": "Raisin, dark cocoa, cinnamon"
+              }
+            }
+          ]
+        },
+        {
+          "id": "bg_color",
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "label": "لون الخلفية",
+          "icon": "sicon-format-fill",
+          "required": false,
+          "description": null,
+          "value": ""
+        },
+        {
+          "id": "color_scheme",
+          "type": "items",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "label": "وضع الألوان",
+          "icon": "sicon-list",
+          "required": false,
+          "description": "حسب رأس الصفحة يتبع زر الفاتح والداكن. الفاتح أو الداكن يثبت القسم ولا يتأثر بالزر.",
+          "options": [
+            {
+              "label": "حسب رأس الصفحة",
+              "value": "auto",
+              "key": "aba537d7-7975-4cf9-9204-144fe169765c"
+            },
+            {
+              "label": "فاتح دائماً",
+              "value": "light",
+              "key": "eddf3f7a-ea54-41a0-a9d4-160e3f016214"
+            },
+            {
+              "label": "داكن دائماً",
+              "value": "dark",
+              "key": "6dc412cc-3bb0-4cc2-bf5b-ef4b9bb137f6"
+            }
+          ],
+          "selected": [
+            {
+              "label": "حسب رأس الصفحة",
+              "value": "auto",
+              "key": "aba537d7-7975-4cf9-9204-144fe169765c"
+            }
+          ],
+          "value": [
+            {
+              "label": "حسب رأس الصفحة",
+              "value": "auto",
+              "key": "aba537d7-7975-4cf9-9204-144fe169765c"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "طلب الكيس",
+      "icon": "sicon-box",
+      "name": "bag-order",
+      "key": "2a6b974a-d32d-4c7c-979f-e0210344bcea",
+      "image": "",
+      "props": {
+        "min-height": "560px"
+      },
+      "fields": [
+        {
+          "id": "index_label",
+          "type": "string",
+          "format": "text",
+          "label": "رقم القسم",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": false,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": "٠٣"
+        },
+        {
+          "id": "kicker",
+          "type": "string",
+          "format": "text",
+          "label": "سطر صغير",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": {
+            "ar": "الخاتمة",
+            "en": "Close"
+          }
+        },
+        {
+          "id": "title",
+          "type": "string",
+          "format": "text",
+          "label": "العنوان",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": {
+            "ar": "أرسل لنا اختيارك ونحمّص له وحده",
+            "en": "Send the choice, and we roast it on its own"
+          }
+        },
+        {
+          "id": "weight_label",
+          "type": "string",
+          "format": "text",
+          "label": "عنوان الحجم",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": {
+            "ar": "حجم الكيس",
+            "en": "Bag size"
+          }
+        },
+        {
+          "id": "w_250",
+          "type": "string",
+          "format": "text",
+          "label": "حجم ٢٥٠",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": {
+            "ar": "٢٥٠ غ",
+            "en": "250 g"
+          }
+        },
+        {
+          "id": "w_500",
+          "type": "string",
+          "format": "text",
+          "label": "حجم ٥٠٠",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": {
+            "ar": "٥٠٠ غ",
+            "en": "500 g"
+          }
+        },
+        {
+          "id": "w_1000",
+          "type": "string",
+          "format": "text",
+          "label": "حجم الكيلو",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": {
+            "ar": "كيلو",
+            "en": "1 kg"
+          }
+        },
+        {
+          "id": "grind_label",
+          "type": "string",
+          "format": "text",
+          "label": "عنوان الطحن",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": {
+            "ar": "الطحن",
+            "en": "Grind"
+          }
+        },
+        {
+          "id": "g_whole",
+          "type": "string",
+          "format": "text",
+          "label": "حب كامل",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": {
+            "ar": "حبّ كامل",
+            "en": "Whole bean"
+          }
+        },
+        {
+          "id": "g_ground",
+          "type": "string",
+          "format": "text",
+          "label": "طحن حسب الطريقة",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": {
+            "ar": "حسب طريقتي",
+            "en": "Ground for my brew"
+          }
+        },
+        {
+          "id": "total_label",
+          "type": "string",
+          "format": "text",
+          "label": "عنوان الإجمالي",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": {
+            "ar": "الإجمالي",
+            "en": "Total"
+          }
+        },
+        {
+          "id": "before_label",
+          "type": "string",
+          "format": "text",
+          "label": "عنوان السعر قبل الخصم",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": {
+            "ar": "قبل الخصم",
+            "en": "Before discount"
+          }
+        },
+        {
+          "id": "currency",
+          "type": "string",
+          "format": "text",
+          "label": "العملة",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": {
+            "ar": "ر.س",
+            "en": "SAR"
+          }
+        },
+        {
+          "id": "fallback_origin",
+          "type": "string",
+          "format": "text",
+          "label": "منشأ يظهر قبل الاختيار",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": false,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": "إثيوبيا — يرقاشيفي"
+        },
+        {
+          "id": "fallback_price",
+          "type": "string",
+          "format": "text",
+          "label": "سعر ٢٥٠ غ قبل الاختيار",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": false,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": "85"
+        },
+        {
+          "id": "fallback_roast",
+          "type": "string",
+          "format": "text",
+          "label": "درجة تظهر قبل الاختيار",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": false,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": "فاتح"
+        },
+        {
+          "id": "factor_500",
+          "type": "number",
+          "format": "number",
+          "inputType": "number",
+          "label": "مضاعف ٥٠٠ غ",
+          "icon": "sicon-calculator",
+          "required": false,
+          "description": "يُضرب في سعر ٢٥٠ غ ثم يُقرَّب لأقرب ٥.",
+          "minimum": 1,
+          "maximum": 4,
+          "value": 1.85
+        },
+        {
+          "id": "factor_1000",
+          "type": "number",
+          "format": "number",
+          "inputType": "number",
+          "label": "مضاعف الكيلو",
+          "icon": "sicon-calculator",
+          "required": false,
+          "description": "يُضرب في سعر ٢٥٠ غ ثم يُقرَّب لأقرب ٥.",
+          "minimum": 1,
+          "maximum": 8,
+          "value": 3.4
+        },
+        {
+          "id": "button_label",
+          "type": "string",
+          "format": "text",
+          "label": "نص زر الشراء",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": {
+            "ar": "أضف إلى السلة",
+            "en": "Add to cart"
+          }
+        },
+        {
+          "id": "button_url",
+          "type": "string",
+          "format": "text",
+          "label": "رابط الزر",
+          "icon": "sicon-link",
+          "multilanguage": false,
+          "required": false,
+          "description": "في صفحة منتج يفتح الشراء السريع. في صفحة العروض يتبع رابط زر الصفحة، أو هذا الرابط إن وضعته.",
+          "minLength": 0,
+          "maxLength": 500,
+          "value": ""
+        },
+        {
+          "id": "secondary_label",
+          "type": "string",
+          "format": "text",
+          "label": "نص الزر الثاني",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": {
+            "ar": "",
+            "en": ""
+          }
+        },
+        {
+          "id": "dock_label",
+          "type": "string",
+          "format": "text",
+          "label": "نص الشريط السفلي",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": {
+            "ar": "اطلب",
+            "en": "Order"
+          }
+        },
+        {
+          "id": "facts",
+          "type": "collection",
+          "format": "collection",
+          "required": false,
+          "minLength": 0,
+          "maxLength": 6,
+          "item_label": "سطر",
+          "fields": [
+            {
+              "id": "facts.label",
+              "type": "string",
+              "format": "text",
+              "label": "البند",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "required": false,
+              "description": null,
+              "minLength": 0,
+              "maxLength": 180,
+              "value": {
+                "ar": "التحميص والشحن",
+                "en": "Roast and shipping"
+              }
+            },
+            {
+              "id": "facts.value",
+              "type": "string",
+              "format": "text",
+              "label": "القيمة",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "required": false,
+              "description": null,
+              "minLength": 0,
+              "maxLength": 180,
+              "value": {
+                "ar": "خلال ٤٨ ساعة",
+                "en": "Within 48 hours"
+              }
+            }
+          ],
+          "value": [
+            {
+              "facts.label": {
+                "ar": "التحميص والشحن",
+                "en": "Roast and shipping"
+              },
+              "facts.value": {
+                "ar": "خلال ٤٨ ساعة",
+                "en": "Within 48 hours"
+              }
+            },
+            {
+              "facts.label": {
+                "ar": "الشحن مجاناً فوق",
+                "en": "Free shipping above"
+              },
+              "facts.value": {
+                "ar": "٢٠٠ ر.س",
+                "en": "SAR 200"
+              }
+            },
+            {
+              "facts.label": {
+                "ar": "استبدال الدفعة",
+                "en": "Batch exchange"
+              },
+              "facts.value": {
+                "ar": "٧ أيام",
+                "en": "7 days"
+              }
+            },
+            {
+              "facts.label": {
+                "ar": "الاستلام من المحمصة",
+                "en": "Pickup at the roastery"
+              },
+              "facts.value": {
+                "ar": "مجاناً",
+                "en": "Free"
+              }
+            }
+          ]
+        },
+        {
+          "id": "payments",
+          "type": "collection",
+          "format": "collection",
+          "required": false,
+          "minLength": 0,
+          "maxLength": 8,
+          "item_label": "طريقة دفع",
+          "fields": [
+            {
+              "id": "payments.label",
+              "type": "string",
+              "format": "text",
+              "label": "الاسم",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "required": false,
+              "description": null,
+              "minLength": 0,
+              "maxLength": 180,
+              "value": {
+                "ar": "مدى",
+                "en": "mada"
+              }
+            }
+          ],
+          "value": [
+            {
+              "payments.label": {
+                "ar": "مدى",
+                "en": "mada"
+              }
+            },
+            {
+              "payments.label": {
+                "ar": "Visa",
+                "en": "Visa"
+              }
+            },
+            {
+              "payments.label": {
+                "ar": "Mastercard",
+                "en": "Mastercard"
+              }
+            },
+            {
+              "payments.label": {
+                "ar": "Apple Pay",
+                "en": "Apple Pay"
+              }
+            },
+            {
+              "payments.label": {
+                "ar": "تابي",
+                "en": "Tabby"
+              }
+            },
+            {
+              "payments.label": {
+                "ar": "تمارا",
+                "en": "Tamara"
+              }
+            }
+          ]
+        },
+        {
+          "id": "bg_color",
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "label": "لون الخلفية",
+          "icon": "sicon-format-fill",
+          "required": false,
+          "description": null,
+          "value": ""
+        },
+        {
+          "id": "color_scheme",
+          "type": "items",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "label": "وضع الألوان",
+          "icon": "sicon-list",
+          "required": false,
+          "description": "حسب رأس الصفحة يتبع زر الفاتح والداكن. الفاتح أو الداكن يثبت القسم ولا يتأثر بالزر.",
+          "options": [
+            {
+              "label": "حسب رأس الصفحة",
+              "value": "auto",
+              "key": "aba537d7-7975-4cf9-9204-144fe169765c"
+            },
+            {
+              "label": "فاتح دائماً",
+              "value": "light",
+              "key": "eddf3f7a-ea54-41a0-a9d4-160e3f016214"
+            },
+            {
+              "label": "داكن دائماً",
+              "value": "dark",
+              "key": "6dc412cc-3bb0-4cc2-bf5b-ef4b9bb137f6"
+            }
+          ],
+          "selected": [
+            {
+              "label": "حسب رأس الصفحة",
+              "value": "auto",
+              "key": "aba537d7-7975-4cf9-9204-144fe169765c"
+            }
+          ],
+          "value": [
+            {
+              "label": "حسب رأس الصفحة",
+              "value": "auto",
+              "key": "aba537d7-7975-4cf9-9204-144fe169765c"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "فوتر الصفحة",
+      "icon": "sicon-link",
+      "name": "page-footer",
+      "key": "108e7db7-0541-4f65-9510-988f11178672",
+      "image": "",
+      "props": {
+        "min-height": "180px"
+      },
+      "fields": [
+        {
+          "id": "logo",
+          "type": "string",
+          "format": "image",
+          "label": "شعار",
+          "icon": "sicon-image",
+          "required": false,
+          "description": "اتركه فارغاً ليظهر الاسم فقط. المقاس المقترح 280×80 بكسل.",
+          "value": ""
+        },
+        {
+          "id": "logo_dark",
+          "type": "string",
+          "format": "image",
+          "label": "شعار للوضع الداكن",
+          "icon": "sicon-image",
+          "required": false,
+          "description": "يظهر في الوضع الداكن. المقاس المقترح 280×80 بكسل.",
+          "value": ""
+        },
+        {
+          "id": "brand",
+          "type": "string",
+          "format": "text",
+          "label": "الاسم",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": {
+            "ar": "مجموعة القهوة",
+            "en": "Coffee Group"
+          }
+        },
+        {
+          "id": "address",
+          "type": "string",
+          "format": "text",
+          "label": "العنوان",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": {
+            "ar": "الرياض · حي الملقا · طريق أنس بن مالك",
+            "en": "Riyadh · Al Malqa · Anas ibn Malik road"
+          }
+        },
+        {
+          "id": "hours",
+          "type": "string",
+          "format": "text",
+          "label": "الهاتف والوقت",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": {
+            "ar": "٩٢٠٠٠٨٨١٢ · من ٧ ص إلى ١١ م",
+            "en": "920008812 · 7 am to 11 pm"
+          }
+        },
+        {
+          "id": "legal",
+          "type": "string",
+          "format": "text",
+          "label": "سطر نظامي",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": {
+            "ar": "السجل التجاري يُكتب هنا إن لزم",
+            "en": "Add the commercial register here if needed"
+          }
+        },
+        {
+          "id": "links",
+          "type": "collection",
+          "format": "collection",
+          "required": false,
+          "minLength": 0,
+          "maxLength": 6,
+          "item_label": "رابط",
+          "fields": [
+            {
+              "id": "links.label",
+              "type": "string",
+              "format": "text",
+              "label": "النص",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "required": false,
+              "description": null,
+              "minLength": 0,
+              "maxLength": 180,
+              "value": {
+                "ar": "سياسة الاستبدال",
+                "en": "Exchange policy"
+              }
+            },
+            {
+              "id": "links.url",
+              "type": "string",
+              "format": "text",
+              "label": "الرابط",
+              "icon": "sicon-link",
+              "multilanguage": false,
+              "required": false,
+              "description": "رابط داخل الصفحة مثل #cf-order، أو رابط كامل يبدأ بـ https.",
+              "minLength": 0,
+              "maxLength": 500,
+              "value": "https://help.salla.sa/"
+            }
+          ],
+          "value": [
+            {
+              "links.label": {
+                "ar": "سياسة الاستبدال",
+                "en": "Exchange policy"
+              },
+              "links.url": "https://help.salla.sa/"
+            },
+            {
+              "links.label": {
+                "ar": "الشروط والأحكام",
+                "en": "Terms"
+              },
+              "links.url": "https://help.salla.sa/"
+            },
+            {
+              "links.label": {
+                "ar": "الخصوصية",
+                "en": "Privacy"
+              },
+              "links.url": "https://help.salla.sa/"
+            }
+          ]
+        },
+        {
+          "id": "bg_color",
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "label": "لون الخلفية",
+          "icon": "sicon-format-fill",
+          "required": false,
+          "description": null,
+          "value": ""
+        },
+        {
+          "id": "color_scheme",
+          "type": "items",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "label": "وضع الألوان",
+          "icon": "sicon-list",
+          "required": false,
+          "description": "حسب رأس الصفحة يتبع زر الفاتح والداكن. الفاتح أو الداكن يثبت القسم ولا يتأثر بالزر.",
+          "options": [
+            {
+              "label": "حسب رأس الصفحة",
+              "value": "auto",
+              "key": "aba537d7-7975-4cf9-9204-144fe169765c"
+            },
+            {
+              "label": "فاتح دائماً",
+              "value": "light",
+              "key": "eddf3f7a-ea54-41a0-a9d4-160e3f016214"
+            },
+            {
+              "label": "داكن دائماً",
+              "value": "dark",
+              "key": "6dc412cc-3bb0-4cc2-bf5b-ef4b9bb137f6"
+            }
+          ],
+          "selected": [
+            {
+              "label": "حسب رأس الصفحة",
+              "value": "auto",
+              "key": "aba537d7-7975-4cf9-9204-144fe169765c"
+            }
+          ],
+          "value": [
+            {
+              "label": "حسب رأس الصفحة",
+              "value": "auto",
+              "key": "aba537d7-7975-4cf9-9204-144fe169765c"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -108,7 +108,7 @@ html.cf-mode-dark body:has(.cf-host) { background: #0d0b09; }
   border-block-end: 2px solid var(--line);
 }
 html.cf-kit-font .cf-root { --disp:'Noto Kufi Arabic',system-ui,sans-serif; --body:'IBM Plex Sans Arabic',system-ui,sans-serif; font-family: var(--body); }
-.cf-root.cf-light { ${LIGHT} }
+.cf-root.cf-light, html.cf-mode-light .cf-root.cf-auto { ${LIGHT} }
 .cf-root.cf-dark, html.cf-mode-dark .cf-root.cf-auto { ${DARK} }
 @media (prefers-color-scheme: dark) {
   html:not(.cf-mode-light) body:has(.cf-host) { background: #0d0b09; }

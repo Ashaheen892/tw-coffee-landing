@@ -5,11 +5,11 @@ import { renderCta, schemeOf } from "../../utils/landing.js";
 import { baseCss, injectFonts, injectStyles, sectionStyle } from "../../utils/styles.js";
 
 const css = `
-.cf-cover { overflow: hidden; min-height: min(88vh, 760px); display: flex; align-items: center; }
+.cf-cover { position: relative; overflow: hidden; overflow: clip; min-height: min(88vh, 760px); display: flex; align-items: center; }
 .cf-cover .cf-wrap { position: relative; z-index: 1; width: min(var(--max), calc(100% - (var(--pad) * 2))); }
 .cf-stamp { display: inline-flex; align-items: center; gap: 10px; border: 2px solid var(--line-2); padding: 8px 16px; font-size: .78rem; letter-spacing: .08em; color: var(--crema); margin-bottom: 24px; }
 .cf-stamp i { width: 9px; height: 9px; background: var(--amber); border-radius: 50%; }
-.cf-cover h1 { font-size: clamp(2.5rem, 8vw, 6.2rem); line-height: .92; font-weight: 900; }
+.cf-cover h1 { padding-bottom: .08em; font-size: clamp(2.5rem, 8vw, 6.2rem); line-height: .92; font-weight: 900; }
 .cf-cover h1 em { font-style: normal; color: var(--rust); }
 .cf-meta { display: flex; flex-wrap: wrap; margin-top: 32px; border-block-start: 2px solid var(--line); }
 .cf-meta div { flex: 1 1 140px; padding: 16px 0; padding-inline-end: 18px; border-inline-end: 2px solid var(--line); }

@@ -1,7 +1,8 @@
 import { html, LitElement } from "lit";
 import { property } from "lit/decorators.js";
-import { getCollectionItems, getConfig, localizedString, t, watchLocale } from "../../utils/config.js";
+import { flag, getCollectionItems, getConfig, localizedString, t, watchLocale } from "../../utils/config.js";
 import { schemeOf } from "../../utils/landing.js";
+import { countUp } from "../../utils/count.js";
 import { baseCss, injectFonts, injectStyles, sectionStyle } from "../../utils/styles.js";
 
 const css = `
@@ -15,6 +16,7 @@ const css = `
 export default class StatStrip extends LitElement {
   @property({ type: Object }) config?: Record<string, any>;
   private stop = () => {};
+  private stopCount = () => {};
 
   protected createRenderRoot() {
     return this;
@@ -31,7 +33,16 @@ export default class StatStrip extends LitElement {
 
   disconnectedCallback() {
     this.stop();
+    this.stopCount();
     super.disconnectedCallback();
+  }
+
+  protected updated() {
+    const cfg = getConfig(this.config);
+    const on = cfg.count_up === undefined || cfg.count_up === "" || flag(cfg.count_up);
+    if (!on) return;
+    this.stopCount();
+    this.stopCount = countUp(this, ".cf-stat b");
   }
 
   render() {
@@ -44,7 +55,7 @@ export default class StatStrip extends LitElement {
         ${localizedString(cfg.kicker) ? html`<span class="cf-kick">${localizedString(cfg.kicker)}</span>` : ""}
         ${localizedString(cfg.title) ? html`<h2 class="cf-h2">${localizedString(cfg.title)}</h2>` : ""}
         ${items.length
-          ? html`<div class="cf-stats">${items.map((item) => html`<article class="cf-stat"><b>${item.value}</b><span>${item.label}</span></article>`)}</div>`
+          ? html`<div class="cf-stats">${items.map((item) => html`<article class="cf-stat"><b .textContent=${item.value}></b><span>${item.label}</span></article>`)}</div>`
           : html`<p class="cf-empty">${t({ ar: "أضف الأرقام من الإعدادات", en: "Add the numbers in the settings" })}</p>`}
       </div>
     </section>`;

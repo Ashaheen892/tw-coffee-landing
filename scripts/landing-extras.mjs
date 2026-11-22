@@ -16,25 +16,27 @@ const SPEC = {
     title: ["أرقام التحميص", "Roast numbers"],
     items: [
       [["٢٤ ساعة", "24 hours"], ["من التحميص إلى الكيس", "From roast to bag"]],
-      [["٦ مناشئ", "6 origins"], ["في قائمة الأسبوع", "On this week's list"]],
+      [["٤ مناشئ", "4 origins"], ["في قائمة الأسبوع", "On this week's list"]],
       [["١٥٠ ر.س", "SAR 150"], ["حد الشحن المجاني", "Free shipping threshold"]],
     ],
   },
   brand: {
     key: "ac5dbf13-04ae-4bc9-9ada-d8f2b4e092a1",
     kicker: ["المنشأ", "Origin"],
-    title: ["ماركات البن", "Coffee lots"],
+    title: ["مزارع نشتري منها", "Farms we buy from"],
     items: [
-      [["إثيوبيا", "Ethiopia"], ["يقري شيف", "Yirgacheffe"]],
-      [["كولومبيا", "Colombia"], ["هويلا", "Huila"]],
-      [["البرازيل", "Brazil"], ["سيررادو", "Cerrado"]],
-      [["كينيا", "Kenya"], ["غسل مزدوج", "Double washed"]],
+      [["إثيوبيا", "Ethiopia"], ["يرقاشيفي · غسيل", "Yirgacheffe · washed"]],
+      [["كولومبيا", "Colombia"], ["هويلا · غسيل", "Huila · washed"]],
+      [["كينيا", "Kenya"], ["نييري · AA", "Nyeri · AA"]],
+      [["اليمن", "Yemen"], ["حراز · طبيعي", "Haraz · natural"]],
     ],
   },
   partner: {
     key: "bd6ec024-15bf-4cda-8beb-e9a3c5f1a3b2",
     kicker: ["التوريد", "Supply"],
     title: ["شركاء النجاح", "Partners"],
+    subtitle: ["إيصال الشركاء", "Partner slip"],
+    note: ["شكراً لكل يد في الكوب", "Thanks to every hand in the cup"],
     items: [
       [["٢٤", "24"], ["محمصة الملقا", "Al Malqa roastery"], ["التحميص الأسبوعي", "The weekly roast"]],
       [["١٢", "12"], ["مقهى الورشة", "Workshop cafe"], ["تذوق الدفعة", "Batch tasting"]],
@@ -54,7 +56,7 @@ const SPEC = {
 export function applyLandingExtras(ctx) {
   const { components, catalog, templates, L, text, color, sw, drop, line, collection, image, url, scheme, KEY } = ctx;
   const spec = SPEC;
-  const footer = components.find((item) => item.name === "page-footer");
+  const footer = components.find((item) => item.name === "roast-footer");
   if (footer && !footer.fields.some((field) => field.id === "show_whatsapp")) {
     const sides = [["start", "بداية السطر", KEY.dockStart], ["end", "نهاية السطر", KEY.dockEnd]];
     const dock = [
@@ -81,28 +83,28 @@ export function applyLandingExtras(ctx) {
     footer.fields.splice(at < 0 ? footer.fields.length : at, 0, ...dock);
   }
 
-  if (!components.some((item) => item.name === "stat-strip")) {
-    const made = blocks({ L, text, color, collection, image, url, scheme, spec });
-    const index = components.findIndex((item) => item.name === "page-footer");
+  if (!components.some((item) => item.name === "roast-tally")) {
+    const made = blocks({ L, text, color, collection, image, url, scheme, sw, spec });
+    const index = components.findIndex((item) => item.name === "roast-footer");
     components.splice(index < 0 ? components.length : index, 0, ...made);
     if (spec.schemeMode === "after") made.forEach((item) => item.fields.push(scheme()));
   }
 
   if (Array.isArray(catalog)) {
-    const names = ["stat-strip", "brand-row", "partner-row", "quick-contact"];
-    const at = catalog.indexOf("page-footer");
+    const names = ["roast-tally", "lot-tickets", "supply-ledger", "roaster-line"];
+    const at = catalog.indexOf("roast-footer");
     names.slice().reverse().forEach((name) => {
       if (!catalog.includes(name)) catalog.splice(at < 0 ? catalog.length : at, 0, name);
     });
   }
 
-  const required = ["stat-strip", "brand-row", "partner-row", "quick-contact"];
+  const required = ["roast-tally", "lot-tickets", "supply-ledger", "roaster-line"];
   for (const template of templates) {
     const next = [];
     let added = false;
     for (const entry of template.order) {
       const name = Array.isArray(entry) ? entry[0] : entry;
-      if (name === "page-footer" && !added) {
+      if (name === "roast-footer" && !added) {
         next.push(...required);
         added = true;
       }
@@ -113,7 +115,7 @@ export function applyLandingExtras(ctx) {
   }
 }
 
-function blocks({ L, text, color, collection, image, url, scheme, spec }) {
+function blocks({ L, text, color, collection, image, url, scheme, sw, spec }) {
   const end = (fields) => {
     fields.push(color("bg_color", "لون الخلفية"));
     if (spec.schemeMode === "field") fields.push(scheme());
@@ -126,9 +128,9 @@ function blocks({ L, text, color, collection, image, url, scheme, spec }) {
   ];
   return [
     {
-      title: "إحصائيات",
+      title: "أرقام المحمصة (إحصائيات)",
       icon: "sicon-calculator",
-      name: "stat-strip",
+      name: "roast-tally",
       key: spec.stat.key,
       image: "",
       props: { "min-height": "180px" },
@@ -136,6 +138,7 @@ function blocks({ L, text, color, collection, image, url, scheme, spec }) {
         text("kicker", "السطر الصغير", L(...spec.stat.kicker)),
         text("title", "العنوان", L(...spec.stat.title)),
         text("subtitle", "السطر تحت العنوان", L("", "")),
+        sw("count_up", "حركة العد", true, "الأرقام تعدّ من الصفر أول ما يظهر القسم. النص حول الرقم يبقى كما هو."),
         collection("items", "رقم", [
           text("value", "الرقم", L("١٢", "12")),
           text("label", "الوصف", L("وصف الرقم", "What the number means")),
@@ -143,9 +146,9 @@ function blocks({ L, text, color, collection, image, url, scheme, spec }) {
       ]),
     },
     {
-      title: "الماركات التجارية",
+      title: "تذاكر المناشئ (الماركات)",
       icon: "sicon-star2",
-      name: "brand-row",
+      name: "lot-tickets",
       key: spec.brand.key,
       image: "",
       props: { "min-height": "160px" },
@@ -162,16 +165,17 @@ function blocks({ L, text, color, collection, image, url, scheme, spec }) {
       ]),
     },
     {
-      title: "شركاء النجاح",
+      title: "إيصال الموردين (شركاء النجاح)",
       icon: "sicon-store",
-      name: "partner-row",
+      name: "supply-ledger",
       key: spec.partner.key,
       image: "",
       props: { "min-height": "180px" },
       fields: end([
         text("kicker", "السطر الصغير", L(...spec.partner.kicker)),
         text("title", "العنوان", L(...spec.partner.title)),
-        text("subtitle", "السطر تحت العنوان", L("", "")),
+        text("subtitle", "السطر تحت العنوان", L(...(spec.partner.subtitle || ["", ""]))),
+        ...(spec.partner.note ? [text("note", "سطر أسفل القائمة", L(...spec.partner.note))] : []),
         collection("items", "شريك", partnerFields, spec.partner.items.map((row) => (
           spec.partnerMark
             ? { mark: L(...row[0]), name: L(...row[1]), note: L(...row[2]) }
@@ -180,9 +184,9 @@ function blocks({ L, text, color, collection, image, url, scheme, spec }) {
       ]),
     },
     {
-      title: "التواصل السريع",
+      title: "خط المحمصة (تواصل سريع)",
       icon: "sicon-link",
-      name: "quick-contact",
+      name: "roaster-line",
       key: spec.contact.key,
       image: "",
       props: { "min-height": "160px" },

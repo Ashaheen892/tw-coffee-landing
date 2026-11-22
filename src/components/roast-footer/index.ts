@@ -14,7 +14,7 @@ const css = `
 .cf-links { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 8px; }
 .cf-links a { border-block-end: 1px solid transparent; }
 .cf-links a:hover { color: var(--ink); border-color: var(--amber); }
-.cf-logo img { height: 40px; width: auto; object-fit: contain; margin-bottom: 8px; }
+.cf-flogo img { height: 40px; width: auto; object-fit: contain; margin-bottom: 8px; }
 .cf-dock { position: fixed; z-index: 80; display: inline-grid; place-items: center; width: 3.5rem; height: 3.5rem; padding: 0; border-radius: .3rem; border: 2px solid #1c140e; background: #e08b3f; color: #1c140e; font-family: var(--font-main, inherit); cursor: pointer; text-decoration: none; box-shadow: 4px 4px 0 #1c140e; }
 .cf-dock[hidden] { display: none; }
 .cf-dock svg { width: 1.4rem; height: 1.4rem; display: block; }
@@ -36,7 +36,7 @@ export default class PageFooter extends LitElement {
     this.classList.add("cf-host");
     injectFonts();
     injectStyles("cf-base", baseCss);
-    injectStyles("cf-announce", announceCss("cf"));
+    injectStyles("cf-announce", announceCss("cf", "bean"));
     injectStyles("cf-page-footer", css);
     const stopLocale = watchLocale(this);
     const onTone = () => { this.dark = currentTone() === "dark"; };
@@ -66,10 +66,10 @@ export default class PageFooter extends LitElement {
       .map((item) => ({ label: localizedString(item.label), url: linkHref(item.url) }))
       .filter((item) => item.label && item.url);
     const logo = (this.dark && cfg.logo_dark) || cfg.logo;
-    return html`${announceBar(cfg, "cf", `cf-root ${schemeOf(cfg)}`, "--ann-bg:var(--amber);--ann-ink:#1c140e")}
+    return html`${announceBar(cfg, "cf", `cf-root ${schemeOf(cfg)}`)}
     <footer class=${`cf-root cf-foot ${schemeOf(cfg)}`} style=${sectionStyle(cfg)}>
       <div class="cf-wrap cf-foot-grid">
-        <div class="cf-logo">
+        <div class="cf-flogo">
           ${logo ? html`<img src=${logo} alt=${brand} />` : nothing}
           ${brand ? html`<b>${brand}</b>` : nothing}
           ${lines.map((line) => html`<p>${line}</p>`)}

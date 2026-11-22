@@ -44,6 +44,9 @@ const num = (id, label, value, min, max, desc = null) => ({
   id, type: "number", format: "number", inputType: "number", label, icon: "sicon-calculator",
   required: false, description: desc, minimum: min, maximum: max, value,
 });
+const icon = (id, label, value) => ({
+  id, type: "string", format: "icon", label, icon: "sicon-star2", required: false, class: "form--inline", value,
+});
 const collection = (id, itemLabel, fields, value, min, max) => ({
   id, type: "collection", format: "collection", required: min > 0, minLength: min, maxLength: max,
   item_label: itemLabel,
@@ -93,15 +96,27 @@ const scheme = (selected = "auto") => drop(
 
 const components = [
   {
-    title: "رأس الصفحة",
+    title: "رأس المحمصة",
     icon: "sicon-store",
-    name: "page-bar",
+    name: "roast-bar",
     key: "4f37e5fd-c208-493e-8674-d1a8eb2baf2e",
     image: "",
     props: { "min-height": "74px" },
     fields: [
-      text("announce", "الشريط الإعلاني", L("تحميص أسبوعي · شحن للطلبات فوق ١٥٠ ر.س", "Roasted every week · shipping on orders over SAR 150"), { desc: "يظهر فوق الشعار. اتركه فارغاً لإخفاء الشريط." }),
-      drop("announce_mode", "حركة الشريط", [["move", "متحرك", KEY.annMove], ["still", "ثابت", KEY.annStill]], "move", "المتحرك يمرّ الجملة باستمرار. الثابت يُبقيها في الوسط."),
+      collection("bars", "شريط", [
+        text("text", "نص الشريط", L("", ""), { max: 140 }),
+        drop("media", "بجانب النص", [["none", "بدون", "f1864d11-6656-439b-82ca-8fbd737e697a"], ["icon", "أيقونة", "2ea7f017-feb1-4891-8913-1ad51a055883"], ["image", "صورة مصغرة", "bc917494-2524-4d34-8fc7-932a86d98df3"]], "icon", "اختر أيقونة من مكتبة سلة أو صورة صغيرة لمنتج أو شعار."),
+        { ...icon("icon", "الأيقونة", "sicon-megaphone"), class: undefined },
+        image("image", "الصورة المصغرة", "المقاس المقترح 112×112 بكسل، مربعة، تُقص دائرة، PNG أو WebP بخلفية شفافة أو صورة منتج. تظهر دائرة بقطر ٢٨ بكسل، فاجعل المهم في وسط الصورة. تُستخدم عند اختيار «صورة مصغرة» في «بجانب النص»."),
+        drop("motion", "حركة الشريط", [["right", "متحرك لليمين →", "73eb7d08-dbed-4436-bfe3-ac6a021fbec9"], ["left", "متحرك لليسار ←", "fa90507b-c93e-4f4c-ae56-6386f82f1692"], ["still", "ثابت", "7ef720c1-214f-4928-afc4-af8a478f5103"]], "right", "المتحرك يمرّ الجملة باستمرار في الاتجاه المختار ويتوقف عند مرور المؤشر. الثابت يُبقيها في الوسط."),
+        url("link", "رابط الشريط", "", "اختياري. يفتح عند الضغط على الشريط."),
+        color("bg", "خلفية هذا الشريط"),
+        color("ink", "كتابة هذا الشريط"),
+      ], [
+        { text: L("تحميص أسبوعي كل أحد", "Roasted every Sunday"), media: [{ label: "أيقونة", value: "icon", key: "2ea7f017-feb1-4891-8913-1ad51a055883" }], icon: "sicon-time", image: "", motion: [{ label: "متحرك لليمين →", value: "right", key: "73eb7d08-dbed-4436-bfe3-ac6a021fbec9" }], link: "", bg: "", ink: "" },
+        { text: L("وصل محصول إثيوبيا يرقاشيفي", "Ethiopia Yirgacheffe has landed"), media: [{ label: "صورة مصغرة", value: "image", key: "bc917494-2524-4d34-8fc7-932a86d98df3" }], icon: "sicon-megaphone", image: "https://images.pexels.com/photos/22938072/pexels-photo-22938072.jpeg?auto=compress&cs=tinysrgb&w=200", motion: [{ label: "ثابت", value: "still", key: "7ef720c1-214f-4928-afc4-af8a478f5103" }], link: "", bg: "", ink: "" },
+      ], 0, 5),
+      drop("bars_layout", "عرض الأشرطة", [["stack", "كل شريط في سطر", "135be97c-6c34-4adb-8bb3-cca3c25531ca"], ["rotate", "شريط واحد يتبدل", "a2371cd2-c830-4b2c-8f9b-17492c4e5cb1"]], "stack", "كل شريط في سطر يعرض الأشرطة فوق بعضها. شريط واحد يتبدل يعرض شريطاً كل ٤ ثوانٍ ويتوقف عند مرور المؤشر."),
       line("pb-announce"),
       image("logo", "شعار", "اتركه فارغاً ليظهر اسم المجموعة. المقاس المقترح 280×80 بكسل."),
       image("logo_dark", "شعار للوضع الداكن", "يظهر عندما تكون الصفحة داكنة. بدونه يُستخدم الشعار الأساسي. المقاس المقترح 280×80 بكسل."),
@@ -120,7 +135,7 @@ const components = [
         { label: L("الطلب", "Order"), url: "#cf-order" },
       ], 0, 6),
       line("pb-links"),
-      sw("use_kit_font", "خط الصفحة", false, "الافتراضي خط المتجر من سلة، مثل سيليا. فعّله فقط إذا أردت خط نوتو كوفي وآي بي إم بلكس."),
+      sw("use_kit_font", "خط الصفحة", false, "الافتراضي خط المتجر من سلة، فعّله فقط إذا أردت خط نوتو كوفي وآي بي إم بلكس."),
       sw("sticky", "تثبيت الرأس عند التمرير", true),
       sw("show_mode_toggle", "زر الفاتح والداكن", true, "أيقونة تتبدل بين القمر والشمس، وتبدّل الأقسام المضبوطة على حسب الصفحة."),
       drop("default_mode", "وضع الصفحة عند الفتح", [["light", "فاتح", KEY.modeLight], ["dark", "داكن", KEY.modeDark], ["system", "حسب جهاز الزائر", KEY.modeSystem]], "dark"),
@@ -382,13 +397,12 @@ const components = [
       text("button_label", "نص زر الشراء", L("أضف إلى السلة", "Add to cart")),
       url("button_url", "رابط الزر", "", buyHint),
       text("secondary_label", "نص الزر الثاني", L("اشترك ووفّر", "Subscribe and save")),
-      text("dock_label", "نص الشريط السفلي", L("اطلب", "Order")),
       collection("facts", "سطر", [
         text("label", "البند", L("التحميص والشحن", "Roast and shipping")),
         text("value", "القيمة", L("خلال ٤٨ ساعة", "Within 48 hours")),
       ], [
         { label: L("التحميص والشحن", "Roast and shipping"), value: L("خلال ٤٨ ساعة", "Within 48 hours") },
-        { label: L("الشحن مجاناً فوق", "Free shipping above"), value: L("٢٠٠ ر.س", "SAR 200") },
+        { label: L("الشحن مجاناً فوق", "Free shipping above"), value: L("١٥٠ ر.س", "SAR 150") },
         { label: L("استبدال الدفعة", "Batch exchange"), value: L("٧ أيام", "7 days") },
         { label: L("الاستلام من المحمصة", "Pickup at the roastery"), value: L("مجاناً", "Free") },
       ], 0, 6),
@@ -407,9 +421,37 @@ const components = [
     ],
   },
   {
-    title: "فوتر الصفحة",
+    title: "ريلز التذوق",
+    icon: "sicon-video",
+    name: "cup-reels",
+    key: "7c1e4a92-6b38-4d15-9f20-8a6d3e5c1b47",
+    image: "",
+    props: { "min-height": "420px" },
+    fields: [
+      text("index_label", "رقم القسم", "٠٨", { multilang: false, max: 8 }),
+      text("kicker", "السطر العلوي", L("دفتر التذوق", "The cupping book")),
+      text("title", "العنوان", L("تجارب المحمصة", "Roastery tastings")),
+      area("text", "النص", L("ثلاث دفعات من هذا الأسبوع. شغّل المقطع واقرأ ملاحظة التذوق بجانبه.", "Three lots from this week. Play the clip and read the tasting note beside it.")),
+      collection("items", "تجربة", [
+        url("video_url", "رابط الفيديو", "", "ملف mp4 أو رابط يوتيوب أو فيميو."),
+        image("poster", "صورة الغلاف", "تظهر قبل التشغيل. المقاس المقترح 1280×720."),
+        text("name", "اسم الدفعة", L("إثيوبيا يرقاشيفي", "Ethiopia Yirgacheffe")),
+        text("place", "من ذاقها", L("سارة · الرياض", "Sarah · Riyadh")),
+        area("note", "ملاحظة التذوق", L("ياسمين في أول رشفة، وحموضة تشبه الخوخ.", "Jasmine on the first sip, and an acidity like peach.")),
+      ], [
+        { video_url: "https://videos.pexels.com/video-files/4052732/4052732-sd_640_360_25fps.mp4", poster: "https://images.pexels.com/photos/2159095/pexels-photo-2159095.jpeg?auto=compress&cs=tinysrgb&w=1200", name: L("إثيوبيا يرقاشيفي", "Ethiopia Yirgacheffe"), place: L("سارة · الرياض", "Sarah · Riyadh"), note: L("ياسمين في أول رشفة، وحموضة تشبه الخوخ بعد أن تبرد.", "Jasmine on the first sip, and a peach acidity once it cools.") },
+        { video_url: "https://videos.pexels.com/video-files/5540811/5540811-sd_640_360_24fps.mp4", poster: "https://images.pexels.com/photos/4927237/pexels-photo-4927237.jpeg?auto=compress&cs=tinysrgb&w=1200", name: L("كولومبيا هويلا", "Colombia Huila"), place: L("فهد · جدة", "Fahad · Jeddah"), note: L("كاكاو وحلاوة بنية. تناسب V60 على درجة متوسطة.", "Cocoa and brown sugar. It suits a V60 at a medium roast.") },
+        { video_url: "https://videos.pexels.com/video-files/7658031/7658031-sd_360_640_25fps.mp4", poster: "https://images.pexels.com/photos/34271405/pexels-photo-34271405.jpeg?auto=compress&cs=tinysrgb&w=1200", name: L("كينيا غسل مزدوج", "Kenya double washed"), place: L("لمى · الخبر", "Lama · Khobar"), note: L("كشمش أسود واضح، والجسم أخف من تحميصة الأسبوع الماضي.", "Clear blackcurrant, and a lighter body than last week's roast.") },
+      ], 0, 6),
+      text("button_label", "نص الزر", L("اطلب هذه التحميصة", "Order this roast")),
+      color("bg_color", "لون الخلفية"),
+      scheme(),
+    ],
+  },
+  {
+    title: "فوتر المحمصة",
     icon: "sicon-link",
-    name: "page-footer",
+    name: "roast-footer",
     key: "108e7db7-0541-4f65-9510-988f11178672",
     image: "",
     props: { "min-height": "180px" },
@@ -437,7 +479,72 @@ const components = [
   },
 ];
 
-const catalog = ["page-bar", "roast-cover", "origin-list", "roast-dial", "brew-calc", "plan-table", "kit-row", "voice-list", "bag-order", "page-footer"];
+
+// Media sections: a slider whose slides can be a video, and vertical reels.
+const PX = (id, w = 1600) => `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=${w}`;
+const CLIP_POUR = "https://videos.pexels.com/video-files/4052732/4052732-sd_640_360_25fps.mp4";
+const CLIP_CUP = "https://videos.pexels.com/video-files/5540811/5540811-sd_640_360_24fps.mp4";
+const CLIP_ROAST = "https://videos.pexels.com/video-files/7658031/7658031-sd_360_640_25fps.mp4";
+const videoHint = "رابط ملف MP4 أو يوتيوب أو فيميو. يعمل بلا صوت، والصورة تظهر قبل تحميله.";
+components.push(
+  {
+    title: "سلايدر المحمصة",
+    icon: "sicon-image",
+    name: "roast-slider",
+    key: "a6ee3d10-55a7-4998-ad28-11d09ce01e79",
+    image: "",
+    props: { "min-height": "560px" },
+    fields: [
+      text("title", "اسم القسم", L("شرائح المحمصة", "Roastery slides")),
+      collection("items", "شريحة", [
+        image("image", "الصورة", "المقاس المقترح 1920×1080 بكسل. مع الفيديو تظهر كغلاف قبل التشغيل."),
+        url("video", "فيديو الشريحة (اختياري)", "", videoHint + " الشريحة تنتقل عند انتهاء الملف."),
+        text("alt", "وصف الصورة", L("القهوة في المحمصة", "Coffee at the roastery")),
+        text("tag", "وسم البطاقة", L("دفعة", "LOT"), { max: 16 }),
+        text("title", "العنوان", L("تحميص الاثنين والخميس", "Roasted Monday and Thursday")),
+        area("text", "النص", L("جملة واحدة عن الدفعة أو العرض.", "One sentence about the lot or the offer.")),
+        text("button", "نص الزر", L("اطلب الدفعة", "Order the lot")),
+        url("url", "رابط الزر", "", buyHint),
+      ], [
+        { image: PX(2159095), video: CLIP_POUR, alt: L("باريستا يصب القهوة المقطرة في كوب زجاجي", "A barista pouring brewed coffee into a glass"), tag: L("الآن", "NOW"), title: L("دفعة الأسبوع خرجت من المحمصة صباح اليوم", "This week's lot left the roaster this morning"), text: L("نحمّص بعد الطلب، ونطبع تاريخ التحميص على الكيس.", "We roast after the order and print the roast date on the bag."), button: L("اطلب الدفعة", "Order the lot"), url: "#cf-order" },
+        { image: PX(31890552), alt: L("حبوب تخرج ساخنة من آلة التحميص", "Hot beans pouring out of the roaster"), tag: L("منشأ", "ORIGIN"), title: L("إثيوبيا يرقاشيفي: ياسمين وليمون", "Ethiopia Yirgacheffe: jasmine and lemon"), text: L("تحميص فاتح يناسب الـ V60 والتقطير.", "A light roast for V60 and drip."), button: L("اقرأ ملف المنشأ", "Read the origin card"), url: "#cf-origin" },
+        { image: PX(30146018), alt: L("صب القهوة السعودية من دلة نحاسية", "Saudi coffee poured from a brass dallah"), tag: L("سعودي", "SAUDI"), title: L("قهوة سعودية بالهيل والزعفران", "Saudi coffee with cardamom and saffron"), text: L("بن خولاني من جبال جازان بتحميص أشقر، يُطحن على مقاس الدلة. في الاشتراك كل أسبوعين توفّر ٨ ر.س في الكيس.", "Khawlani beans from the Jazan mountains in a blonde roast, ground for the dallah. A two-week plan saves SAR 8 a bag."), button: L("اطلب القهوة السعودية", "Order the Saudi coffee"), url: "#cf-order" },
+      ], 1, 6),
+      color("bg_color", "لون الخلفية"),
+      scheme(),
+    ],
+  },
+  {
+    title: "ريلز المحمصة",
+    icon: "sicon-play",
+    name: "brew-reels",
+    key: "380a3c83-78cd-4bde-80a9-4dd38c1c2111",
+    image: "",
+    props: { "min-height": "520px" },
+    fields: [
+      text("kicker", "السطر العلوي", L("من البار", "From the bar")),
+      text("title", "العنوان", L("مقاطع قصيرة من المحمصة", "Short clips from the roastery")),
+      area("text", "النص", L("المقطع يعمل بلا صوت وأنت تمرّر. اضغط عليه ليعمل بالصوت.", "Clips play silently as you scroll. Tap one to hear it.")),
+      collection("items", "مقطع", [
+        url("video", "رابط الفيديو", "", videoHint + " الأفضل مقطع طولي ٩:١٦."),
+        image("poster", "صورة الغلاف", "المقاس المقترح 720×1280 بكسل."),
+        text("name", "العنوان", L("صب V60", "V60 pour")),
+        text("note", "سطر صغير", L("دفعة إثيوبيا", "Ethiopia lot")),
+        text("price", "السعر", L("٨٥ ر.س", "SAR 85"), { max: 30 }),
+        text("button", "نص الزر", L("اطلب", "Order"), { max: 30 }),
+        url("url", "رابط الزر", "", buyHint),
+      ], [
+        { video: CLIP_ROAST, poster: PX(31890551, 800), name: L("خروج الدفعة من المحمصة", "The lot leaves the roaster"), note: L("تحميص فاتح · إثيوبيا", "Light roast · Ethiopia"), price: L("٨٥ ر.س", "SAR 85"), button: L("اطلب", "Order"), url: "#cf-order" },
+        { video: CLIP_POUR, poster: PX(22223105, 800), name: L("لاتيه بحليب كامل", "A whole-milk latte"), note: L("كولومبيا هويلا", "Colombia Huila"), price: L("٧٢ ر.س", "SAR 72"), button: L("اطلب", "Order"), url: "#cf-order" },
+        { video: CLIP_CUP, poster: PX(31523243, 800), name: L("كابتشينو الصباح", "The morning cappuccino"), note: L("كينيا نييري", "Kenya Nyeri"), price: L("٩٨ ر.س", "SAR 98"), button: L("اطلب", "Order"), url: "#cf-order" },
+      ], 1, 10),
+      color("bg_color", "لون الخلفية"),
+      scheme(),
+    ],
+  },
+);
+
+const catalog = ["roast-bar", "roast-slider", "roast-cover", "origin-list", "roast-dial", "brew-calc", "plan-table", "kit-row", "voice-list", "cup-reels", "brew-reels", "bag-order", "roast-footer"];
 components.sort((a, b) => catalog.indexOf(a.name) - catalog.indexOf(b.name));
 
 const templates = [
@@ -446,7 +553,7 @@ const templates = [
     id: "26a58c48-75da-464c-9456-25874f37cc09",
     is_default: true,
     primary_color: "#c2410c",
-    order: ["page-bar", "roast-cover", "origin-list", "roast-dial", "brew-calc", "plan-table", "kit-row", "voice-list", "bag-order", "page-footer"],
+    order: ["roast-bar", "roast-cover", "origin-list", "roast-dial", "brew-calc", "plan-table", "kit-row", "voice-list", "cup-reels", "bag-order", "roast-footer"],
   },
   {
     name: "kis",
@@ -454,17 +561,18 @@ const templates = [
     is_default: false,
     primary_color: "#6b3410",
     order: [
-      ["page-bar", {
+      ["roast-bar", {
         links: [
-          { label: L("الغلاف", "Cover"), url: "#cf-cover" },
+          { label: L("الدفعة", "Lot"), url: "#cf-slides" },
           { label: L("المناشئ", "Origins"), url: "#cf-origin" },
           { label: L("الطلب", "Order"), url: "#cf-order" },
         ],
       }],
-      ["roast-cover", { secondary_label: L("", ""), secondary_url: "" }],
+      "roast-slider",
       ["origin-list", { index_label: "٠٢" }],
+      "brew-reels",
       ["bag-order", { index_label: "٠٣", secondary_label: L("", "") }],
-      "page-footer",
+      "roast-footer",
     ],
   },
 ];

@@ -16,6 +16,15 @@ const css = `
 .cf-quick b { display: block; margin-top: 6px; font-size: 1.05rem; }
 `;
 
+function telHref(value: unknown): string {
+  const raw = (typeof value === "string" ? value : localizedString(value)).trim();
+  const num = raw.replace(/\D/g, "");
+  if (!num) return "";
+  if (raw.startsWith("+")) return `tel:+${num}`;
+  if (num.startsWith("00")) return `tel:+${num.slice(2)}`;
+  return `tel:${num}`;
+}
+
 function digits(value: unknown): string {
   const raw = typeof value === "string" ? value : localizedString(value);
   return raw.replace(/\D/g, "");
@@ -51,8 +60,8 @@ export default class QuickContact extends LitElement {
     const message = localizedString(cfg.whatsapp_message);
     const note = localizedString(cfg.text);
     const actions = [
-      phone ? { kicker: localizedString(cfg.phone_label) || t({ ar: "المحمصة", en: "Roastery" }), value: localizedString(cfg.phone_text) || phone, href: `tel:+${phone}` } : null,
-      wa ? { kicker: localizedString(cfg.whatsapp_label) || t({ ar: "واتساب", en: "WhatsApp" }), value: localizedString(cfg.whatsapp_text) || t({ ar: "اطلب التحميصة", en: "Order the roast" }), href: `https://wa.me/${wa}${message ? `?text=${encodeURIComponent(message)}` : ""}` } : null,
+      phone ? { kicker: localizedString(cfg.phone_label) || t({ ar: "اتصال", en: "Call" }), value: localizedString(cfg.phone_text) || phone, href: telHref(cfg.phone) } : null,
+      wa ? { kicker: localizedString(cfg.whatsapp_label) || t({ ar: "واتساب", en: "WhatsApp" }), value: localizedString(cfg.whatsapp_text) || t({ ar: "واتساب", en: "WhatsApp" }), href: `https://wa.me/${wa}${message ? `?text=${encodeURIComponent(message)}` : ""}` } : null,
       email.includes("@") ? { kicker: localizedString(cfg.email_label) || t({ ar: "البريد", en: "Email" }), value: email, href: `mailto:${email}` } : null,
     ].filter((item) => item) as { kicker: string; value: string; href: string }[];
     return html`<section id="cf-contact" class=${`cf-root cf-sec ${schemeOf(cfg)}`} style=${sectionStyle(cfg)} aria-label=${localizedString(cfg.title) || "contact"}>

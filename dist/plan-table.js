@@ -51,7 +51,30 @@ function schemeOf(cfg) {
   return scheme === "dark" ? "cf-dark" : scheme === "light" ? "cf-light" : "cf-auto";
 }
 __name(schemeOf, "schemeOf");
+function markEditing() {
+  var _a, _b;
+  const root = document.documentElement, read = /* @__PURE__ */ __name(() => {
+    var _a2, _b2;
+    let on = !0;
+    try {
+      const salla = window.Salla;
+      on = window.self !== window.top || ((_b2 = (_a2 = salla == null ? void 0 : salla.config) == null ? void 0 : _a2.get) == null ? void 0 : _b2.call(_a2, "page.is_landing_page")) !== !0;
+    } catch {
+      on = !0;
+    }
+    root.dataset.lpEditing = on ? "1" : "0";
+  }, "read");
+  if (!root.dataset.lpEditing) {
+    read();
+    try {
+      (_b = (_a = window.Salla) == null ? void 0 : _a.onReady) == null || _b.call(_a, read);
+    } catch {
+    }
+  }
+}
+__name(markEditing, "markEditing");
 function injectStyles(id, css2) {
+  markEditing();
   let style = document.getElementById(id);
   style || (style = document.createElement("style"), style.id = id, document.head.appendChild(style)), style.textContent !== css2 && (style.textContent = css2);
 }
@@ -72,6 +95,7 @@ function sectionStyle(cfg) {
 }
 __name(sectionStyle, "sectionStyle");
 const DARK = "--bg:#0d0b09; --bg-2:#15110d; --ink:#f2ece2; --mute:#9a8f82; --line:#3a322a; --line-2:#564a3e; --rust:#c2410c; --amber:#e08b3f; --crema:#d9b98c; --card:#120f0c; --on-rust:#fff;", LIGHT = "--bg:#f6f1ea; --bg-2:#efe6da; --ink:#1c140e; --mute:#6d6258; --line:#e0d4c6; --line-2:#c9b8a4; --rust:#c2410c; --amber:#a85f1f; --crema:#8a5a28; --card:#fffdf9; --on-rust:#fff;", baseCss = `
+html[data-lp-editing="0"] .cf-empty, html[data-lp-editing="0"] .cf-hint { display: none !important; }
 .cf-host { display: block; width: 100%; min-width: 0; container-type: inline-size; }
 body:has(.cf-host) { background: #0d0b09; }
 html.cf-mode-light body:has(.cf-host) { background: #f6f1ea; }
@@ -84,7 +108,7 @@ html.cf-mode-dark body:has(.cf-host) { background: #0d0b09; }
   --max:1080px; --pad:clamp(20px, 5vw, 72px);
   --disp:inherit; --body:inherit;
   display: block; box-sizing: border-box; color: var(--ink); background: var(--cf-section-bg, var(--bg));
-  font-family: inherit; font-weight: 300; line-height: 1.8; -webkit-font-smoothing: antialiased;
+  font-family: var(--font-main, inherit); font-weight: 300; line-height: 1.8; -webkit-font-smoothing: antialiased;
   border-block-end: 2px solid var(--line);
 }
 html.cf-kit-font .cf-root { --disp:'Noto Kufi Arabic',system-ui,sans-serif; --body:'IBM Plex Sans Arabic',system-ui,sans-serif; font-family: var(--body); }
@@ -107,9 +131,9 @@ html.cf-kit-font .cf-root { --disp:'Noto Kufi Arabic',system-ui,sans-serif; --bo
 .cf-kick { display: block; margin-bottom: 12px; font-size: .76rem; letter-spacing: .2em; color: var(--amber); font-weight: 600; }
 .cf-h2, .cf-root h1, .cf-root h2, .cf-root h3 { font-family: var(--disp); font-weight: 800; line-height: 1.15; letter-spacing: -.02em; }
 .cf-h2 { font-size: clamp(1.7rem, 4.4vw, 2.9rem); }
-.cf-lead { color: var(--mute); max-width: 52ch; margin-top: 16px; font-size: clamp(.95rem, 1.6vw, 1.08rem); }
-.cf-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 14px 26px; background: var(--rust); color: var(--on-rust); font-family: var(--disp); font-weight: 800; font-size: 1rem; border: 2px solid var(--rust); cursor: pointer; transition: background .2s, color .2s, transform .2s; }
-.cf-btn:hover { background: var(--amber); border-color: var(--amber); color: #1c140e; transform: translateY(-2px); }
+.cf-root .cf-lead { color: var(--mute); max-width: 52ch; margin-top: 16px; font-size: clamp(.95rem, 1.6vw, 1.08rem); }
+.cf-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 14px 26px; background: var(--color-primary, var(--rust)); color: var(--color-primary-reverse, var(--on-rust)); font-family: var(--font-main, inherit); font-weight: 700; font-size: 1rem; border: 2px solid var(--color-primary, var(--rust)); cursor: pointer; transition: opacity .2s, transform .2s; }
+.cf-btn:hover { opacity: .92; transform: translateY(-2px); }
 .cf-btn.ghost { background: transparent; color: var(--ink); border-color: var(--line-2); }
 .cf-btn.ghost:hover { background: transparent; color: var(--ink); border-color: var(--amber); }
 .cf-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
@@ -135,7 +159,7 @@ const css = `
 .cf-tbl .pv { font-family: var(--disp); font-weight: 900; font-size: 1.25rem; color: var(--amber); }
 .cf-yes { color: var(--amber); font-weight: 700; }
 .cf-no { color: var(--line-2); }
-.cf-note { margin-top: 14px; font-size: .82rem; color: var(--mute); }
+.cf-fine { margin-top: 14px; font-size: .82rem; color: var(--mute); }
 `;
 function cell(value) {
   const token = value.trim().toLowerCase();
@@ -184,7 +208,7 @@ const _PlanTable = class _PlanTable extends LitElement {
             </tbody>
           </table>
         </div>
-        ${localizedString(cfg.note) ? html`<p class="cf-note">${localizedString(cfg.note)}</p>` : nothing}
+        ${localizedString(cfg.note) ? html`<p class="cf-fine">${localizedString(cfg.note)}</p>` : nothing}
         ${localizedString(cfg.button_label) ? html`<div class="cf-actions"><a class="cf-btn" href="#cf-order">${localizedString(cfg.button_label)}</a></div>` : nothing}` : html`<p class="cf-empty">${t({ ar: "أضف صفوف المقارنة من الإعدادات", en: "Add comparison rows in the settings" })}</p>`}
       </div>
     </section>`;

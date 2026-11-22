@@ -1,4 +1,24 @@
+
+/** Editor hints ("add items in the settings") show in the Salla editor and local preview, never on the live page. */
+function markEditing(): void {
+  const root = document.documentElement;
+  const read = () => {
+    let on = true;
+    try {
+      const salla = (window as any).Salla;
+      on = window.self !== window.top || salla?.config?.get?.("page.is_landing_page") !== true;
+    } catch {
+      on = true;
+    }
+    root.dataset.lpEditing = on ? "1" : "0";
+  };
+  if (root.dataset.lpEditing) return;
+  read();
+  try { (window as any).Salla?.onReady?.(read); } catch { /* Salla is not on the page */ }
+}
+
 export function injectStyles(id: string, css: string): void {
+  markEditing();
   let style = document.getElementById(id) as HTMLStyleElement | null;
   if (!style) {
     style = document.createElement("style");
@@ -39,6 +59,7 @@ const DARK = `--bg:#0d0b09; --bg-2:#15110d; --ink:#f2ece2; --mute:#9a8f82; --lin
 const LIGHT = `--bg:#f6f1ea; --bg-2:#efe6da; --ink:#1c140e; --mute:#6d6258; --line:#e0d4c6; --line-2:#c9b8a4; --rust:#c2410c; --amber:#a85f1f; --crema:#8a5a28; --card:#fffdf9; --on-rust:#fff;`;
 
 export const baseCss = `
+html[data-lp-editing="0"] .cf-empty, html[data-lp-editing="0"] .cf-hint { display: none !important; }
 .cf-host { display: block; width: 100%; min-width: 0; container-type: inline-size; }
 body:has(.cf-host) { background: #0d0b09; }
 html.cf-mode-light body:has(.cf-host) { background: #f6f1ea; }
@@ -74,9 +95,9 @@ html.cf-kit-font .cf-root { --disp:'Noto Kufi Arabic',system-ui,sans-serif; --bo
 .cf-kick { display: block; margin-bottom: 12px; font-size: .76rem; letter-spacing: .2em; color: var(--amber); font-weight: 600; }
 .cf-h2, .cf-root h1, .cf-root h2, .cf-root h3 { font-family: var(--disp); font-weight: 800; line-height: 1.15; letter-spacing: -.02em; }
 .cf-h2 { font-size: clamp(1.7rem, 4.4vw, 2.9rem); }
-.cf-lead { color: var(--mute); max-width: 52ch; margin-top: 16px; font-size: clamp(.95rem, 1.6vw, 1.08rem); }
-.cf-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 14px 26px; background: var(--rust); color: var(--on-rust); font-family: var(--disp); font-weight: 800; font-size: 1rem; border: 2px solid var(--rust); cursor: pointer; transition: background .2s, color .2s, transform .2s; }
-.cf-btn:hover { background: var(--amber); border-color: var(--amber); color: #1c140e; transform: translateY(-2px); }
+.cf-root .cf-lead { color: var(--mute); max-width: 52ch; margin-top: 16px; font-size: clamp(.95rem, 1.6vw, 1.08rem); }
+.cf-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 14px 26px; background: var(--color-primary, var(--rust)); color: var(--color-primary-reverse, var(--on-rust)); font-family: var(--font-main, inherit); font-weight: 700; font-size: 1rem; border: 2px solid var(--color-primary, var(--rust)); cursor: pointer; transition: opacity .2s, transform .2s; }
+.cf-btn:hover { opacity: .92; transform: translateY(-2px); }
 .cf-btn.ghost { background: transparent; color: var(--ink); border-color: var(--line-2); }
 .cf-btn.ghost:hover { background: transparent; color: var(--ink); border-color: var(--amber); }
 .cf-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }

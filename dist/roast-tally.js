@@ -1,7 +1,7 @@
 var __defProp = Object.defineProperty;
 var __name = (target, value) => __defProp(target, "name", { value, configurable: !0 });
-import { LitElement, nothing, html } from "lit";
-import { property, state } from "lit/decorators.js";
+import { LitElement, html } from "lit";
+import { property } from "lit/decorators.js";
 function getConfig(raw) {
   return raw ? raw.component && typeof raw.component == "object" ? raw.component : raw : {};
 }
@@ -22,24 +22,25 @@ function localizedString(value) {
   return String(value);
 }
 __name(localizedString, "localizedString");
+function t(strings) {
+  return getLocale() === "ar" ? strings.ar : strings.en;
+}
+__name(t, "t");
 function unwrapValue(value) {
   var _a;
   return Array.isArray(value) ? unwrapValue(((_a = value[0]) == null ? void 0 : _a.value) ?? value[0] ?? "") : value && typeof value == "object" && "value" in value ? value.value : value ?? "";
 }
 __name(unwrapValue, "unwrapValue");
-function linkHref(value) {
-  if (value == null || value === "") return "";
-  if (typeof value == "string") return value.trim();
-  if (Array.isArray(value)) return linkHref(value[0]);
-  if (typeof value == "object") {
-    const obj = value;
-    if (obj.url) return linkHref(obj.url);
-    if ("value" in obj) return linkHref(obj.value);
-    if (obj.href) return linkHref(obj.href);
+function flag(value) {
+  const raw = unwrapValue(value);
+  if (raw === !0 || raw === 1) return !0;
+  if (typeof raw == "string") {
+    const text = raw.trim().toLowerCase();
+    return text === "true" || text === "1" || text === "on" || text === "yes";
   }
-  return "";
+  return !1;
 }
-__name(linkHref, "linkHref");
+__name(flag, "flag");
 function getCollectionItems(items, prefix) {
   return Array.isArray(items) ? items.map((item) => {
     if (!item || typeof item != "object") return {};
@@ -55,16 +56,73 @@ function watchLocale(host) {
   return window.addEventListener("language-changed", update), () => window.removeEventListener("language-changed", update);
 }
 __name(watchLocale, "watchLocale");
-function currentTone() {
-  return document.documentElement.classList.contains("cf-mode-dark") ? "dark" : "light";
-}
-__name(currentTone, "currentTone");
 function schemeOf(cfg) {
   const scheme = String(unwrapValue(cfg.color_scheme) || "auto");
   return scheme === "dark" ? "cf-dark" : scheme === "light" ? "cf-light" : "cf-auto";
 }
 __name(schemeOf, "schemeOf");
+const AR = "٠١٢٣٤٥٦٧٨٩", NUM = /[+-]?[\d٠-٩]+(?:[.,٫٬][\d٠-٩]+)*/;
+function parse(text) {
+  const match = text.match(NUM);
+  if (!match || match.index === void 0) return null;
+  const raw = match[0], arabic = /[٠-٩]/.test(raw), latin = raw.replace(/[٠-٩]/g, (d) => String(AR.indexOf(d))), decimalMark = /[.٫](\d+)$/.exec(latin), decimals = decimalMark && decimalMark[1].length < 3 ? decimalMark[1].length : 0, grouped = /[,٬]/.test(latin) || !decimals && /[.٫]\d{3}/.test(latin), clean = decimals ? latin.replace(/[,٬]/g, "").replace(/[٫]/, ".") : latin.replace(/[.,٫٬]/g, ""), value = Number(clean);
+  return !Number.isFinite(value) || value === 0 ? null : { before: text.slice(0, match.index), after: text.slice(match.index + raw.length), value, decimals, arabic, grouped };
+}
+__name(parse, "parse");
+function format(n, p) {
+  let out = p.decimals ? n.toFixed(p.decimals) : String(Math.round(n));
+  return p.grouped && (out = out.replace(/\B(?=(\d{3})+(?!\d))/g, p.arabic ? "٬" : ",")), p.arabic && (out = out.replace(/\d/g, (d) => AR[Number(d)]).replace(".", "٫")), p.before + out + p.after;
+}
+__name(format, "format");
+const done = /* @__PURE__ */ new WeakSet();
+function countUp(root, selector, duration = 1400) {
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches, nodes = Array.from(root.querySelectorAll(selector)).filter((el) => !done.has(el));
+  if (reduced || !nodes.length || !("IntersectionObserver" in window)) return () => {
+  };
+  const frames = /* @__PURE__ */ new Set(), io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      io.unobserve(el);
+      const final = el.dataset.countFinal || el.textContent || "", parsed = parse(final);
+      if (!parsed) return;
+      el.dataset.countFinal = final, done.add(el);
+      const start = performance.now(), tick = /* @__PURE__ */ __name((now) => {
+        const k = Math.min(1, (now - start) / duration), eased = 1 - Math.pow(1 - k, 3);
+        el.textContent = k < 1 ? format(parsed.value * eased, parsed) : final, k < 1 && frames.add(requestAnimationFrame(tick));
+      }, "tick");
+      el.textContent = format(0, parsed), frames.add(requestAnimationFrame(tick));
+    });
+  }, { threshold: 0.4 });
+  return nodes.forEach((el) => io.observe(el)), () => {
+    io.disconnect(), frames.forEach((id) => cancelAnimationFrame(id));
+  };
+}
+__name(countUp, "countUp");
+function markEditing() {
+  var _a, _b;
+  const root = document.documentElement, read = /* @__PURE__ */ __name(() => {
+    var _a2, _b2;
+    let on = !0;
+    try {
+      const salla = window.Salla;
+      on = window.self !== window.top || ((_b2 = (_a2 = salla == null ? void 0 : salla.config) == null ? void 0 : _a2.get) == null ? void 0 : _b2.call(_a2, "page.is_landing_page")) !== !0;
+    } catch {
+      on = !0;
+    }
+    root.dataset.lpEditing = on ? "1" : "0";
+  }, "read");
+  if (!root.dataset.lpEditing) {
+    read();
+    try {
+      (_b = (_a = window.Salla) == null ? void 0 : _a.onReady) == null || _b.call(_a, read);
+    } catch {
+    }
+  }
+}
+__name(markEditing, "markEditing");
 function injectStyles(id, css2) {
+  markEditing();
   let style = document.getElementById(id);
   style || (style = document.createElement("style"), style.id = id, document.head.appendChild(style)), style.textContent !== css2 && (style.textContent = css2);
 }
@@ -85,6 +143,7 @@ function sectionStyle(cfg) {
 }
 __name(sectionStyle, "sectionStyle");
 const DARK = "--bg:#0d0b09; --bg-2:#15110d; --ink:#f2ece2; --mute:#9a8f82; --line:#3a322a; --line-2:#564a3e; --rust:#c2410c; --amber:#e08b3f; --crema:#d9b98c; --card:#120f0c; --on-rust:#fff;", LIGHT = "--bg:#f6f1ea; --bg-2:#efe6da; --ink:#1c140e; --mute:#6d6258; --line:#e0d4c6; --line-2:#c9b8a4; --rust:#c2410c; --amber:#a85f1f; --crema:#8a5a28; --card:#fffdf9; --on-rust:#fff;", baseCss = `
+html[data-lp-editing="0"] .cf-empty, html[data-lp-editing="0"] .cf-hint { display: none !important; }
 .cf-host { display: block; width: 100%; min-width: 0; container-type: inline-size; }
 body:has(.cf-host) { background: #0d0b09; }
 html.cf-mode-light body:has(.cf-host) { background: #f6f1ea; }
@@ -97,7 +156,7 @@ html.cf-mode-dark body:has(.cf-host) { background: #0d0b09; }
   --max:1080px; --pad:clamp(20px, 5vw, 72px);
   --disp:inherit; --body:inherit;
   display: block; box-sizing: border-box; color: var(--ink); background: var(--cf-section-bg, var(--bg));
-  font-family: inherit; font-weight: 300; line-height: 1.8; -webkit-font-smoothing: antialiased;
+  font-family: var(--font-main, inherit); font-weight: 300; line-height: 1.8; -webkit-font-smoothing: antialiased;
   border-block-end: 2px solid var(--line);
 }
 html.cf-kit-font .cf-root { --disp:'Noto Kufi Arabic',system-ui,sans-serif; --body:'IBM Plex Sans Arabic',system-ui,sans-serif; font-family: var(--body); }
@@ -120,9 +179,9 @@ html.cf-kit-font .cf-root { --disp:'Noto Kufi Arabic',system-ui,sans-serif; --bo
 .cf-kick { display: block; margin-bottom: 12px; font-size: .76rem; letter-spacing: .2em; color: var(--amber); font-weight: 600; }
 .cf-h2, .cf-root h1, .cf-root h2, .cf-root h3 { font-family: var(--disp); font-weight: 800; line-height: 1.15; letter-spacing: -.02em; }
 .cf-h2 { font-size: clamp(1.7rem, 4.4vw, 2.9rem); }
-.cf-lead { color: var(--mute); max-width: 52ch; margin-top: 16px; font-size: clamp(.95rem, 1.6vw, 1.08rem); }
-.cf-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 14px 26px; background: var(--rust); color: var(--on-rust); font-family: var(--disp); font-weight: 800; font-size: 1rem; border: 2px solid var(--rust); cursor: pointer; transition: background .2s, color .2s, transform .2s; }
-.cf-btn:hover { background: var(--amber); border-color: var(--amber); color: #1c140e; transform: translateY(-2px); }
+.cf-root .cf-lead { color: var(--mute); max-width: 52ch; margin-top: 16px; font-size: clamp(.95rem, 1.6vw, 1.08rem); }
+.cf-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 14px 26px; background: var(--color-primary, var(--rust)); color: var(--color-primary-reverse, var(--on-rust)); font-family: var(--font-main, inherit); font-weight: 700; font-size: 1rem; border: 2px solid var(--color-primary, var(--rust)); cursor: pointer; transition: opacity .2s, transform .2s; }
+.cf-btn:hover { opacity: .92; transform: translateY(-2px); }
 .cf-btn.ghost { background: transparent; color: var(--ink); border-color: var(--line-2); }
 .cf-btn.ghost:hover { background: transparent; color: var(--ink); border-color: var(--amber); }
 .cf-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
@@ -139,57 +198,47 @@ var __defProp2 = Object.defineProperty, __decorateClass = /* @__PURE__ */ __name
   return result && __defProp2(target, key, result), result;
 }, "__decorateClass");
 const css = `
-.cf-foot { padding-block: 42px 28px; font-size: .84rem; color: var(--mute); }
-.cf-foot-grid { display: grid; gap: 22px; }
-.cf-foot b { color: var(--crema); font-weight: 700; font-family: var(--disp); font-size: 1.05rem; }
-.cf-foot p { margin-top: 6px; }
-.cf-links { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 8px; }
-.cf-links a { border-block-end: 1px solid transparent; }
-.cf-links a:hover { color: var(--ink); border-color: var(--amber); }
-.cf-logo img { height: 40px; width: auto; object-fit: contain; margin-bottom: 8px; }
-`, _PageFooter = class _PageFooter extends LitElement {
+.cf-stats { display: grid; gap: 14px; }
+@container (min-width: 800px) { .cf-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.cf-stat { padding: 18px 16px 16px; border: 2px solid var(--line); border-inline-start: 8px solid var(--amber); }
+.cf-stat b { display: block; font-size: clamp(2.2rem, 4vw, 3.3rem); font-weight: 900; line-height: .9; color: transparent; -webkit-text-stroke: 1.5px var(--ink); }
+.cf-stat span { display: block; margin-top: 10px; color: var(--mute); }
+`, _StatStrip = class _StatStrip extends LitElement {
   constructor() {
-    super(...arguments), this.dark = !1, this.stop = () => {
+    super(...arguments), this.stop = () => {
+    }, this.stopCount = () => {
     };
   }
   createRenderRoot() {
     return this;
   }
   connectedCallback() {
-    super.connectedCallback(), this.classList.add("cf-host"), injectFonts(), injectStyles("cf-base", baseCss), injectStyles("cf-page-footer", css);
-    const stopLocale = watchLocale(this), onTone = /* @__PURE__ */ __name(() => {
-      this.dark = currentTone() === "dark";
-    }, "onTone");
-    window.addEventListener("cf-tone", onTone), this.dark = currentTone() === "dark", this.stop = () => {
-      stopLocale(), window.removeEventListener("cf-tone", onTone);
-    };
+    super.connectedCallback(), this.classList.add("cf-host"), injectFonts(), injectStyles("cf-base", baseCss), injectStyles("cf-stat-strip", css), this.stop = watchLocale(this);
   }
   disconnectedCallback() {
-    this.stop(), super.disconnectedCallback();
+    this.stop(), this.stopCount(), super.disconnectedCallback();
+  }
+  updated() {
+    const cfg = getConfig(this.config);
+    (cfg.count_up === void 0 || cfg.count_up === "" || flag(cfg.count_up)) && (this.stopCount(), this.stopCount = countUp(this, ".cf-stat b"));
   }
   render() {
-    const cfg = getConfig(this.config), brand = localizedString(cfg.brand), lines = [localizedString(cfg.address), localizedString(cfg.hours), localizedString(cfg.legal)].filter(Boolean), links = getCollectionItems(cfg.links, "links").map((item) => ({ label: localizedString(item.label), url: linkHref(item.url) })).filter((item) => item.label && item.url), logo = this.dark && cfg.logo_dark || cfg.logo;
-    return html`<footer class=${`cf-root cf-foot ${schemeOf(cfg)}`} style=${sectionStyle(cfg)}>
-      <div class="cf-wrap cf-foot-grid">
-        <div class="cf-logo">
-          ${logo ? html`<img src=${logo} alt=${brand} />` : nothing}
-          ${brand ? html`<b>${brand}</b>` : nothing}
-          ${lines.map((line) => html`<p>${line}</p>`)}
-        </div>
-        ${links.length ? html`<nav class="cf-links">${links.map((item) => html`<a href=${item.url}>${item.label}</a>`)}</nav>` : nothing}
+    const cfg = getConfig(this.config), items = getCollectionItems(cfg.items, "items").map((item) => ({ value: localizedString(item.value), label: localizedString(item.label) })).filter((item) => item.value);
+    return html`<section id="cf-stats" class=${`cf-root cf-sec ${schemeOf(cfg)}`} style=${sectionStyle(cfg)} aria-label=${localizedString(cfg.title) || "stats"}>
+      <div class="cf-wrap">
+        ${localizedString(cfg.kicker) ? html`<span class="cf-kick">${localizedString(cfg.kicker)}</span>` : ""}
+        ${localizedString(cfg.title) ? html`<h2 class="cf-h2">${localizedString(cfg.title)}</h2>` : ""}
+        ${items.length ? html`<div class="cf-stats">${items.map((item) => html`<article class="cf-stat"><b .textContent=${item.value}></b><span>${item.label}</span></article>`)}</div>` : html`<p class="cf-empty">${t({ ar: "أضف الأرقام من الإعدادات", en: "Add the numbers in the settings" })}</p>`}
       </div>
-    </footer>`;
+    </section>`;
   }
 };
-__name(_PageFooter, "PageFooter");
-let PageFooter = _PageFooter;
+__name(_StatStrip, "StatStrip");
+let StatStrip = _StatStrip;
 __decorateClass([
   property({ type: Object })
-], PageFooter.prototype, "config");
-__decorateClass([
-  state()
-], PageFooter.prototype, "dark");
-typeof PageFooter < "u" && PageFooter.registerSallaComponent("salla-page-footer");
+], StatStrip.prototype, "config");
+typeof StatStrip < "u" && StatStrip.registerSallaComponent("salla-roast-tally");
 export {
-  PageFooter as default
+  StatStrip as default
 };

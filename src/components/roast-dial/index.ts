@@ -16,8 +16,8 @@ const css = `
 .cf-rout h3 { font-size: 1.35rem; }
 .cf-rout .sub { margin: 6px 0 14px; font-size: .88rem; color: var(--mute); }
 .cf-bars { display: grid; gap: 11px; }
-.cf-bar b { display: flex; justify-content: space-between; font-size: .78rem; font-weight: 600; margin-bottom: 6px; }
-.cf-bar b span { color: var(--amber); font-variant-numeric: tabular-nums; }
+.cf-meter b { display: flex; justify-content: space-between; font-size: .78rem; font-weight: 600; margin-bottom: 6px; }
+.cf-meter b span { color: var(--amber); font-variant-numeric: tabular-nums; }
 .cf-tr { height: 6px; background: var(--line); overflow: hidden; }
 .cf-fl { display: block; height: 100%; width: 0; background: var(--amber); transition: width .45s; }
 @container (max-width: 700px) { .cf-rout { grid-template-columns: 1fr; } }
@@ -92,7 +92,7 @@ export default class RoastDial extends LitElement {
             <h3>${current.name}</h3>
             ${current.note ? html`<p class="sub">${current.note}</p>` : nothing}
             <div class="cf-bars">
-              ${labels.map((label, i) => html`<div class="cf-bar"><b>${label} <span>${digits(values[i])}٪</span></b><div class="cf-tr"><span class="cf-fl" style=${`width:${values[i]}%`}></span></div></div>`)}
+              ${labels.map((label, i) => html`<div class="cf-meter"><b>${label} <span>${digits(values[i])}٪</span></b><div class="cf-tr"><span class="cf-fl" style=${`width:${values[i]}%`}></span></div></div>`)}
             </div>
           </div>
         </div>` : html`<p class="cf-empty">${t({ ar: "أضف درجات التحميص من الإعدادات", en: "Add roast levels in the settings" })}</p>`}

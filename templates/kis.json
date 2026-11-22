@@ -2,9 +2,9 @@
   "id": "348b24a9-afc3-4e83-a749-a74a1d1a00bc",
   "components": [
     {
-      "title": "رأس الصفحة",
+      "title": "رأس المحمصة",
       "icon": "sicon-store",
-      "name": "page-bar",
+      "name": "roast-bar",
       "key": "4f37e5fd-c208-493e-8674-d1a8eb2baf2e",
       "image": "",
       "props": {
@@ -12,54 +12,253 @@
       },
       "fields": [
         {
-          "id": "announce",
-          "type": "string",
-          "format": "text",
-          "label": "الشريط الإعلاني",
-          "icon": "sicon-format-text-alt",
-          "multilanguage": true,
+          "id": "bars",
+          "type": "collection",
+          "format": "collection",
           "required": false,
-          "description": "يظهر فوق الشعار. اتركه فارغاً لإخفاء الشريط.",
           "minLength": 0,
-          "maxLength": 180,
-          "value": {
-            "ar": "تحميص أسبوعي · شحن للطلبات فوق ١٥٠ ر.س",
-            "en": "Roasted every week · shipping on orders over SAR 150"
-          }
-        },
-        {
-          "id": "announce_mode",
-          "type": "items",
-          "format": "dropdown-list",
-          "source": "Manual",
-          "label": "حركة الشريط",
-          "icon": "sicon-list",
-          "required": false,
-          "description": "المتحرك يمرّ الجملة باستمرار. الثابت يُبقيها في الوسط.",
-          "options": [
+          "maxLength": 5,
+          "item_label": "شريط",
+          "fields": [
             {
-              "label": "متحرك",
-              "value": "move",
-              "key": "a7e35c14-8f62-4d0e-9b59-6c2f1a4e8d05"
+              "id": "bars.text",
+              "type": "string",
+              "format": "text",
+              "label": "نص الشريط",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "required": false,
+              "description": null,
+              "minLength": 0,
+              "maxLength": 140,
+              "value": {
+                "ar": "",
+                "en": ""
+              }
             },
             {
-              "label": "ثابت",
-              "value": "still",
-              "key": "b8f46d25-9073-4e1f-8c60-7d3a2b5f9e16"
-            }
-          ],
-          "selected": [
+              "id": "bars.media",
+              "type": "items",
+              "format": "dropdown-list",
+              "source": "Manual",
+              "label": "بجانب النص",
+              "icon": "sicon-list",
+              "required": false,
+              "description": "اختر أيقونة من مكتبة سلة أو صورة صغيرة لمنتج أو شعار.",
+              "options": [
+                {
+                  "label": "بدون",
+                  "value": "none",
+                  "key": "f1864d11-6656-439b-82ca-8fbd737e697a"
+                },
+                {
+                  "label": "أيقونة",
+                  "value": "icon",
+                  "key": "2ea7f017-feb1-4891-8913-1ad51a055883"
+                },
+                {
+                  "label": "صورة مصغرة",
+                  "value": "image",
+                  "key": "bc917494-2524-4d34-8fc7-932a86d98df3"
+                }
+              ],
+              "selected": [
+                {
+                  "label": "أيقونة",
+                  "value": "icon",
+                  "key": "2ea7f017-feb1-4891-8913-1ad51a055883"
+                }
+              ],
+              "value": [
+                {
+                  "label": "أيقونة",
+                  "value": "icon",
+                  "key": "2ea7f017-feb1-4891-8913-1ad51a055883"
+                }
+              ]
+            },
             {
-              "label": "متحرك",
-              "value": "move",
-              "key": "a7e35c14-8f62-4d0e-9b59-6c2f1a4e8d05"
+              "id": "bars.icon",
+              "type": "string",
+              "format": "icon",
+              "label": "الأيقونة",
+              "icon": "sicon-star2",
+              "required": false,
+              "value": "sicon-megaphone"
+            },
+            {
+              "id": "bars.image",
+              "type": "string",
+              "format": "image",
+              "label": "الصورة المصغرة",
+              "icon": "sicon-image",
+              "required": false,
+              "description": "المقاس المقترح 112×112 بكسل، مربعة، تُقص دائرة، PNG أو WebP بخلفية شفافة أو صورة منتج. تظهر دائرة بقطر ٢٨ بكسل، فاجعل المهم في وسط الصورة. تُستخدم عند اختيار «صورة مصغرة» في «بجانب النص».",
+              "value": ""
+            },
+            {
+              "id": "bars.motion",
+              "type": "items",
+              "format": "dropdown-list",
+              "source": "Manual",
+              "label": "حركة الشريط",
+              "icon": "sicon-list",
+              "required": false,
+              "description": "المتحرك يمرّ الجملة باستمرار في الاتجاه المختار ويتوقف عند مرور المؤشر. الثابت يُبقيها في الوسط.",
+              "options": [
+                {
+                  "label": "متحرك لليمين →",
+                  "value": "right",
+                  "key": "73eb7d08-dbed-4436-bfe3-ac6a021fbec9"
+                },
+                {
+                  "label": "متحرك لليسار ←",
+                  "value": "left",
+                  "key": "fa90507b-c93e-4f4c-ae56-6386f82f1692"
+                },
+                {
+                  "label": "ثابت",
+                  "value": "still",
+                  "key": "7ef720c1-214f-4928-afc4-af8a478f5103"
+                }
+              ],
+              "selected": [
+                {
+                  "label": "متحرك لليمين →",
+                  "value": "right",
+                  "key": "73eb7d08-dbed-4436-bfe3-ac6a021fbec9"
+                }
+              ],
+              "value": [
+                {
+                  "label": "متحرك لليمين →",
+                  "value": "right",
+                  "key": "73eb7d08-dbed-4436-bfe3-ac6a021fbec9"
+                }
+              ]
+            },
+            {
+              "id": "bars.link",
+              "type": "string",
+              "format": "text",
+              "label": "رابط الشريط",
+              "icon": "sicon-link",
+              "multilanguage": false,
+              "required": false,
+              "description": "اختياري. يفتح عند الضغط على الشريط.",
+              "minLength": 0,
+              "maxLength": 500,
+              "value": ""
+            },
+            {
+              "id": "bars.bg",
+              "type": "string",
+              "format": "color",
+              "inputType": "color",
+              "label": "خلفية هذا الشريط",
+              "icon": "sicon-format-fill",
+              "required": false,
+              "description": null,
+              "value": ""
+            },
+            {
+              "id": "bars.ink",
+              "type": "string",
+              "format": "color",
+              "inputType": "color",
+              "label": "كتابة هذا الشريط",
+              "icon": "sicon-format-fill",
+              "required": false,
+              "description": null,
+              "value": ""
             }
           ],
           "value": [
             {
-              "label": "متحرك",
-              "value": "move",
-              "key": "a7e35c14-8f62-4d0e-9b59-6c2f1a4e8d05"
+              "bars.text": {
+                "ar": "تحميص أسبوعي كل أحد",
+                "en": "Roasted every Sunday"
+              },
+              "bars.media": [
+                {
+                  "label": "أيقونة",
+                  "value": "icon",
+                  "key": "2ea7f017-feb1-4891-8913-1ad51a055883"
+                }
+              ],
+              "bars.icon": "sicon-time",
+              "bars.image": "",
+              "bars.motion": [
+                {
+                  "label": "متحرك لليمين →",
+                  "value": "right",
+                  "key": "73eb7d08-dbed-4436-bfe3-ac6a021fbec9"
+                }
+              ],
+              "bars.link": "",
+              "bars.bg": "",
+              "bars.ink": ""
+            },
+            {
+              "bars.text": {
+                "ar": "وصل محصول إثيوبيا يرقاشيفي",
+                "en": "Ethiopia Yirgacheffe has landed"
+              },
+              "bars.media": [
+                {
+                  "label": "صورة مصغرة",
+                  "value": "image",
+                  "key": "bc917494-2524-4d34-8fc7-932a86d98df3"
+                }
+              ],
+              "bars.icon": "sicon-megaphone",
+              "bars.image": "https://images.pexels.com/photos/22938072/pexels-photo-22938072.jpeg?auto=compress&cs=tinysrgb&w=200",
+              "bars.motion": [
+                {
+                  "label": "ثابت",
+                  "value": "still",
+                  "key": "7ef720c1-214f-4928-afc4-af8a478f5103"
+                }
+              ],
+              "bars.link": "",
+              "bars.bg": "",
+              "bars.ink": ""
+            }
+          ]
+        },
+        {
+          "id": "bars_layout",
+          "type": "items",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "label": "عرض الأشرطة",
+          "icon": "sicon-list",
+          "required": false,
+          "description": "كل شريط في سطر يعرض الأشرطة فوق بعضها. شريط واحد يتبدل يعرض شريطاً كل ٤ ثوانٍ ويتوقف عند مرور المؤشر.",
+          "options": [
+            {
+              "label": "كل شريط في سطر",
+              "value": "stack",
+              "key": "135be97c-6c34-4adb-8bb3-cca3c25531ca"
+            },
+            {
+              "label": "شريط واحد يتبدل",
+              "value": "rotate",
+              "key": "a2371cd2-c830-4b2c-8f9b-17492c4e5cb1"
+            }
+          ],
+          "selected": [
+            {
+              "label": "كل شريط في سطر",
+              "value": "stack",
+              "key": "135be97c-6c34-4adb-8bb3-cca3c25531ca"
+            }
+          ],
+          "value": [
+            {
+              "label": "كل شريط في سطر",
+              "value": "stack",
+              "key": "135be97c-6c34-4adb-8bb3-cca3c25531ca"
             }
           ]
         },
@@ -180,10 +379,10 @@
           "value": [
             {
               "links.label": {
-                "ar": "الغلاف",
-                "en": "Cover"
+                "ar": "الدفعة",
+                "en": "Lot"
               },
-              "links.url": "#cf-cover"
+              "links.url": "#cf-slides"
             },
             {
               "links.label": {
@@ -213,7 +412,7 @@
           "label": "خط الصفحة",
           "icon": "sicon-toggle-off",
           "required": false,
-          "description": "الافتراضي خط المتجر من سلة، مثل سيليا. فعّله فقط إذا أردت خط نوتو كوفي وآي بي إم بلكس.",
+          "description": "الافتراضي خط المتجر من سلة، فعّله فقط إذا أردت خط نوتو كوفي وآي بي إم بلكس.",
           "value": false,
           "selected": false
         },
@@ -335,20 +534,20 @@
       ]
     },
     {
-      "title": "غلاف التحميص",
+      "title": "سلايدر المحمصة",
       "icon": "sicon-image",
-      "name": "roast-cover",
-      "key": "9350ec31-b313-4978-b3a0-4531cdb9b773",
+      "name": "roast-slider",
+      "key": "a6ee3d10-55a7-4998-ad28-11d09ce01e79",
       "image": "",
       "props": {
-        "min-height": "640px"
+        "min-height": "560px"
       },
       "fields": [
         {
-          "id": "stamp",
+          "id": "title",
           "type": "string",
           "format": "text",
-          "label": "الختم",
+          "label": "اسم القسم",
           "icon": "sicon-format-text-alt",
           "multilanguage": true,
           "required": false,
@@ -356,167 +555,47 @@
           "minLength": 0,
           "maxLength": 180,
           "value": {
-            "ar": "نحمّص الاثنين والخميس · الرياض",
-            "en": "Roasted Monday and Thursday · Riyadh"
+            "ar": "شرائح المحمصة",
+            "en": "Roastery slides"
           }
         },
         {
-          "id": "title_before",
-          "type": "string",
-          "format": "text",
-          "label": "سطر العنوان الأول",
-          "icon": "sicon-format-text-alt",
-          "multilanguage": true,
-          "required": false,
-          "description": null,
-          "minLength": 0,
-          "maxLength": 180,
-          "value": {
-            "ar": "قهوة تُحمَّص",
-            "en": "Coffee roasted"
-          }
-        },
-        {
-          "id": "title_mid",
-          "type": "string",
-          "format": "text",
-          "label": "بداية السطر الثاني",
-          "icon": "sicon-format-text-alt",
-          "multilanguage": true,
-          "required": false,
-          "description": null,
-          "minLength": 0,
-          "maxLength": 180,
-          "value": {
-            "ar": "قبل",
-            "en": "within"
-          }
-        },
-        {
-          "id": "title_accent",
-          "type": "string",
-          "format": "text",
-          "label": "الكلمة المميزة",
-          "icon": "sicon-format-text-alt",
-          "multilanguage": true,
-          "required": false,
-          "description": null,
-          "minLength": 0,
-          "maxLength": 180,
-          "value": {
-            "ar": "٢٤ ساعة",
-            "en": "24 hours"
-          }
-        },
-        {
-          "id": "title_after",
-          "type": "string",
-          "format": "text",
-          "label": "السطر الأخير",
-          "icon": "sicon-format-text-alt",
-          "multilanguage": true,
-          "required": false,
-          "description": null,
-          "minLength": 0,
-          "maxLength": 180,
-          "value": {
-            "ar": "من وصولها",
-            "en": "of arrival"
-          }
-        },
-        {
-          "id": "text",
-          "type": "string",
-          "format": "textarea",
-          "label": "النص",
-          "icon": "sicon-paragraph",
-          "multilanguage": true,
-          "required": false,
-          "description": null,
-          "minLength": 0,
-          "maxLength": 800,
-          "value": {
-            "ar": "لا مخزون راكد ولا أكياس عمرها شهور. نطحنها عند الطلب أو نُرسلها حبّاً كاملاً، ونكتب تاريخ التحميص على الكيس.",
-            "en": "No stale stock and no bags that sat for months. We grind to order or send it whole, and write the roast date on the bag."
-          }
-        },
-        {
-          "id": "cv-cta",
-          "type": "static",
-          "format": "line"
-        },
-        {
-          "id": "primary_label",
-          "type": "string",
-          "format": "text",
-          "label": "نص الزر",
-          "icon": "sicon-format-text-alt",
-          "multilanguage": true,
-          "required": false,
-          "description": null,
-          "minLength": 0,
-          "maxLength": 180,
-          "value": {
-            "ar": "اطلب هذه الدفعة",
-            "en": "Order this batch"
-          }
-        },
-        {
-          "id": "primary_url",
-          "type": "string",
-          "format": "text",
-          "label": "رابط الزر",
-          "icon": "sicon-link",
-          "multilanguage": false,
-          "required": false,
-          "description": "في صفحة منتج يفتح الشراء السريع. في صفحة العروض يتبع رابط زر الصفحة، أو هذا الرابط إن وضعته.",
-          "minLength": 0,
-          "maxLength": 500,
-          "value": ""
-        },
-        {
-          "id": "secondary_label",
-          "type": "string",
-          "format": "text",
-          "label": "نص الزر الثاني",
-          "icon": "sicon-format-text-alt",
-          "multilanguage": true,
-          "required": false,
-          "description": null,
-          "minLength": 0,
-          "maxLength": 180,
-          "value": {
-            "ar": "",
-            "en": ""
-          }
-        },
-        {
-          "id": "secondary_url",
-          "type": "string",
-          "format": "text",
-          "label": "رابط الزر الثاني",
-          "icon": "sicon-link",
-          "multilanguage": false,
-          "required": false,
-          "description": "رابط داخل الصفحة مثل #cf-order، أو رابط كامل يبدأ بـ https.",
-          "minLength": 0,
-          "maxLength": 500,
-          "value": ""
-        },
-        {
-          "id": "stats",
+          "id": "items",
           "type": "collection",
           "format": "collection",
-          "required": false,
-          "minLength": 0,
-          "maxLength": 4,
-          "item_label": "رقم",
+          "required": true,
+          "minLength": 1,
+          "maxLength": 6,
+          "item_label": "شريحة",
           "fields": [
             {
-              "id": "stats.label",
+              "id": "items.image",
+              "type": "string",
+              "format": "image",
+              "label": "الصورة",
+              "icon": "sicon-image",
+              "required": false,
+              "description": "المقاس المقترح 1920×1080 بكسل. مع الفيديو تظهر كغلاف قبل التشغيل.",
+              "value": ""
+            },
+            {
+              "id": "items.video",
               "type": "string",
               "format": "text",
-              "label": "التسمية",
+              "label": "فيديو الشريحة (اختياري)",
+              "icon": "sicon-link",
+              "multilanguage": false,
+              "required": false,
+              "description": "رابط ملف MP4 أو يوتيوب أو فيميو. يعمل بلا صوت، والصورة تظهر قبل تحميله. الشريحة تنتقل عند انتهاء الملف.",
+              "minLength": 0,
+              "maxLength": 500,
+              "value": ""
+            },
+            {
+              "id": "items.alt",
+              "type": "string",
+              "format": "text",
+              "label": "وصف الصورة",
               "icon": "sicon-format-text-alt",
               "multilanguage": true,
               "required": false,
@@ -524,15 +603,31 @@
               "minLength": 0,
               "maxLength": 180,
               "value": {
-                "ar": "الدفعة الحالية",
-                "en": "Current batch"
+                "ar": "القهوة في المحمصة",
+                "en": "Coffee at the roastery"
               }
             },
             {
-              "id": "stats.value",
+              "id": "items.tag",
               "type": "string",
               "format": "text",
-              "label": "القيمة",
+              "label": "وسم البطاقة",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "required": false,
+              "description": null,
+              "minLength": 0,
+              "maxLength": 16,
+              "value": {
+                "ar": "دفعة",
+                "en": "LOT"
+              }
+            },
+            {
+              "id": "items.title",
+              "type": "string",
+              "format": "text",
+              "label": "العنوان",
               "icon": "sicon-format-text-alt",
               "multilanguage": true,
               "required": false,
@@ -540,51 +635,129 @@
               "minLength": 0,
               "maxLength": 180,
               "value": {
-                "ar": "٤ مناشئ",
-                "en": "4 origins"
+                "ar": "تحميص الاثنين والخميس",
+                "en": "Roasted Monday and Thursday"
               }
+            },
+            {
+              "id": "items.text",
+              "type": "string",
+              "format": "textarea",
+              "label": "النص",
+              "icon": "sicon-paragraph",
+              "multilanguage": true,
+              "required": false,
+              "description": null,
+              "minLength": 0,
+              "maxLength": 800,
+              "value": {
+                "ar": "جملة واحدة عن الدفعة أو العرض.",
+                "en": "One sentence about the lot or the offer."
+              }
+            },
+            {
+              "id": "items.button",
+              "type": "string",
+              "format": "text",
+              "label": "نص الزر",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "required": false,
+              "description": null,
+              "minLength": 0,
+              "maxLength": 180,
+              "value": {
+                "ar": "اطلب الدفعة",
+                "en": "Order the lot"
+              }
+            },
+            {
+              "id": "items.url",
+              "type": "string",
+              "format": "text",
+              "label": "رابط الزر",
+              "icon": "sicon-link",
+              "multilanguage": false,
+              "required": false,
+              "description": "في صفحة منتج يفتح الشراء السريع. في صفحة العروض يتبع رابط زر الصفحة، أو هذا الرابط إن وضعته.",
+              "minLength": 0,
+              "maxLength": 500,
+              "value": ""
             }
           ],
           "value": [
             {
-              "stats.label": {
-                "ar": "الدفعة الحالية",
-                "en": "Current batch"
+              "items.image": "https://images.pexels.com/photos/2159095/pexels-photo-2159095.jpeg?auto=compress&cs=tinysrgb&w=1600",
+              "items.video": "https://videos.pexels.com/video-files/4052732/4052732-sd_640_360_25fps.mp4",
+              "items.alt": {
+                "ar": "باريستا يصب القهوة المقطرة في كوب زجاجي",
+                "en": "A barista pouring brewed coffee into a glass"
               },
-              "stats.value": {
-                "ar": "١٤٤٧/٠٥/١١",
-                "en": "11/05"
-              }
+              "items.tag": {
+                "ar": "الآن",
+                "en": "NOW"
+              },
+              "items.title": {
+                "ar": "دفعة الأسبوع خرجت من المحمصة صباح اليوم",
+                "en": "This week's lot left the roaster this morning"
+              },
+              "items.text": {
+                "ar": "نحمّص بعد الطلب، ونطبع تاريخ التحميص على الكيس.",
+                "en": "We roast after the order and print the roast date on the bag."
+              },
+              "items.button": {
+                "ar": "اطلب الدفعة",
+                "en": "Order the lot"
+              },
+              "items.url": "#cf-order"
             },
             {
-              "stats.label": {
-                "ar": "المحصول",
-                "en": "Crop"
+              "items.image": "https://images.pexels.com/photos/31890552/pexels-photo-31890552.jpeg?auto=compress&cs=tinysrgb&w=1600",
+              "items.alt": {
+                "ar": "حبوب تخرج ساخنة من آلة التحميص",
+                "en": "Hot beans pouring out of the roaster"
               },
-              "stats.value": {
-                "ar": "٤ مناشئ",
-                "en": "4 origins"
-              }
+              "items.tag": {
+                "ar": "منشأ",
+                "en": "ORIGIN"
+              },
+              "items.title": {
+                "ar": "إثيوبيا يرقاشيفي: ياسمين وليمون",
+                "en": "Ethiopia Yirgacheffe: jasmine and lemon"
+              },
+              "items.text": {
+                "ar": "تحميص فاتح يناسب الـ V60 والتقطير.",
+                "en": "A light roast for V60 and drip."
+              },
+              "items.button": {
+                "ar": "اقرأ ملف المنشأ",
+                "en": "Read the origin card"
+              },
+              "items.url": "#cf-origin"
             },
             {
-              "stats.label": {
-                "ar": "الشحن",
-                "en": "Shipping"
+              "items.image": "https://images.pexels.com/photos/30146018/pexels-photo-30146018.jpeg?auto=compress&cs=tinysrgb&w=1600",
+              "items.alt": {
+                "ar": "صب القهوة السعودية من دلة نحاسية",
+                "en": "Saudi coffee poured from a brass dallah"
               },
-              "stats.value": {
-                "ar": "٤٨ ساعة",
-                "en": "48 hours"
-              }
-            },
-            {
-              "stats.label": {
-                "ar": "التقييم",
-                "en": "Rating"
+              "items.tag": {
+                "ar": "سعودي",
+                "en": "SAUDI"
               },
-              "stats.value": {
-                "ar": "٤٫٨ / ٥",
-                "en": "4.8 / 5"
-              }
+              "items.title": {
+                "ar": "قهوة سعودية بالهيل والزعفران",
+                "en": "Saudi coffee with cardamom and saffron"
+              },
+              "items.text": {
+                "ar": "بن خولاني من جبال جازان بتحميص أشقر، يُطحن على مقاس الدلة. في الاشتراك كل أسبوعين توفّر ٨ ر.س في الكيس.",
+                "en": "Khawlani beans from the Jazan mountains in a blonde roast, ground for the dallah. A two-week plan saves SAR 8 a bag."
+              },
+              "items.button": {
+                "ar": "اطلب القهوة السعودية",
+                "en": "Order the Saudi coffee"
+              },
+              "items.url": "#cf-order"
             }
           ]
         },
@@ -1014,6 +1187,294 @@
       ]
     },
     {
+      "title": "ريلز المحمصة",
+      "icon": "sicon-play",
+      "name": "brew-reels",
+      "key": "380a3c83-78cd-4bde-80a9-4dd38c1c2111",
+      "image": "",
+      "props": {
+        "min-height": "520px"
+      },
+      "fields": [
+        {
+          "id": "kicker",
+          "type": "string",
+          "format": "text",
+          "label": "السطر العلوي",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": {
+            "ar": "من البار",
+            "en": "From the bar"
+          }
+        },
+        {
+          "id": "title",
+          "type": "string",
+          "format": "text",
+          "label": "العنوان",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": {
+            "ar": "مقاطع قصيرة من المحمصة",
+            "en": "Short clips from the roastery"
+          }
+        },
+        {
+          "id": "text",
+          "type": "string",
+          "format": "textarea",
+          "label": "النص",
+          "icon": "sicon-paragraph",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 800,
+          "value": {
+            "ar": "المقطع يعمل بلا صوت وأنت تمرّر. اضغط عليه ليعمل بالصوت.",
+            "en": "Clips play silently as you scroll. Tap one to hear it."
+          }
+        },
+        {
+          "id": "items",
+          "type": "collection",
+          "format": "collection",
+          "required": true,
+          "minLength": 1,
+          "maxLength": 10,
+          "item_label": "مقطع",
+          "fields": [
+            {
+              "id": "items.video",
+              "type": "string",
+              "format": "text",
+              "label": "رابط الفيديو",
+              "icon": "sicon-link",
+              "multilanguage": false,
+              "required": false,
+              "description": "رابط ملف MP4 أو يوتيوب أو فيميو. يعمل بلا صوت، والصورة تظهر قبل تحميله. الأفضل مقطع طولي ٩:١٦.",
+              "minLength": 0,
+              "maxLength": 500,
+              "value": ""
+            },
+            {
+              "id": "items.poster",
+              "type": "string",
+              "format": "image",
+              "label": "صورة الغلاف",
+              "icon": "sicon-image",
+              "required": false,
+              "description": "المقاس المقترح 720×1280 بكسل.",
+              "value": ""
+            },
+            {
+              "id": "items.name",
+              "type": "string",
+              "format": "text",
+              "label": "العنوان",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "required": false,
+              "description": null,
+              "minLength": 0,
+              "maxLength": 180,
+              "value": {
+                "ar": "صب V60",
+                "en": "V60 pour"
+              }
+            },
+            {
+              "id": "items.note",
+              "type": "string",
+              "format": "text",
+              "label": "سطر صغير",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "required": false,
+              "description": null,
+              "minLength": 0,
+              "maxLength": 180,
+              "value": {
+                "ar": "دفعة إثيوبيا",
+                "en": "Ethiopia lot"
+              }
+            },
+            {
+              "id": "items.price",
+              "type": "string",
+              "format": "text",
+              "label": "السعر",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "required": false,
+              "description": null,
+              "minLength": 0,
+              "maxLength": 30,
+              "value": {
+                "ar": "٨٥ ر.س",
+                "en": "SAR 85"
+              }
+            },
+            {
+              "id": "items.button",
+              "type": "string",
+              "format": "text",
+              "label": "نص الزر",
+              "icon": "sicon-format-text-alt",
+              "multilanguage": true,
+              "required": false,
+              "description": null,
+              "minLength": 0,
+              "maxLength": 30,
+              "value": {
+                "ar": "اطلب",
+                "en": "Order"
+              }
+            },
+            {
+              "id": "items.url",
+              "type": "string",
+              "format": "text",
+              "label": "رابط الزر",
+              "icon": "sicon-link",
+              "multilanguage": false,
+              "required": false,
+              "description": "في صفحة منتج يفتح الشراء السريع. في صفحة العروض يتبع رابط زر الصفحة، أو هذا الرابط إن وضعته.",
+              "minLength": 0,
+              "maxLength": 500,
+              "value": ""
+            }
+          ],
+          "value": [
+            {
+              "items.video": "https://videos.pexels.com/video-files/7658031/7658031-sd_360_640_25fps.mp4",
+              "items.poster": "https://images.pexels.com/photos/31890551/pexels-photo-31890551.jpeg?auto=compress&cs=tinysrgb&w=800",
+              "items.name": {
+                "ar": "خروج الدفعة من المحمصة",
+                "en": "The lot leaves the roaster"
+              },
+              "items.note": {
+                "ar": "تحميص فاتح · إثيوبيا",
+                "en": "Light roast · Ethiopia"
+              },
+              "items.price": {
+                "ar": "٨٥ ر.س",
+                "en": "SAR 85"
+              },
+              "items.button": {
+                "ar": "اطلب",
+                "en": "Order"
+              },
+              "items.url": "#cf-order"
+            },
+            {
+              "items.video": "https://videos.pexels.com/video-files/4052732/4052732-sd_640_360_25fps.mp4",
+              "items.poster": "https://images.pexels.com/photos/22223105/pexels-photo-22223105.jpeg?auto=compress&cs=tinysrgb&w=800",
+              "items.name": {
+                "ar": "لاتيه بحليب كامل",
+                "en": "A whole-milk latte"
+              },
+              "items.note": {
+                "ar": "كولومبيا هويلا",
+                "en": "Colombia Huila"
+              },
+              "items.price": {
+                "ar": "٧٢ ر.س",
+                "en": "SAR 72"
+              },
+              "items.button": {
+                "ar": "اطلب",
+                "en": "Order"
+              },
+              "items.url": "#cf-order"
+            },
+            {
+              "items.video": "https://videos.pexels.com/video-files/5540811/5540811-sd_640_360_24fps.mp4",
+              "items.poster": "https://images.pexels.com/photos/31523243/pexels-photo-31523243.jpeg?auto=compress&cs=tinysrgb&w=800",
+              "items.name": {
+                "ar": "كابتشينو الصباح",
+                "en": "The morning cappuccino"
+              },
+              "items.note": {
+                "ar": "كينيا نييري",
+                "en": "Kenya Nyeri"
+              },
+              "items.price": {
+                "ar": "٩٨ ر.س",
+                "en": "SAR 98"
+              },
+              "items.button": {
+                "ar": "اطلب",
+                "en": "Order"
+              },
+              "items.url": "#cf-order"
+            }
+          ]
+        },
+        {
+          "id": "bg_color",
+          "type": "string",
+          "format": "color",
+          "inputType": "color",
+          "label": "لون الخلفية",
+          "icon": "sicon-format-fill",
+          "required": false,
+          "description": null,
+          "value": ""
+        },
+        {
+          "id": "color_scheme",
+          "type": "items",
+          "format": "dropdown-list",
+          "source": "Manual",
+          "label": "وضع الألوان",
+          "icon": "sicon-list",
+          "required": false,
+          "description": "حسب رأس الصفحة يتبع زر الفاتح والداكن. الفاتح أو الداكن يثبت القسم ولا يتأثر بالزر.",
+          "options": [
+            {
+              "label": "حسب رأس الصفحة",
+              "value": "auto",
+              "key": "aba537d7-7975-4cf9-9204-144fe169765c"
+            },
+            {
+              "label": "فاتح دائماً",
+              "value": "light",
+              "key": "eddf3f7a-ea54-41a0-a9d4-160e3f016214"
+            },
+            {
+              "label": "داكن دائماً",
+              "value": "dark",
+              "key": "6dc412cc-3bb0-4cc2-bf5b-ef4b9bb137f6"
+            }
+          ],
+          "selected": [
+            {
+              "label": "حسب رأس الصفحة",
+              "value": "auto",
+              "key": "aba537d7-7975-4cf9-9204-144fe169765c"
+            }
+          ],
+          "value": [
+            {
+              "label": "حسب رأس الصفحة",
+              "value": "auto",
+              "key": "aba537d7-7975-4cf9-9204-144fe169765c"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "title": "طلب الكيس",
       "icon": "sicon-box",
       "name": "bag-order",
@@ -1339,22 +1800,6 @@
           }
         },
         {
-          "id": "dock_label",
-          "type": "string",
-          "format": "text",
-          "label": "نص الشريط السفلي",
-          "icon": "sicon-format-text-alt",
-          "multilanguage": true,
-          "required": false,
-          "description": null,
-          "minLength": 0,
-          "maxLength": 180,
-          "value": {
-            "ar": "اطلب",
-            "en": "Order"
-          }
-        },
-        {
           "id": "facts",
           "type": "collection",
           "format": "collection",
@@ -1413,8 +1858,8 @@
                 "en": "Free shipping above"
               },
               "facts.value": {
-                "ar": "٢٠٠ ر.س",
-                "en": "SAR 200"
+                "ar": "١٥٠ ر.س",
+                "en": "SAR 150"
               }
             },
             {
@@ -1559,9 +2004,9 @@
       ]
     },
     {
-      "title": "إحصائيات",
+      "title": "أرقام المحمصة (إحصائيات)",
       "icon": "sicon-calculator",
-      "name": "stat-strip",
+      "name": "roast-tally",
       "key": "9b4cae02-f39d-4ab8-8fc9-c7e1a3df8190",
       "image": "",
       "props": {
@@ -1615,6 +2060,17 @@
             "ar": "",
             "en": ""
           }
+        },
+        {
+          "id": "count_up",
+          "type": "boolean",
+          "format": "switch",
+          "label": "حركة العد",
+          "icon": "sicon-toggle-off",
+          "required": false,
+          "description": "الأرقام تعدّ من الصفر أول ما يظهر القسم. النص حول الرقم يبقى كما هو.",
+          "value": true,
+          "selected": true
         },
         {
           "id": "items",
@@ -1671,8 +2127,8 @@
             },
             {
               "items.value": {
-                "ar": "٦ مناشئ",
-                "en": "6 origins"
+                "ar": "٤ مناشئ",
+                "en": "4 origins"
               },
               "items.label": {
                 "ar": "في قائمة الأسبوع",
@@ -1746,9 +2202,9 @@
       ]
     },
     {
-      "title": "الماركات التجارية",
+      "title": "تذاكر المناشئ (الماركات)",
       "icon": "sicon-star2",
-      "name": "brand-row",
+      "name": "lot-tickets",
       "key": "ac5dbf13-04ae-4bc9-9ada-d8f2b4e092a1",
       "image": "",
       "props": {
@@ -1783,8 +2239,8 @@
           "minLength": 0,
           "maxLength": 180,
           "value": {
-            "ar": "ماركات البن",
-            "en": "Coffee lots"
+            "ar": "مزارع نشتري منها",
+            "en": "Farms we buy from"
           }
         },
         {
@@ -1876,8 +2332,8 @@
                 "en": "Ethiopia"
               },
               "items.note": {
-                "ar": "يقري شيف",
-                "en": "Yirgacheffe"
+                "ar": "يرقاشيفي · غسيل",
+                "en": "Yirgacheffe · washed"
               },
               "items.url": ""
             },
@@ -1888,20 +2344,8 @@
                 "en": "Colombia"
               },
               "items.note": {
-                "ar": "هويلا",
-                "en": "Huila"
-              },
-              "items.url": ""
-            },
-            {
-              "items.image": "",
-              "items.name": {
-                "ar": "البرازيل",
-                "en": "Brazil"
-              },
-              "items.note": {
-                "ar": "سيررادو",
-                "en": "Cerrado"
+                "ar": "هويلا · غسيل",
+                "en": "Huila · washed"
               },
               "items.url": ""
             },
@@ -1912,8 +2356,20 @@
                 "en": "Kenya"
               },
               "items.note": {
-                "ar": "غسل مزدوج",
-                "en": "Double washed"
+                "ar": "نييري · AA",
+                "en": "Nyeri · AA"
+              },
+              "items.url": ""
+            },
+            {
+              "items.image": "",
+              "items.name": {
+                "ar": "اليمن",
+                "en": "Yemen"
+              },
+              "items.note": {
+                "ar": "حراز · طبيعي",
+                "en": "Haraz · natural"
               },
               "items.url": ""
             }
@@ -1974,9 +2430,9 @@
       ]
     },
     {
-      "title": "شركاء النجاح",
+      "title": "إيصال الموردين (شركاء النجاح)",
       "icon": "sicon-store",
-      "name": "partner-row",
+      "name": "supply-ledger",
       "key": "bd6ec024-15bf-4cda-8beb-e9a3c5f1a3b2",
       "image": "",
       "props": {
@@ -2027,8 +2483,24 @@
           "minLength": 0,
           "maxLength": 180,
           "value": {
-            "ar": "",
-            "en": ""
+            "ar": "إيصال الشركاء",
+            "en": "Partner slip"
+          }
+        },
+        {
+          "id": "note",
+          "type": "string",
+          "format": "text",
+          "label": "سطر أسفل القائمة",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "description": null,
+          "minLength": 0,
+          "maxLength": 180,
+          "value": {
+            "ar": "شكراً لكل يد في الكوب",
+            "en": "Thanks to every hand in the cup"
           }
         },
         {
@@ -2189,9 +2661,9 @@
       ]
     },
     {
-      "title": "التواصل السريع",
+      "title": "خط المحمصة (تواصل سريع)",
       "icon": "sicon-link",
-      "name": "quick-contact",
+      "name": "roaster-line",
       "key": "ce7fd135-26c0-4deb-9cfc-fab4d602b4c3",
       "image": "",
       "props": {
@@ -2452,9 +2924,9 @@
       ]
     },
     {
-      "title": "فوتر الصفحة",
+      "title": "فوتر المحمصة",
       "icon": "sicon-link",
-      "name": "page-footer",
+      "name": "roast-footer",
       "key": "108e7db7-0541-4f65-9510-988f11178672",
       "image": "",
       "props": {

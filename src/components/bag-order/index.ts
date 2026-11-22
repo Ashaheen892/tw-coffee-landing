@@ -22,10 +22,6 @@ const css = `
 .cf-stack .cf-btn { width: 100%; }
 .cf-pay { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 16px; }
 .cf-pay span { border: 2px solid var(--line); padding: 6px 11px; font-size: .74rem; color: var(--crema); }
-.cf-dock { position: fixed; z-index: 45; inset-inline: 0; bottom: 0; display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 58px; padding: 8px 16px calc(8px + env(safe-area-inset-bottom, 0px)); border-block-start: 2px solid var(--line); background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(8px); }
-.cf-dock b { font-family: var(--disp); }
-.cf-dock .cf-btn { min-height: 42px; padding-inline: 18px; }
-body:has(.cf-dock) { padding-bottom: 70px; }
 @container (max-width: 800px) { .cf-order { grid-template-columns: 1fr; } }
 `;
 
@@ -34,9 +30,7 @@ export default class BagOrder extends LitElement {
   @state() private weight = 250;
   @state() private grind = "whole";
   @state() private brew = brewState();
-  @state() private away = false;
   private stop = () => {};
-  private seen?: IntersectionObserver;
 
   protected createRenderRoot() {
     return this;
@@ -58,17 +52,7 @@ export default class BagOrder extends LitElement {
 
   disconnectedCallback() {
     this.stop();
-    this.seen?.disconnect();
     super.disconnectedCallback();
-  }
-
-  protected updated() {
-    const section = this.querySelector("#cf-order");
-    if (!section || this.seen) return;
-    this.seen = new IntersectionObserver(([entry]) => {
-      this.away = !entry.isIntersecting;
-    }, { threshold: 0.35 });
-    this.seen.observe(section);
   }
 
   render() {
@@ -139,10 +123,6 @@ export default class BagOrder extends LitElement {
           </div>
         </div>
       </div>
-      ${this.away ? html`<div class="cf-dock">
-        <span>${localizedString(cfg.dock_label) || t({ ar: "اطلب", en: "Order" })} — <b>${priceText}</b></span>
-        <a class="cf-btn" href="#cf-order">${localizedString(cfg.button_label) || t({ ar: "أضف إلى السلة", en: "Add to cart" })}</a>
-      </div>` : nothing}
     </section>`;
   }
 }

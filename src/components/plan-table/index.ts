@@ -14,7 +14,7 @@ const css = `
 .cf-tbl .pv { font-family: var(--disp); font-weight: 900; font-size: 1.25rem; color: var(--amber); }
 .cf-yes { color: var(--amber); font-weight: 700; }
 .cf-no { color: var(--line-2); }
-.cf-note { margin-top: 14px; font-size: .82rem; color: var(--mute); }
+.cf-fine { margin-top: 14px; font-size: .82rem; color: var(--mute); }
 `;
 
 function cell(value: string) {
@@ -77,7 +77,7 @@ export default class PlanTable extends LitElement {
             </tbody>
           </table>
         </div>
-        ${localizedString(cfg.note) ? html`<p class="cf-note">${localizedString(cfg.note)}</p>` : nothing}
+        ${localizedString(cfg.note) ? html`<p class="cf-fine">${localizedString(cfg.note)}</p>` : nothing}
         ${localizedString(cfg.button_label) ? html`<div class="cf-actions"><a class="cf-btn" href="#cf-order">${localizedString(cfg.button_label)}</a></div>` : nothing}` : html`<p class="cf-empty">${t({ ar: "أضف صفوف المقارنة من الإعدادات", en: "Add comparison rows in the settings" })}</p>`}
       </div>
     </section>`;

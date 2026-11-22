@@ -1,7 +1,7 @@
 import { html, LitElement, nothing } from "lit";
 import { property, state } from "lit/decorators.js";
 import { flag, getCollectionItems, getConfig, linkHref, localizedString, t, unwrapValue, watchLocale } from "../../utils/config.js";
-import { announceBar, announceCss } from "../../utils/announce.js";
+import { announceCss, announceStrips, announceTone, rotateStrips, stopStrips } from "../../utils/announce.js";
 import { applyTone, currentTone, savedTone, schemeOf } from "../../utils/landing.js";
 import { baseCss, injectFonts, injectStyles, sectionStyle, setKitFont } from "../../utils/styles.js";
 
@@ -46,7 +46,7 @@ export default class PageBar extends LitElement {
     this.classList.add("cf-host");
     injectFonts();
     injectStyles("cf-base", baseCss);
-    injectStyles("cf-announce", announceCss("cf"));
+    injectStyles("cf-announce", announceCss("cf", "bean"));
     injectStyles("cf-page-bar", css);
     const stopLocale = watchLocale(this);
     const onTone = () => { this.dark = currentTone() === "dark"; };
@@ -69,11 +69,13 @@ export default class PageBar extends LitElement {
   }
 
   disconnectedCallback() {
+    stopStrips(this, "cf");
     this.stop();
     super.disconnectedCallback();
   }
 
   protected updated() {
+    rotateStrips(this, "cf");
     this.pin();
   }
 
@@ -171,13 +173,13 @@ export default class PageBar extends LitElement {
 
   render() {
     const cfg = getConfig(this.config);
-    const brand = localizedString(cfg.brand) || t({ ar: "مجموعة القهوة", en: "Coffee Group" });
+    const brand = localizedString(cfg.brand) || ((window as any).Salla?.config?.get?.("store.name") as string) || "";
     const mark = localizedString(cfg.mark);
     const links = getCollectionItems<Record<string, any>>(cfg.links, "links")
       .map((item) => ({ label: localizedString(item.label), url: linkHref(item.url) || "#" }))
       .filter((item) => item.label);
     const logo = (this.dark && cfg.logo_dark) || cfg.logo;
-    return html`${announceBar(cfg, "cf", `cf-root ${schemeOf(cfg)}`, "--ann-bg:var(--amber);--ann-ink:#1c140e")}
+    return html`${announceStrips(cfg, "cf", "bean", `cf-root ${schemeOf(cfg)}`, announceTone(cfg))}
     <header class=${`cf-root cf-bar ${schemeOf(cfg)}`} style=${sectionStyle(cfg)}>
       <nav class="cf-nav cf-wrap ${this.open ? "is-open" : ""}">
         <a href=${linkHref(cfg.home_url) || "#cf-cover"} class="cf-logo" aria-label=${brand}>

@@ -85,6 +85,8 @@ html.cf-kit-font .cf-root { --disp:'Noto Kufi Arabic',system-ui,sans-serif; --bo
 .cf-root *, .cf-root *::before, .cf-root *::after { box-sizing: border-box; }
 .cf-root img { max-width: 100%; display: block; }
 .cf-root a { color: inherit; text-decoration: none; }
+.cf-root a.cf-btn { color: var(--color-primary-reverse, var(--on-rust)); }
+.cf-root a.cf-btn.ghost { color: var(--ink); }
 .cf-root h1, .cf-root h2, .cf-root h3, .cf-root p, .cf-root ul, .cf-root dl { margin: 0; }
 .cf-root ul { list-style: none; padding: 0; }
 .cf-root button, .cf-root a, .cf-root input { font: inherit; }

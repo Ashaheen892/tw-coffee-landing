@@ -466,16 +466,16 @@
           ],
           "selected": [
             {
-              "label": "داكن",
-              "value": "dark",
-              "key": "e79765e5-ebc1-4401-ab5a-7e274858f318"
+              "label": "فاتح",
+              "value": "light",
+              "key": "75b8c3a6-7078-4420-af7e-8728ca4b243a"
             }
           ],
           "value": [
             {
-              "label": "داكن",
-              "value": "dark",
-              "key": "e79765e5-ebc1-4401-ab5a-7e274858f318"
+              "label": "فاتح",
+              "value": "light",
+              "key": "75b8c3a6-7078-4420-af7e-8728ca4b243a"
             }
           ]
         },

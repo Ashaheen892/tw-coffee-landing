@@ -45,7 +45,7 @@ const num = (id, label, value, min, max, desc = null) => ({
   required: false, description: desc, minimum: min, maximum: max, value,
 });
 const icon = (id, label, value) => ({
-  id, type: "string", format: "icon", label, icon: "sicon-star2", required: false, class: "form--inline", value,
+  id, type: "string", format: "icon", label, icon: "sicon-star2", required: false, value,
 });
 const collection = (id, itemLabel, fields, value, min, max) => ({
   id, type: "collection", format: "collection", required: min > 0, minLength: min, maxLength: max,
@@ -106,7 +106,7 @@ const components = [
       collection("bars", "شريط", [
         text("text", "نص الشريط", L("", ""), { max: 140 }),
         drop("media", "بجانب النص", [["none", "بدون", "f1864d11-6656-439b-82ca-8fbd737e697a"], ["icon", "أيقونة", "2ea7f017-feb1-4891-8913-1ad51a055883"], ["image", "صورة مصغرة", "bc917494-2524-4d34-8fc7-932a86d98df3"]], "icon", "اختر أيقونة من مكتبة سلة أو صورة صغيرة لمنتج أو شعار."),
-        { ...icon("icon", "الأيقونة", "sicon-megaphone"), class: undefined },
+        icon("icon", "الأيقونة", "sicon-megaphone"),
         image("image", "الصورة المصغرة", "المقاس المقترح 112×112 بكسل، مربعة، تُقص دائرة، PNG أو WebP بخلفية شفافة أو صورة منتج. تظهر دائرة بقطر ٢٨ بكسل، فاجعل المهم في وسط الصورة. تُستخدم عند اختيار «صورة مصغرة» في «بجانب النص»."),
         drop("motion", "حركة الشريط", [["right", "متحرك لليمين →", "73eb7d08-dbed-4436-bfe3-ac6a021fbec9"], ["left", "متحرك لليسار ←", "fa90507b-c93e-4f4c-ae56-6386f82f1692"], ["still", "ثابت", "7ef720c1-214f-4928-afc4-af8a478f5103"]], "right", "المتحرك يمرّ الجملة باستمرار في الاتجاه المختار ويتوقف عند مرور المؤشر. الثابت يُبقيها في الوسط."),
         url("link", "رابط الشريط", "", "اختياري. يفتح عند الضغط على الشريط."),
@@ -138,7 +138,7 @@ const components = [
       sw("use_kit_font", "خط الصفحة", false, "الافتراضي خط المتجر من سلة، فعّله فقط إذا أردت خط نوتو كوفي وآي بي إم بلكس."),
       sw("sticky", "تثبيت الرأس عند التمرير", true),
       sw("show_mode_toggle", "زر الفاتح والداكن", true, "أيقونة تتبدل بين القمر والشمس، وتبدّل الأقسام المضبوطة على حسب الصفحة."),
-      drop("default_mode", "وضع الصفحة عند الفتح", [["light", "فاتح", KEY.modeLight], ["dark", "داكن", KEY.modeDark], ["system", "حسب جهاز الزائر", KEY.modeSystem]], "dark"),
+      drop("default_mode", "وضع الصفحة عند الفتح", [["light", "فاتح", KEY.modeLight], ["dark", "داكن", KEY.modeDark], ["system", "حسب جهاز الزائر", KEY.modeSystem]], "light"),
       color("bg_color", "لون الخلفية"),
       scheme(),
     ],

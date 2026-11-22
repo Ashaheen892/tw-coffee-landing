@@ -1,14 +1,28 @@
 var __defProp = Object.defineProperty;
-var __name = (target, value) => __defProp(target, "name", { value, configurable: !0 });
-import { nothing, html, LitElement } from "lit";
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
+var __decorateClass = (decorators, target, key, kind) => {
+  var result = kind > 1 ? void 0 : kind ? __getOwnPropDesc(target, key) : target;
+  for (var i = decorators.length - 1, decorator; i >= 0; i--)
+    if (decorator = decorators[i])
+      result = (kind ? decorator(target, key, result) : decorator(result)) || result;
+  if (kind && result) __defProp(target, key, result);
+  return result;
+};
+
+// src/components/roast-bar/index.ts
+import { html as html3, LitElement, nothing as nothing3 } from "lit";
 import { property, state } from "lit/decorators.js";
+
+// src/utils/config.ts
 function getConfig(raw) {
-  return raw ? raw.component && typeof raw.component == "object" ? raw.component : raw : {};
+  if (!raw) return {};
+  if (raw.component && typeof raw.component === "object") return raw.component;
+  return raw;
 }
 __name(getConfig, "getConfig");
 function getLocale() {
-  var _a, _b, _c;
-  const lang = ((_c = (_b = (_a = window.Salla) == null ? void 0 : _a.lang) == null ? void 0 : _b.getLocale) == null ? void 0 : _c.call(_b)) || document.documentElement.lang || "ar";
+  const lang = window.Salla?.lang?.getLocale?.() || document.documentElement.lang || "ar";
   return String(lang).toLowerCase().startsWith("en") ? "en" : "ar";
 }
 __name(getLocale, "getLocale");
@@ -17,11 +31,12 @@ function isRtl() {
 }
 __name(isRtl, "isRtl");
 function localizedString(value) {
-  if (value == null || value === "") return "";
-  if (typeof value == "string") return value;
-  if (typeof value == "object") {
-    const obj = value, text = obj[getLocale()] || obj.ar || obj.en;
-    return typeof text == "string" ? text : "";
+  if (value === null || value === void 0 || value === "") return "";
+  if (typeof value === "string") return value;
+  if (typeof value === "object") {
+    const obj = value;
+    const text = obj[getLocale()] || obj.ar || obj.en;
+    return typeof text === "string" ? text : "";
   }
   return String(value);
 }
@@ -31,15 +46,16 @@ function t(strings) {
 }
 __name(t, "t");
 function unwrapValue(value) {
-  var _a;
-  return Array.isArray(value) ? unwrapValue(((_a = value[0]) == null ? void 0 : _a.value) ?? value[0] ?? "") : value && typeof value == "object" && "value" in value ? value.value : value ?? "";
+  if (Array.isArray(value)) return unwrapValue(value[0]?.value ?? value[0] ?? "");
+  if (value && typeof value === "object" && "value" in value) return value.value;
+  return value ?? "";
 }
 __name(unwrapValue, "unwrapValue");
 function linkHref(value) {
   if (value == null || value === "") return "";
-  if (typeof value == "string") return value.trim();
+  if (typeof value === "string") return value.trim();
   if (Array.isArray(value)) return linkHref(value[0]);
-  if (typeof value == "object") {
+  if (typeof value === "object") {
     const obj = value;
     if (obj.url) return linkHref(obj.url);
     if ("value" in obj) return linkHref(obj.value);
@@ -50,46 +66,59 @@ function linkHref(value) {
 __name(linkHref, "linkHref");
 function flag(value) {
   const raw = unwrapValue(value);
-  if (raw === !0 || raw === 1) return !0;
-  if (typeof raw == "string") {
+  if (raw === true || raw === 1) return true;
+  if (typeof raw === "string") {
     const text = raw.trim().toLowerCase();
     return text === "true" || text === "1" || text === "on" || text === "yes";
   }
-  return !1;
+  return false;
 }
 __name(flag, "flag");
 function getCollectionItems(items, prefix) {
-  return Array.isArray(items) ? items.map((item) => {
-    if (!item || typeof item != "object") return {};
+  if (!Array.isArray(items)) return [];
+  return items.map((item) => {
+    if (!item || typeof item !== "object") return {};
     const normalized = {};
-    for (const [key, val] of Object.entries(item))
+    for (const [key, val] of Object.entries(item)) {
       normalized[key.startsWith(`${prefix}.`) ? key.slice(prefix.length + 1) : key] = val;
+    }
     return normalized;
-  }) : [];
+  });
 }
 __name(getCollectionItems, "getCollectionItems");
 function watchLocale(host) {
   const update = /* @__PURE__ */ __name(() => host.requestUpdate(), "update");
-  return window.addEventListener("language-changed", update), () => window.removeEventListener("language-changed", update);
+  window.addEventListener("language-changed", update);
+  return () => window.removeEventListener("language-changed", update);
 }
 __name(watchLocale, "watchLocale");
-const COPIES = 12, ROTATE_MS = 4200, ANN_THUMB = {
+
+// src/utils/announce.ts
+import { html, nothing } from "lit";
+var COPIES = 12;
+var ROTATE_MS = 4200;
+var ANN_THUMB = {
   tile: { w: 28, h: 28 },
   bean: { w: 28, h: 28 },
   arch: { w: 24, h: 30 },
   slant: { w: 40, h: 26 }
-}, lookCss = /* @__PURE__ */ __name((p, look) => {
-  const box = ANN_THUMB[look], size = `.${p}-ann__media { width: ${box.w}px; height: ${box.h}px; }`;
-  return look === "bean" ? `${size}
+};
+var lookCss = /* @__PURE__ */ __name((p, look) => {
+  const box = ANN_THUMB[look];
+  const size = `.${p}-ann__media { width: ${box.w}px; height: ${box.h}px; }`;
+  if (look === "bean") return `${size}
 .${p}-ann__media { border-radius: 50%; box-shadow: 0 0 0 2px color-mix(in srgb, currentColor 30%, transparent); }
 .${p}-ann__item .${p}-ann__text::after { width: .55rem; height: .32rem; border-radius: 50%; transform: rotate(-35deg); box-shadow: inset 1px 0 0 color-mix(in srgb, var(--ann-fill) 70%, transparent); }
-.${p}-anns.is-stack > .${p}-ann + .${p}-ann { box-shadow: none; background-image: linear-gradient(90deg, color-mix(in srgb, currentColor 35%, transparent) 50%, transparent 0); background-size: 10px 1px; background-repeat: repeat-x; }` : look === "arch" ? `${size}
+.${p}-anns.is-stack > .${p}-ann + .${p}-ann { box-shadow: none; background-image: linear-gradient(90deg, color-mix(in srgb, currentColor 35%, transparent) 50%, transparent 0); background-size: 10px 1px; background-repeat: repeat-x; }`;
+  if (look === "arch") return `${size}
 .${p}-ann__media { border-radius: 999px 999px 3px 3px; outline: 1px solid color-mix(in srgb, currentColor 45%, transparent); outline-offset: 2px; }
 .${p}-ann__label { letter-spacing: .02em; }
-.${p}-ann__item .${p}-ann__text::after { width: .38rem; height: .38rem; border-radius: 0; transform: rotate(45deg); opacity: .7; }` : look === "slant" ? `${size}
+.${p}-ann__item .${p}-ann__text::after { width: .38rem; height: .38rem; border-radius: 0; transform: rotate(45deg); opacity: .7; }`;
+  if (look === "slant") return `${size}
 .${p}-ann__media { border-radius: 0; clip-path: polygon(16% 0, 100% 0, 84% 100%, 0 100%); }
 .${p}-ann__label { font-weight: 800; font-style: italic; text-transform: uppercase; letter-spacing: .03em; }
-.${p}-ann__item .${p}-ann__text::after { content: "/"; width: auto; height: auto; border-radius: 0; background: none; font-weight: 900; font-style: normal; opacity: .6; }` : `${size}
+.${p}-ann__item .${p}-ann__text::after { content: "/"; width: auto; height: auto; border-radius: 0; background: none; font-weight: 900; font-style: normal; opacity: .6; }`;
+  return `${size}
 .${p}-ann__media { border-radius: 7px; }`;
 }, "lookCss");
 function announceCss(prefix, look = "tile") {
@@ -213,9 +242,10 @@ function announceTone(cfg) {
   ].filter(Boolean).join(";");
 }
 __name(announceTone, "announceTone");
-function marquee(prefix, extraClass, style, body, own = !1, go = "") {
+function marquee(prefix, extraClass, style, body, own = false, go = "") {
   const rtl = isRtl();
-  return html`<div class="${prefix}-ann${rtl ? " is-rtl" : ""}${go === (rtl ? "left" : "right") ? " is-back" : ""}${own ? " is-own" : ""} ${extraClass}" style=${style}>
+  const back = go === (rtl ? "left" : "right");
+  return html`<div class="${prefix}-ann${rtl ? " is-rtl" : ""}${back ? " is-back" : ""}${own ? " is-own" : ""} ${extraClass}" style=${style}>
     <ul class="${prefix}-ann__list">
       ${Array.from({ length: COPIES }, (_, index) => html`<li class="${prefix}-ann__item" aria-hidden=${index ? "true" : "false"}><span class="${prefix}-ann__text">${body}</span></li>`)}
     </ul>
@@ -225,10 +255,12 @@ __name(marquee, "marquee");
 function readStrips(cfg) {
   if (!Array.isArray(cfg.bars)) {
     const text = localizedString(cfg.announce).trim();
-    return text ? [{ text, media: "none", icon: "", image: "", link: "", still: String(unwrapValue(cfg.announce_mode) || "move") === "still", go: "", bg: "", ink: "" }] : [];
+    if (!text) return [];
+    return [{ text, media: "none", icon: "", image: "", link: "", still: String(unwrapValue(cfg.announce_mode) || "move") === "still", go: "", bg: "", ink: "" }];
   }
   return getCollectionItems(cfg.bars, "bars").map((row) => {
-    const kind = String(unwrapValue(row.media) || "none"), motion = String(unwrapValue(row.motion) || "right");
+    const kind = String(unwrapValue(row.media) || "none");
+    const motion = String(unwrapValue(row.motion) || "right");
     return {
       text: localizedString(row.text).trim(),
       media: kind === "icon" || kind === "image" ? kind : "none",
@@ -246,7 +278,13 @@ __name(readStrips, "readStrips");
 function stripBody(prefix, look, row) {
   const box = ANN_THUMB[look];
   let media = nothing;
-  row.media === "icon" && row.icon ? media = html`<span class="${prefix}-ann__media is-icon" aria-hidden="true"><i class=${row.icon}></i></span>` : row.media === "image" && row.image ? media = html`<span class="${prefix}-ann__media"><img src=${row.image} alt="" width=${box.w * 2} height=${box.h * 2} loading="lazy" decoding="async" /></span>` : row.media === "image" && (media = html`<span class="${prefix}-ann__media is-hint ${prefix}-hint" aria-hidden="true">${box.w * 4}×${box.h * 4}</span>`);
+  if (row.media === "icon" && row.icon) {
+    media = html`<span class="${prefix}-ann__media is-icon" aria-hidden="true"><i class=${row.icon}></i></span>`;
+  } else if (row.media === "image" && row.image) {
+    media = html`<span class="${prefix}-ann__media"><img src=${row.image} alt="" width=${box.w * 2} height=${box.h * 2} loading="lazy" decoding="async" /></span>`;
+  } else if (row.media === "image") {
+    media = html`<span class="${prefix}-ann__media is-hint ${prefix}-hint" aria-hidden="true">${box.w * 4}×${box.h * 4}</span>`;
+  }
   const inner = html`${media}<span class="${prefix}-ann__label">${row.text}</span>`;
   return row.link ? html`<a class="${prefix}-ann__link" href=${row.link}>${inner}</a>` : inner;
 }
@@ -254,32 +292,49 @@ __name(stripBody, "stripBody");
 function announceStrips(cfg, prefix, look, extraClass = "", tone = "") {
   const rows = readStrips(cfg);
   if (!rows.length) return nothing;
-  const rotate = rows.length > 1 && String(unwrapValue(cfg.bars_layout) || "stack") === "rotate", strips = rows.map((row, index) => {
-    const own = !!(row.bg || row.ink), style = [row.bg ? `--ann-fill:${row.bg}` : "", row.ink ? `--ann-text:${row.ink}` : ""].filter(Boolean).join(";"), body = stripBody(prefix, look, row);
-    return row.still || rotate ? html`<div class="${prefix}-ann ${prefix}-ann__still${own ? " is-own" : ""}${rotate && index === 0 ? " is-on" : ""} ${extraClass}" style=${style} aria-hidden=${rotate && index ? "true" : "false"}><span class="${prefix}-ann__text">${body}</span></div>` : marquee(prefix, extraClass, style, body, own, row.go);
+  const rotate = rows.length > 1 && String(unwrapValue(cfg.bars_layout) || "stack") === "rotate";
+  const strips = rows.map((row, index) => {
+    const own = Boolean(row.bg || row.ink);
+    const style = [row.bg ? `--ann-fill:${row.bg}` : "", row.ink ? `--ann-text:${row.ink}` : ""].filter(Boolean).join(";");
+    const body = stripBody(prefix, look, row);
+    if (row.still || rotate) {
+      const on = rotate && index === 0 ? " is-on" : "";
+      return html`<div class="${prefix}-ann ${prefix}-ann__still${own ? " is-own" : ""}${on} ${extraClass}" style=${style} aria-hidden=${rotate && index ? "true" : "false"}><span class="${prefix}-ann__text">${body}</span></div>`;
+    }
+    return marquee(prefix, extraClass, style, body, own, row.go);
   });
-  return html`<div class="${prefix}-anns ${rotate ? "is-rotate" : "is-stack"}" style=${tone} data-ann-rotate=${rotate ? String(rows.length) : "0"} role="region" aria-label=${isRtl() ? "إعلانات المتجر" : "Store announcements"}>${strips}</div>`;
+  return html`<div class="${prefix}-anns ${rotate ? "is-rotate" : "is-stack"}" style=${tone} data-ann-rotate=${rotate ? String(rows.length) : "0"} role="region" aria-label=${isRtl() ? "\u0625\u0639\u0644\u0627\u0646\u0627\u062A \u0627\u0644\u0645\u062A\u062C\u0631" : "Store announcements"}>${strips}</div>`;
 }
 __name(announceStrips, "announceStrips");
-const timers = /* @__PURE__ */ new WeakMap();
+var timers = /* @__PURE__ */ new WeakMap();
 function rotateStrips(root, prefix) {
   root.querySelectorAll(`.${prefix}-anns`).forEach((group) => {
-    const count = Number(group.dataset.annRotate || 0), running = timers.get(group);
-    if (running && running.count === count || (running && window.clearInterval(running.id), timers.delete(group), count < 2)) return;
+    const count = Number(group.dataset.annRotate || 0);
+    const running = timers.get(group);
+    if (running && running.count === count) return;
+    if (running) window.clearInterval(running.id);
+    timers.delete(group);
+    if (count < 2) return;
     let index = 0;
     if (!group.dataset.annHold) {
       group.dataset.annHold = "0";
       const hold = /* @__PURE__ */ __name((on) => () => {
         group.dataset.annHold = on ? "1" : "0";
       }, "hold");
-      group.addEventListener("mouseenter", hold(!0)), group.addEventListener("mouseleave", hold(!1)), group.addEventListener("focusin", hold(!0)), group.addEventListener("focusout", hold(!1));
+      group.addEventListener("mouseenter", hold(true));
+      group.addEventListener("mouseleave", hold(false));
+      group.addEventListener("focusin", hold(true));
+      group.addEventListener("focusout", hold(false));
     }
     const id = window.setInterval(() => {
       if (group.dataset.annHold === "1" || document.hidden) return;
       const items = [...group.children];
-      items.length && (index = (index + 1) % items.length, items.forEach((item, at) => {
-        item.classList.toggle("is-on", at === index), item.setAttribute("aria-hidden", at === index ? "false" : "true");
-      }));
+      if (!items.length) return;
+      index = (index + 1) % items.length;
+      items.forEach((item, at) => {
+        item.classList.toggle("is-on", at === index);
+        item.setAttribute("aria-hidden", at === index ? "false" : "true");
+      });
     }, ROTATE_MS);
     timers.set(group, { id, count });
   });
@@ -288,13 +343,18 @@ __name(rotateStrips, "rotateStrips");
 function stopStrips(root, prefix) {
   root.querySelectorAll(`.${prefix}-anns`).forEach((group) => {
     const running = timers.get(group);
-    running && window.clearInterval(running.id), timers.delete(group);
+    if (running) window.clearInterval(running.id);
+    timers.delete(group);
   });
 }
 __name(stopStrips, "stopStrips");
-const TONE_KEY = "cf-landing-tone";
+
+// src/utils/landing.ts
+import { html as html2, nothing as nothing2 } from "lit";
+var TONE_KEY = "cf-landing-tone";
 function applyTone(mode) {
-  document.documentElement.classList.remove("cf-mode-light", "cf-mode-dark"), document.documentElement.classList.add(mode === "dark" ? "cf-mode-dark" : "cf-mode-light");
+  document.documentElement.classList.remove("cf-mode-light", "cf-mode-dark");
+  document.documentElement.classList.add(mode === "dark" ? "cf-mode-dark" : "cf-mode-light");
   try {
     localStorage.setItem(TONE_KEY, mode);
   } catch {
@@ -317,59 +377,72 @@ function savedTone() {
 __name(savedTone, "savedTone");
 function schemeOf(cfg) {
   const scheme = String(unwrapValue(cfg.color_scheme) || "auto");
-  return scheme === "dark" ? "cf-dark" : scheme === "light" ? "cf-light" : "cf-auto";
+  if (scheme === "dark") return "cf-dark";
+  if (scheme === "light") return "cf-light";
+  return "cf-auto";
 }
 __name(schemeOf, "schemeOf");
+
+// src/utils/styles.ts
 function markEditing() {
-  var _a, _b;
-  const root = document.documentElement, read = /* @__PURE__ */ __name(() => {
-    var _a2, _b2;
-    let on = !0;
+  const root = document.documentElement;
+  const read = /* @__PURE__ */ __name(() => {
+    let on = true;
     try {
       const salla = window.Salla;
-      on = window.self !== window.top || ((_b2 = (_a2 = salla == null ? void 0 : salla.config) == null ? void 0 : _a2.get) == null ? void 0 : _b2.call(_a2, "page.is_landing_page")) !== !0;
+      on = window.self !== window.top || salla?.config?.get?.("page.is_landing_page") !== true;
     } catch {
-      on = !0;
+      on = true;
     }
     root.dataset.lpEditing = on ? "1" : "0";
   }, "read");
-  if (!root.dataset.lpEditing) {
-    read();
-    try {
-      (_b = (_a = window.Salla) == null ? void 0 : _a.onReady) == null || _b.call(_a, read);
-    } catch {
-    }
+  if (root.dataset.lpEditing) return;
+  read();
+  try {
+    window.Salla?.onReady?.(read);
+  } catch {
   }
 }
 __name(markEditing, "markEditing");
 function injectStyles(id, css2) {
   markEditing();
   let style = document.getElementById(id);
-  style || (style = document.createElement("style"), style.id = id, document.head.appendChild(style)), style.textContent !== css2 && (style.textContent = css2);
+  if (!style) {
+    style = document.createElement("style");
+    style.id = id;
+    document.head.appendChild(style);
+  }
+  if (style.textContent !== css2) style.textContent = css2;
 }
 __name(injectStyles, "injectStyles");
-const KIT_FONT = "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&family=Noto+Kufi+Arabic:wght@400;600;800;900&display=swap";
+var KIT_FONT = "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&family=Noto+Kufi+Arabic:wght@400;600;800;900&display=swap";
 function setKitFont(on) {
   document.documentElement.classList.toggle("cf-kit-font", on);
   const current = document.getElementById("cf-fonts");
   if (!on) {
-    current == null || current.remove();
+    current?.remove();
     return;
   }
   if (current) return;
   const link = document.createElement("link");
-  link.id = "cf-fonts", link.rel = "stylesheet", link.href = KIT_FONT, document.head.appendChild(link);
+  link.id = "cf-fonts";
+  link.rel = "stylesheet";
+  link.href = KIT_FONT;
+  document.head.appendChild(link);
 }
 __name(setKitFont, "setKitFont");
 function injectFonts() {
-  document.documentElement.classList.contains("cf-kit-font") && setKitFont(!0);
+  if (!document.documentElement.classList.contains("cf-kit-font")) return;
+  setKitFont(true);
 }
 __name(injectFonts, "injectFonts");
 function sectionStyle(cfg) {
   return cfg.bg_color ? `--cf-section-bg:${cfg.bg_color}` : "";
 }
 __name(sectionStyle, "sectionStyle");
-const DARK = "--bg:#0d0b09; --bg-2:#15110d; --ink:#f2ece2; --mute:#9a8f82; --line:#3a322a; --line-2:#564a3e; --rust:#c2410c; --amber:#e08b3f; --crema:#d9b98c; --card:#120f0c; --on-rust:#fff;", LIGHT = "--bg:#f6f1ea; --bg-2:#efe6da; --ink:#1c140e; --mute:#6d6258; --line:#e0d4c6; --line-2:#c9b8a4; --rust:#c2410c; --amber:#a85f1f; --crema:#8a5a28; --card:#fffdf9; --on-rust:#fff;", baseCss = `
+var DARK = `--bg:#0d0b09; --bg-2:#15110d; --ink:#f2ece2; --mute:#9a8f82; --line:#3a322a; --line-2:#564a3e; --rust:#c2410c; --amber:#e08b3f; --crema:#d9b98c; --card:#120f0c; --on-rust:#fff;`;
+var LIGHT = `--bg:#f6f1ea; --bg-2:#efe6da; --ink:#1c140e; --mute:#6d6258; --line:#e0d4c6; --line-2:#c9b8a4; --rust:#c2410c; --amber:#a85f1f; --crema:#8a5a28; --card:#fffdf9; --on-rust:#fff;`;
+var baseCss = `
 html[data-lp-editing="0"] .cf-empty, html[data-lp-editing="0"] .cf-hint { display: none !important; }
 .cf-host { display: block; width: 100%; min-width: 0; container-type: inline-size; }
 body:has(.cf-host) { background: #0d0b09; }
@@ -419,12 +492,9 @@ html.cf-kit-font .cf-root { --disp:'Noto Kufi Arabic',system-ui,sans-serif; --bo
   .cf-btn:hover { transform: none; }
 }
 `;
-var __defProp2 = Object.defineProperty, __decorateClass = /* @__PURE__ */ __name((decorators, target, key, kind) => {
-  for (var result = void 0, i = decorators.length - 1, decorator; i >= 0; i--)
-    (decorator = decorators[i]) && (result = decorator(target, key, result) || result);
-  return result && __defProp2(target, key, result), result;
-}, "__decorateClass");
-const css = `
+
+// src/components/roast-bar/index.ts
+var css = `
 .cf-bar { position: relative; background: var(--cf-section-bg, var(--bg)); border-block-end: 2px solid var(--line); }
 .cf-nav { display: flex; align-items: center; gap: 22px; min-height: 74px; }
 .cf-logo { font-family: var(--disp); font-weight: 900; font-size: 1.15rem; letter-spacing: .04em; line-height: 1.05; }
@@ -445,48 +515,73 @@ const css = `
   .cf-nav ul a { display: block; padding: 12px var(--pad); }
   .cf-menu { display: inline-grid; }
 }
-`, _PageBar = class _PageBar extends LitElement {
+`;
+var _PageBar = class _PageBar extends LitElement {
   constructor() {
-    super(...arguments), this.open = !1, this.dark = !1, this.stop = () => {
-    }, this.pinned = null, this.opened = [], this.modeKey = "";
+    super(...arguments);
+    this.open = false;
+    this.dark = false;
+    this.stop = /* @__PURE__ */ __name(() => {
+    }, "stop");
+    this.pinned = null;
+    this.opened = [];
+    this.modeKey = "";
   }
   createRenderRoot() {
     return this;
   }
   connectedCallback() {
-    super.connectedCallback(), this.classList.add("cf-host"), injectFonts(), injectStyles("cf-base", baseCss), injectStyles("cf-announce", announceCss("cf", "bean")), injectStyles("cf-page-bar", css);
-    const stopLocale = watchLocale(this), onTone = /* @__PURE__ */ __name(() => {
+    super.connectedCallback();
+    this.classList.add("cf-host");
+    injectFonts();
+    injectStyles("cf-base", baseCss);
+    injectStyles("cf-announce", announceCss("cf", "bean"));
+    injectStyles("cf-page-bar", css);
+    const stopLocale = watchLocale(this);
+    const onTone = /* @__PURE__ */ __name(() => {
       this.dark = currentTone() === "dark";
     }, "onTone");
-    window.addEventListener("cf-tone", onTone), this.stop = () => {
-      stopLocale(), window.removeEventListener("cf-tone", onTone), this.release();
+    window.addEventListener("cf-tone", onTone);
+    this.stop = () => {
+      stopLocale();
+      window.removeEventListener("cf-tone", onTone);
+      this.release();
     };
   }
   willUpdate() {
     const cfg = getConfig(this.config);
     setKitFont(this.kitFont(cfg));
-    const key = `${unwrapValue(cfg.default_mode) || "dark"}|${this.showMode(cfg)}`;
-    key !== this.modeKey && (this.modeKey = key, applyTone(this.openingMode(cfg)), this.dark = currentTone() === "dark");
+    const key = `${unwrapValue(cfg.default_mode) || "light"}|${this.showMode(cfg)}`;
+    if (key === this.modeKey) return;
+    this.modeKey = key;
+    applyTone(this.openingMode(cfg));
+    this.dark = currentTone() === "dark";
   }
   disconnectedCallback() {
-    stopStrips(this, "cf"), this.stop(), super.disconnectedCallback();
+    stopStrips(this, "cf");
+    this.stop();
+    super.disconnectedCallback();
   }
   updated() {
-    rotateStrips(this, "cf"), this.pin();
+    rotateStrips(this, "cf");
+    this.pin();
   }
   showMode(cfg) {
-    return cfg.show_mode_toggle == null || cfg.show_mode_toggle === "" ? !0 : flag(cfg.show_mode_toggle);
+    if (cfg.show_mode_toggle == null || cfg.show_mode_toggle === "") return true;
+    return flag(cfg.show_mode_toggle);
   }
   kitFont(cfg) {
-    return cfg.use_kit_font == null || cfg.use_kit_font === "" ? !1 : flag(cfg.use_kit_font);
+    if (cfg.use_kit_font == null || cfg.use_kit_font === "") return false;
+    return flag(cfg.use_kit_font);
   }
   openingMode(cfg) {
-    const base = String(unwrapValue(cfg.default_mode) || "dark");
+    const base = String(unwrapValue(cfg.default_mode) || "light");
     if (this.showMode(cfg)) {
       const saved = savedTone();
       if (saved) return saved;
     }
-    return base === "system" ? window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light" : base === "dark" ? "dark" : "light";
+    if (base === "system") return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    return base === "dark" ? "dark" : "light";
   }
   place(run) {
     const view = this.ownerDocument.defaultView;
@@ -495,63 +590,94 @@ const css = `
       return;
     }
     const nodes = /* @__PURE__ */ new Set([this.ownerDocument.documentElement, this.ownerDocument.body]);
-    this.ownerDocument.scrollingElement && nodes.add(this.ownerDocument.scrollingElement);
+    if (this.ownerDocument.scrollingElement) nodes.add(this.ownerDocument.scrollingElement);
     let node = this;
-    for (; node; )
-      nodes.add(node), node = node.parentElement;
-    const marks = [...nodes].map((el) => [el, el.scrollTop]), x = view.scrollX, y = view.scrollY, put = /* @__PURE__ */ __name(() => {
-      for (const [el, top] of marks) el.scrollTop !== top && (el.scrollTop = top);
-      (Math.abs(view.scrollY - y) > 1 || Math.abs(view.scrollX - x) > 1) && view.scrollTo(x, y);
+    while (node) {
+      nodes.add(node);
+      node = node.parentElement;
+    }
+    const marks = [...nodes].map((el) => [el, el.scrollTop]);
+    const x = view.scrollX;
+    const y = view.scrollY;
+    const put = /* @__PURE__ */ __name(() => {
+      for (const [el, top] of marks) if (el.scrollTop !== top) el.scrollTop = top;
+      if (Math.abs(view.scrollY - y) > 1 || Math.abs(view.scrollX - x) > 1) view.scrollTo(x, y);
     }, "put");
-    run(), put(), view.requestAnimationFrame(() => {
-      put(), view.requestAnimationFrame(put);
+    run();
+    put();
+    view.requestAnimationFrame(() => {
+      put();
+      view.requestAnimationFrame(put);
     });
   }
   outerBox() {
     let node = this;
-    for (; node.parentElement && node.parentElement !== document.body && node.parentElement !== document.documentElement; ) {
+    while (node.parentElement && node.parentElement !== document.body && node.parentElement !== document.documentElement) {
       const parent = node.parentElement;
-      if ([...parent.children].filter((el) => el.tagName !== "SCRIPT" && el.tagName !== "STYLE").length > 1) return node;
+      const sections = [...parent.children].filter((el) => el.tagName !== "SCRIPT" && el.tagName !== "STYLE");
+      if (sections.length > 1) return node;
       node = parent;
     }
     return node;
   }
   pin() {
-    const cfg = getConfig(this.config), sticky = flag(cfg.sticky), outer = this.outerBox();
-    if (this.pinned && this.pinned !== outer && this.release(), this.pinned = outer, outer.style.position = sticky ? "sticky" : "", outer.style.top = sticky ? "0" : "", outer.style.zIndex = sticky ? "40" : "", this.opened.forEach((el) => {
+    const cfg = getConfig(this.config);
+    const sticky = flag(cfg.sticky);
+    const outer = this.outerBox();
+    if (this.pinned && this.pinned !== outer) this.release();
+    this.pinned = outer;
+    outer.style.position = sticky ? "sticky" : "";
+    outer.style.top = sticky ? "0" : "";
+    outer.style.zIndex = sticky ? "40" : "";
+    this.opened.forEach((el) => {
       el.style.overflow = "";
-    }), this.opened = [], !sticky) return;
+    });
+    this.opened = [];
+    if (!sticky) return;
     let node = outer.parentElement;
-    for (; node && node !== document.body && node !== document.documentElement; ) {
+    while (node && node !== document.body && node !== document.documentElement) {
       const flow = getComputedStyle(node);
       if (flow.overflowY === "auto" || flow.overflowY === "scroll") break;
-      (flow.overflowY === "hidden" || flow.overflowX === "hidden") && (node.style.overflow = "clip", this.opened.push(node)), node = node.parentElement;
+      if (flow.overflowY === "hidden" || flow.overflowX === "hidden") {
+        node.style.overflow = "clip";
+        this.opened.push(node);
+      }
+      node = node.parentElement;
     }
   }
   release() {
-    this.pinned && (this.pinned.style.position = this.pinned.style.top = this.pinned.style.zIndex = "", this.pinned = null), this.opened.forEach((el) => {
+    if (this.pinned) {
+      this.pinned.style.position = this.pinned.style.top = this.pinned.style.zIndex = "";
+      this.pinned = null;
+    }
+    this.opened.forEach((el) => {
       el.style.overflow = "";
-    }), this.opened = [];
+    });
+    this.opened = [];
   }
   render() {
-    var _a, _b, _c;
-    const cfg = getConfig(this.config), brand = localizedString(cfg.brand) || ((_c = (_b = (_a = window.Salla) == null ? void 0 : _a.config) == null ? void 0 : _b.get) == null ? void 0 : _c.call(_b, "store.name")) || "", mark = localizedString(cfg.mark), links = getCollectionItems(cfg.links, "links").map((item) => ({ label: localizedString(item.label), url: linkHref(item.url) || "#" })).filter((item) => item.label), logo = this.dark && cfg.logo_dark || cfg.logo;
-    return html`${announceStrips(cfg, "cf", "bean", `cf-root ${schemeOf(cfg)}`, announceTone(cfg))}
+    const cfg = getConfig(this.config);
+    const brand = localizedString(cfg.brand) || window.Salla?.config?.get?.("store.name") || "";
+    const mark = localizedString(cfg.mark);
+    const links = getCollectionItems(cfg.links, "links").map((item) => ({ label: localizedString(item.label), url: linkHref(item.url) || "#" })).filter((item) => item.label);
+    const logo = this.dark && cfg.logo_dark || cfg.logo;
+    return html3`${announceStrips(cfg, "cf", "bean", `cf-root ${schemeOf(cfg)}`, announceTone(cfg))}
     <header class=${`cf-root cf-bar ${schemeOf(cfg)}`} style=${sectionStyle(cfg)}>
       <nav class="cf-nav cf-wrap ${this.open ? "is-open" : ""}">
         <a href=${linkHref(cfg.home_url) || "#cf-cover"} class="cf-logo" aria-label=${brand}>
-          ${logo ? html`<img src=${logo} alt=${brand} />` : html`${brand}${mark ? html`<small>${mark}</small>` : nothing}`}
+          ${logo ? html3`<img src=${logo} alt=${brand} />` : html3`${brand}${mark ? html3`<small>${mark}</small>` : nothing3}`}
         </a>
-        ${links.length ? html`<ul>${links.map((item) => html`<li><a href=${item.url} @click=${() => {
-      this.open = !1;
-    }}>${item.label}</a></li>`)}</ul>` : nothing}
+        ${links.length ? html3`<ul>${links.map((item) => html3`<li><a href=${item.url} @click=${() => {
+      this.open = false;
+    }}>${item.label}</a></li>`)}</ul>` : nothing3}
         <span class="cf-sp"></span>
-        ${this.showMode(cfg) ? html`<button type="button" class="cf-tone" aria-pressed=${this.dark ? "true" : "false"} aria-label=${this.dark ? t({ ar: "التبديل إلى الوضع الفاتح", en: "Switch to light mode" }) : t({ ar: "التبديل إلى الوضع الداكن", en: "Switch to dark mode" })} @mousedown=${(event) => event.preventDefault()} @click=${() => this.place(() => {
-      applyTone(this.dark ? "light" : "dark"), this.dark = currentTone() === "dark";
+        ${this.showMode(cfg) ? html3`<button type="button" class="cf-tone" aria-pressed=${this.dark ? "true" : "false"} aria-label=${this.dark ? t({ ar: "\u0627\u0644\u062A\u0628\u062F\u064A\u0644 \u0625\u0644\u0649 \u0627\u0644\u0648\u0636\u0639 \u0627\u0644\u0641\u0627\u062A\u062D", en: "Switch to light mode" }) : t({ ar: "\u0627\u0644\u062A\u0628\u062F\u064A\u0644 \u0625\u0644\u0649 \u0627\u0644\u0648\u0636\u0639 \u0627\u0644\u062F\u0627\u0643\u0646", en: "Switch to dark mode" })} @mousedown=${(event) => event.preventDefault()} @click=${() => this.place(() => {
+      applyTone(this.dark ? "light" : "dark");
+      this.dark = currentTone() === "dark";
     })}>
-          ${this.dark ? html`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="currentColor" /><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.1 5.1l1.6 1.6M17.3 17.3l1.6 1.6M18.9 5.1l-1.6 1.6M6.7 17.3l-1.6 1.6" /></g></svg>` : html`<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M14.5 2.4a9 9 0 1 0 7.1 13.6A8 8 0 0 1 14.5 2.4z" /></svg>`}
-        </button>` : nothing}
-        <button type="button" class="cf-menu" aria-expanded=${this.open ? "true" : "false"} aria-label=${t({ ar: "القائمة", en: "Menu" })} @click=${() => {
+          ${this.dark ? html3`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="currentColor" /><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.1 5.1l1.6 1.6M17.3 17.3l1.6 1.6M18.9 5.1l-1.6 1.6M6.7 17.3l-1.6 1.6" /></g></svg>` : html3`<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M14.5 2.4a9 9 0 1 0 7.1 13.6A8 8 0 0 1 14.5 2.4z" /></svg>`}
+        </button>` : nothing3}
+        <button type="button" class="cf-menu" aria-expanded=${this.open ? "true" : "false"} aria-label=${t({ ar: "\u0627\u0644\u0642\u0627\u0626\u0645\u0629", en: "Menu" })} @click=${() => {
       this.open = !this.open;
     }}>☰</button>
       </nav>
@@ -559,17 +685,17 @@ const css = `
   }
 };
 __name(_PageBar, "PageBar");
-let PageBar = _PageBar;
 __decorateClass([
   property({ type: Object })
-], PageBar.prototype, "config");
+], _PageBar.prototype, "config", 2);
 __decorateClass([
   state()
-], PageBar.prototype, "open");
+], _PageBar.prototype, "open", 2);
 __decorateClass([
   state()
-], PageBar.prototype, "dark");
-typeof PageBar < "u" && PageBar.registerSallaComponent("salla-roast-bar");
+], _PageBar.prototype, "dark", 2);
+var PageBar = _PageBar;
 export {
   PageBar as default
 };
+typeof PageBar < "u" && PageBar.registerSallaComponent("salla-roast-bar");
